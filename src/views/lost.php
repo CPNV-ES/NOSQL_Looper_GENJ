@@ -8,5 +8,5 @@ ob_start();
 
 <?php
 $content = ob_get_clean();
-require VIEW_DIR."/gabarit.php";
+require VIEW_DIR."/template.php";
 ?>
