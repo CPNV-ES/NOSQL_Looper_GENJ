@@ -1,5 +1,5 @@
 <?php
-$title = "Page Not Found";
+$title = 'Page Not Found';
 
 ob_start();
 ?>
@@ -8,5 +8,5 @@ ob_start();
 
 <?php
 $content = ob_get_clean();
-require VIEW_DIR."/template.php";
+require VIEW_DIR . '/template.php';
 ?>
