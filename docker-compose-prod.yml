@@ -1,0 +1,37 @@
+services:
+  web:
+    image: nginx:1.27.1
+    ports:
+      - '8080:80'
+    volumes:
+      - ./public:/var/www/html
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - internal
+
+  php-fpm:
+    image: php:8.3.11-fpm
+    volumes:
+      - ./src:/var/www/src
+      - ./public:/var/www/html 
+    networks:
+      - internal
+    environment:
+      XDEBUG_MODE: debug
+      XDEBUG_CONFIG: client_host=host.docker.internal client_port=9003
+  postgresql:
+    image: postgres:16.4
+    environment:
+      POSTGRES_DB: db_looper
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./.pgdata:/var/lib/postgresql/data
+    networks:
+      - internal
+networks:
+  internal:
+    driver: bridge
+
+volumes:
+  postgres_data:
