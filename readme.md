@@ -1,13 +1,16 @@
 # MAW11_Looper_GEJ 
 ## Description
 
-This is a project for the MAW11 course. We're supposed to rewrite this website [](https://maw-looper.mycpnv.ch)
+This is a project for the MAW11 course. We're supposed to rewrite [this website](https://maw-looper.mycpnv.ch)
 
 ## Getting Started
-
 ### Prerequisites
 
 * Docker 4.33.0
+* PHP 8.3.11
+* Xdebug v3.3.2
+* postgres 16.4
+* pgadmin 8.11.0
 
 ### Configuration
 
@@ -22,47 +25,56 @@ PGADMIN_DEFAULT_PASSWORD=admin
 or copy `.env.example`
 
 ## Deployment
-
 ### On dev environment
+#### Docker 
 
-run
+```bash
+docker-compose up
+```
+
+#### PHP -S
+
+```bash
+php -S localhost:8000 -t public
 ```
 
 ### On integration environment
 
-How to deploy the application outside the dev environment.
+```bash
+docker-compose up -f docker-compose-prod.yml 
+```
 
 ## Directory structure
 
-* Tip: try the tree bash command
-
 ```shell
-├───Docs
-├───Shopping                                        //classes and packages
-│   ├───bin                                         //the binary to deploy on the end-user environment
-│   │   └───Debug
-│   └───obj
-│       └───Debug                                   
-└───TestShopping                                    //test classes
-    ├───bin
-    │   └───Debug
-    └───obj
-        └───Debug
+.
+├── docs
+├── public
+│   ├── assets
+│   └── index.php
+├── readme.md
+├── src
+│   ├── controllers
+│   ├── models
+│   └── views
+└── tests
 ```
 
 ## Collaborate
 
-* Take time to read some readme and find the way you would like to help other developers collaborate with you.
-
-* They need to know:
+* What you need to know:
   * How to propose a new feature (issue, pull request)
   * [How to commit](https://www.conventionalcommits.org/en/v1.0.0/)
   * [How to use your workflow](https://nvie.com/posts/a-successful-git-branching-model/)
+  * [PSR12](https://www.php-fig.org/psr/psr-12/)
+  * we use [IceCrum](https://icescrum.cpnv.ch/p/MAW11GEJ/#/project) for project management
 
 ## License
 
-* [Choose the license adapted to your project](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository).
+* [WTFPL](https://en.wikipedia.org/wiki/WTFPL).
 
 ## Contact
 
-* How to get in contact with you? Discord, Trello, Issue?
+* [Ethann Schneider](mailto:pf70xyr@eduvaud.ch)
+* [Guillaume Aubert](mailto:pt16wqr@eduvaud.ch)
+* [Jomana Kaempf](mailto:pp37ufi@eduvaud.ch)
