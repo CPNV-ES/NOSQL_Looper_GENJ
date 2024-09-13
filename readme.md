@@ -83,6 +83,4 @@ docker-compose up -f docker-compose-prod.yml
 ## Reccomandantion 
 
 * Git 2.46.0
-* Git-Flow
-  * windows / linux :  1.23.1 
-  * macos : 0.4.1
+* Git-Flow-AVH 1.12.3
