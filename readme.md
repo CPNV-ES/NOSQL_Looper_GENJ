@@ -9,8 +9,9 @@ This is a project for the MAW11 course. We're supposed to rewrite [this website]
 * Docker 4.33.0
 * PHP 8.3.11
 * Xdebug v3.3.2
-* postgres 16.4
-* pgadmin 8.11.0
+* Postgres 16.4
+* Pgadmin 8.11.0
+* Composer 2.7.8
 
 ### Configuration
 
@@ -78,3 +79,10 @@ docker-compose up -f docker-compose-prod.yml
 * [Ethann Schneider](mailto:pf70xyr@eduvaud.ch)
 * [Guillaume Aubert](mailto:pt16wqr@eduvaud.ch)
 * [Jomana Kaempf](mailto:pp37ufi@eduvaud.ch)
+
+## Reccomandantion 
+
+* Git 2.46.0
+* Git-Flow
+  * windows / linux :  1.23.1 
+  * macos : 0.4.1
