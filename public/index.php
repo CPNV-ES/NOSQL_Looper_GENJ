@@ -9,17 +9,45 @@ define('CONTROLLER_DIR', SOURCE_DIR . '/controllers');
 define('MODEL_DIR', SOURCE_DIR . '/models');
 
 require CONTROLLER_DIR . '/navigation.php';
+require CONTROLLER_DIR . '/excercice_controller.php';
+
+$_ENV = parse_ini_file(BASE_DIR . '/.env');
 
 $redirect_uri = $_SERVER['REQUEST_URI'] ?? '/';
 $redirect_uri = explode('?', $redirect_uri)[0];
 
-switch ($redirect_uri) {
-	case '/':
-		home();
+switch ($_SERVER['REQUEST_METHOD']) {
+	case 'GET':
+		get_redirection($redirect_uri);
 		break;
-	case '/exercises/new':
-		create_an_excercices();
+	case 'POST':
+		post_redirection($redirect_uri);
 		break;
 	default:
-		lost();
+		method_not_allowed();
+}
+
+function get_redirection($redirect_uri)
+{
+	switch ($redirect_uri) {
+		case '/':
+			home();
+			break;
+		case '/exercises/new':
+			create_an_excercices();
+			break;
+		default:
+			lost();
+	}
+}
+
+function post_redirection($redirect_uri)
+{
+	switch ($redirect_uri) {
+		case '/exercises':
+			createExercice();
+			break;
+		default:
+			lost();
+	}
 }
