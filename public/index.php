@@ -17,6 +17,9 @@ switch ($redirect_uri) {
 	case '/':
 		home();
 		break;
+	case '/exercises/answering':
+		exercices_root();
+		break;
 	default:
 		lost();
 }
