@@ -13,7 +13,7 @@ ob_start();
 <main class="container">
   <title>ExerciseLooper</title>
   <h1>New Exercise</h1>
-  <form action="" accept-charset="UTF-8" method="post">
+  <form action="/exercises" accept-charset="UTF-8" method="post">
     <div class="field">
       <label for="exercise_title">Title</label>
       <input type="text" name="exercise_title" id="exercise_title">
