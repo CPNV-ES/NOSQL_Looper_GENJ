@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS excercices (
+    id SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    date_created DATE NOT NULL DEFAULT CURRENT_DATE
+);
