@@ -1,0 +1,188 @@
+.exercise-label {
+    margin: auto;
+    margin-left: 2rem;
+}
+
+.exercise-title {
+    font-weight: bold;
+}
+
+.exercise-label a {
+    color: white;
+}
+
+.exercise-label a:hover {
+    color: #606c76;
+}
+
+.answer i.empty {
+    color: #f45866;
+}
+
+.answer i.short {
+    color: #419d78;
+}
+
+.answer i.filled {
+    color: #419d78;
+}
+
+.field_with_errors {
+    padding: 2px;
+    background-color: red;
+    display: table;
+}
+
+#notice {
+    color: green;
+}
+
+.answering {
+    border-color: #9b4dca;
+    background-color: #9b4dca;
+}
+
+.managing {
+    border-color: #e0a458;
+    background-color: #e0a458;
+}
+
+.results {
+    border-color: #419d78;
+    background-color: #419d78;
+}
+
+.dashboard {
+    margin-top: 2rem;
+}
+
+.dashboard .container {
+    text-align: center;
+    font-size: 3rem;
+    color: white;
+    padding: 2rem;
+}
+
+.dashboard .container h1 {
+    letter-spacing: 1.1rem;
+}
+
+.field {
+    margin-bottom: 10px;
+}
+
+.actions {
+    margin-bottom: 10px;
+}
+
+table.records td:last-child {
+    text-align: right;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 112.0rem;
+    padding: 0 2.0rem;
+    position: relative;
+    width: 100%;
+}
+
+.answering-list {
+    padding-top: 2rem
+}
+
+main.container {
+    margin-top: 5rem;
+}
+
+.row {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    width: 100%;
+}
+
+.column {
+    display: block;
+    flex: 1 1 auto;
+    margin-left: 0;
+    max-width: 100%;
+    width: 100%;
+}
+
+.clearfix:after {
+    clear: both;
+    content: ' ';
+    display: table;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+header.heading {
+    height: 5rem;
+    color: white;
+    display: block;
+    left: 0;
+    max-width: 100%;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+header.heading section {
+    display: flex;
+    height: 5rem;
+}
+
+header.heading img {
+    height: 100%;
+}
+
+header.heading .exercise-label {
+    margin: auto;
+    margin-left: 2rem;
+}
+
+.card {
+    background-color: #eee;
+    border-radius: .4rem;
+    text-align: center;
+    padding: 1rem;
+}
+
+.card a.button {
+    display: block;
+}
+
+.card .title {
+    margin: 1rem 0;
+}
+
+.sr-only {
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.sr-only-focusable:active,
+.sr-only-focusable:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+}
