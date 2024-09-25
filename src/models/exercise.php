@@ -2,7 +2,7 @@
 
 require_once MODEL_DIR . '/databases_connectors/databases_choose.php';
 
-class Excercices
+class exercises
 {
 	private DatabasesAccess $database_access;
 	private int $id;
@@ -10,8 +10,8 @@ class Excercices
 	public function __construct(int $id)
 	{
 		$this->database_access = (new DatabasesChoose())->getDatabase();
-		if (!$this->database_access->doesExcerciceExist($id)) {
-			throw new Exception('The excercise does not exist');
+		if (!$this->database_access->doesexerciseExist($id)) {
+			throw new Exception('The exercise does not exist');
 		}
 
 		$this->id = $id;
@@ -20,7 +20,7 @@ class Excercices
 	public static function create($title): self
 	{
 		$database_access = (new DatabasesChoose())->getDatabase();
-		return new self($database_access->createExercice($title));
+		return new self($database_access->createExercise($title));
 	}
 
 	public function getId()
@@ -30,6 +30,6 @@ class Excercices
 
 	public function getTitle()
 	{
-		return $this->database_access->getExcerciceTitle($this->id);
+		return $this->database_access->getexerciseTitle($this->id);
 	}
 }

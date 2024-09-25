@@ -9,7 +9,7 @@ define('CONTROLLER_DIR', SOURCE_DIR . '/controllers');
 define('MODEL_DIR', SOURCE_DIR . '/models');
 
 require CONTROLLER_DIR . '/navigation.php';
-require CONTROLLER_DIR . '/excercice_controller.php';
+require CONTROLLER_DIR . '/exercise_controller.php';
 
 $_ENV = parse_ini_file(BASE_DIR . '/.env');
 
@@ -34,7 +34,7 @@ function get_redirection($redirect_uri)
 			home();
 			break;
 		case '/exercises/new':
-			create_an_excercices();
+			create_an_exercises();
 			break;
 		default:
 			lost();
@@ -45,7 +45,7 @@ function post_redirection($redirect_uri)
 {
 	switch ($redirect_uri) {
 		case '/exercises':
-			createExercice();
+			createExercise();
 			break;
 		default:
 			lost();

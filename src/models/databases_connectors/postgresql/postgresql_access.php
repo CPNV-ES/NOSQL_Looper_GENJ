@@ -13,19 +13,19 @@ class PostgresqlAccess implements DatabasesAccess
 		$this->create_db_if_not_exist();
 	}
 
-	public function doesExcerciceExist(int $id): bool
+	public function doesExerciseExist(int $id): bool
 	{
-		return count($this->postgresql->select('SELECT id FROM excercices WHERE id = :id', [':id' => $id])) > 0;
+		return count($this->postgresql->select('SELECT id FROM exercises WHERE id = :id', [':id' => $id])) > 0;
 	}
 
-	public function createExercice(string $title): int
+	public function createExercise(string $title): int
 	{
-		return (int)$this->postgresql->select('INSERT INTO excercices (title) VALUES (:title) RETURNING id', [':title' => $title])[0][0];
+		return (int)$this->postgresql->select('INSERT INTO exercises (title) VALUES (:title) RETURNING id', [':title' => $title])[0][0];
 	}
 
-	public function getExcerciceTitle(int $id): string
+	public function getExerciseTitle(int $id): string
 	{
-		return $this->postgresql->select('SELECT title FROM excercices WHERE id = :id', [':id' => $id]);
+		return $this->postgresql->select('SELECT title FROM exercises WHERE id = :id', [':id' => $id]);
 	}
 
 	private function create_db_if_not_exist()

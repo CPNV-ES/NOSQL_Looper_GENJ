@@ -2,9 +2,9 @@
 
 interface DatabasesAccess
 {
-	public function doesExcerciceExist(int $id): bool;
+	public function doesExerciseExist(int $id): bool;
 
-	public function createExercice(string $title): int;
+	public function createExercise(string $title): int;
 
-	public function getExcerciceTitle(int $id): string;
+	public function getExerciseTitle(int $id): string;
 }
