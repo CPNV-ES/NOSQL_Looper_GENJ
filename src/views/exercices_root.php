@@ -33,7 +33,7 @@
 				<li class="row">
 				<div class="column card">
 					<div class="title"><?php echo htmlspecialchars($exercise['name']); ?></div>
-					<a class="button" href="/exercises/<?php echo $exercise['id']; ?>/fulfillments/new">Take it</a>
+					<a class="button" href="/exercises/<?= $exercise['id']; ?>/fulfillments/new">Take it</a>
 				</div>
 				</li>
 			<?php endforeach; ?>
