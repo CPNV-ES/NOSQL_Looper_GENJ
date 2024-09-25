@@ -9,8 +9,6 @@
 <html>
 	<head>
 		<title>ExerciseLooper</title>
-		<meta name="csrf-param" content="authenticity_token" />
-		<meta name="csrf-token" content="c4DNz/7iDVI05ezE7+E9G7GJyaM4odT7rZnqJU2+C/3pz/mPAuQ4OXSmfF14CCfprUSJRXrDFCcZQyJUkVWD/g==" />
 		<link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
 		<link rel="stylesheet" href="/assets/css/exercises_root.css">
