@@ -2,7 +2,7 @@
 
 interface DatabasesAccess
 {
-	public function isExcerciceExist(int $id): bool;
+	public function doesExcerciceExist(int $id): bool;
 
 	public function createExercice(string $title): int;
 

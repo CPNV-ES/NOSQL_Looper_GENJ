@@ -10,7 +10,7 @@ class Excercices
 	public function __construct(int $id)
 	{
 		$this->database_access = (new DatabasesChoose())->getDatabase();
-		if (!$this->database_access->isExcerciceExist($id)) {
+		if (!$this->database_access->doesExcerciceExist($id)) {
 			throw new Exception('The excercise does not exist');
 		}
 
