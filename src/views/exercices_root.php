@@ -32,7 +32,7 @@
 			<?php foreach ($exercises as $exercise): ?>
 				<li class="row">
 				<div class="column card">
-					<div class="title"><?php echo htmlspecialchars($exercise['name']); ?></div>
+					<div class="title"><?= htmlspecialchars($exercise['name']); ?></div>
 					<a class="button" href="/exercises/<?= $exercise['id']; ?>/fulfillments/new">Take it</a>
 				</div>
 				</li>
