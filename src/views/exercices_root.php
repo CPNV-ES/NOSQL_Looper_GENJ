@@ -24,7 +24,7 @@ ob_start();
 				'name' => 'Francais'
 			]
 		]
-	?>
+?>
 	<ul class="answering-list">
 		<?php foreach ($exercises as $exercise): ?>
 		<li class="row">
