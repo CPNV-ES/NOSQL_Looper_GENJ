@@ -1,6 +1,6 @@
 <header class="heading answering">
   <section class="container">
-    <a href="/"><img src="public/assets/img/logo.png" /></a>
+    <a href="/"><img src="/assets/img/logo.png" /></a>
   </section>
 </header>
 
