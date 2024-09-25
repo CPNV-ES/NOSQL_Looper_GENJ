@@ -23,7 +23,7 @@ class PostgresqlAccess implements DatabasesAccess
 		return (int)$this->postgresql->select('INSERT INTO excercices (title) VALUES (:title) RETURNING id', [':title' => $title])[0][0];
 	}
 
-	public function getExcerciceTitleFromId(int $id): string
+	public function getExcerciceTitle(int $id): string
 	{
 		return $this->postgresql->select('SELECT title FROM excercices WHERE id = :id', [':id' => $id]);
 	}

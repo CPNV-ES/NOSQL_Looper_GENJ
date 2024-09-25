@@ -30,6 +30,6 @@ class Excercices
 
 	public function getTitle()
 	{
-		return $this->database_access->getExcerciceTitleFromId($this->id);
+		return $this->database_access->getExcerciceTitle($this->id);
 	}
 }

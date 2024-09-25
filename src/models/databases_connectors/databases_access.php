@@ -6,5 +6,5 @@ interface DatabasesAccess
 
 	public function createExercice(string $title): int;
 
-	public function getExcerciceTitleFromId(int $id): string;
+	public function getExcerciceTitle(int $id): string;
 }
