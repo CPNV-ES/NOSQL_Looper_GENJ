@@ -29,3 +29,8 @@ function method_not_allowed()
 {
 	include VIEW_DIR . '/errors/method_not_allowed.php';
 }
+
+function manage()
+{
+	include VIEW_DIR . '/manage.php';
+}
