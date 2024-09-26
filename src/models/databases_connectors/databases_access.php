@@ -9,5 +9,6 @@ interface DatabasesAccess
 	public function getExerciseTitle(int $id): string;
 
 	public function getExercises(): array;
+
 	public function getExercisesAnswering(): array;
 }
