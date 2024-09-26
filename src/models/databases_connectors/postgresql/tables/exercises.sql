@@ -1,5 +1,0 @@
-CREATE TABLE IF NOT EXISTS exercises (
-    id SERIAL PRIMARY KEY,
-    title TEXT NOT NULL,
-    date_created DATE NOT NULL DEFAULT CURRENT_DATE
-);

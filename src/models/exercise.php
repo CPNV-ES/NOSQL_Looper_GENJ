@@ -2,7 +2,7 @@
 
 require_once MODEL_DIR . '/databases_connectors/databases_choose.php';
 
-class exercises
+class Exercises
 {
 	private DatabasesAccess $database_access;
 	private int $id;

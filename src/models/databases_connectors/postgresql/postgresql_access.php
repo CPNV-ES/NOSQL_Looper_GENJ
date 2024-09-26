@@ -30,18 +30,8 @@ class PostgresqlAccess implements DatabasesAccess
 
 	private function create_db_if_not_exist()
 	{
-		$dir = scandir(MODEL_DIR . '/databases_connectors/postgresql/tables/');
-
-		foreach ($dir as $file) {
-			if (!str_ends_with($file, '.sql')) {
-				continue;
-			}
-
-			$file = str_replace('.sql', '', $file);
-
-			if (count($this->postgresql->select("SELECT 1 FROM information_schema.tables WHERE table_name = '$file'")) < 1) {
-				$this->postgresql->modify(file_get_contents(filename: MODEL_DIR . '/databases_connectors/postgresql/tables/' . $file . '.sql'));
-			}
+		if (count($this->postgresql->select("SELECT 1 FROM information_schema.tables WHERE table_name = 'exercises'")) < 1) {
+			$this->postgresql->modify(file_get_contents(filename: MODEL_DIR . '/databases_connectors/postgresql/createdb.sql'));
 		}
 	}
 }
