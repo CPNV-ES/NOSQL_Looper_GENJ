@@ -25,9 +25,12 @@ class PostgresqlAccess implements DatabasesAccess
 
 	public function getExerciseTitle(int $id): string
 	{
-		return $this->postgresql->select('SELECT title FROM exercises WHERE id = :id', [':id' => $id]);
+		$result = $this->postgresql->select('SELECT title FROM exercises WHERE id = :id', [':id' => $id]);
+		if (!empty($result) && isset($result[0]['title'])) {
+			return $result[0]['title'];
+		}
+		throw new Exception('Exercise not found');
 	}
-
 	private function create_db_if_not_exist()
 	{
 		if (count($this->postgresql->select("SELECT 1 FROM information_schema.tables WHERE table_name = 'exercises'")) < 1) {
