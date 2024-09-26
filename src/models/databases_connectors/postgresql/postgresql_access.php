@@ -33,6 +33,7 @@ class PostgresqlAccess implements DatabasesAccess
 	{
 		return $this->postgresql->select('SELECT id FROM exercises;');
 	}
+
 	private function create_db_if_not_exist()
 	{
 		if (count($this->postgresql->select("SELECT 1 FROM information_schema.tables WHERE table_name = 'exercises'")) < 1) {

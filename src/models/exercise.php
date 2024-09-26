@@ -45,5 +45,5 @@ class Exercises
 		}
 
 		return $exercises;
-	} 
+	}
 }
