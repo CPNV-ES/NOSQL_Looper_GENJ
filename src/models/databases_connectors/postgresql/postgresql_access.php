@@ -29,7 +29,7 @@ class PostgresqlAccess implements DatabasesAccess
 		return $result[0]['title'];
 	}
 
-	public function getExercises()
+	public function getExercises(): array
 	{
 		return $this->postgresql->select('SELECT id FROM exercises;');
 	}
