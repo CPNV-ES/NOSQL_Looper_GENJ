@@ -9,3 +9,8 @@ function lost()
 {
 	include VIEW_DIR . '/lost.php';
 }
+
+function manage()
+{
+	include VIEW_DIR . '/manage.php';
+}
