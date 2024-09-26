@@ -15,10 +15,10 @@ function createAnExercises()
 function takeAnExercises()
 {
 	$exercises = exercises::getExercises(Status::Answering);
-	include VIEW_DIR . '/exercises_root.php';
+	include VIEW_DIR . '/take_an_exercise.php';
 }
 
 function manageExercises()
 {
-	include VIEW_DIR . '/manage.php';
+	include VIEW_DIR . '/manage_an_exercise.php';
 }
