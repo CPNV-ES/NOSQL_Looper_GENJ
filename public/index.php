@@ -23,6 +23,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
 	case 'POST':
 		post_redirection($redirect_uri);
 		break;
+	case '/exercises/answering':
+		exercises_root();
+		break;
 	default:
 		method_not_allowed();
 }
