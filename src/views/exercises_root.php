@@ -1,5 +1,8 @@
 <?php
 $title = 'ExerciseLooper';
+include_once MODEL_DIR . '/exercise.php';
+$exercises = exercises::getExercises();
+
 
 ob_start();
 ?>
@@ -13,27 +16,16 @@ ob_start();
 </header>
 
 <main class="container">
-	<?php
-		$exercises = [
-			[
-				'id' => 1,
-				'name' => 'Anglais'
-			],
-			[
-				'id' => 2,
-				'name' => 'Francais'
-			]
-		]
-?>
+
 	<ul class="answering-list">
 		<?php foreach ($exercises as $exercise): ?>
 		<li class="row">
 			<div class="column card">
 				<div class="title">
-					<?= htmlspecialchars($exercise['name']); ?>
+					<?= htmlspecialchars($exercise->getTitle()); ?>
 				</div>
 				<a class="button"
-					href="/exercises/<?= $exercise['id']; ?>/fulfillments/new">Take
+					href="/exercises/<?= $exercise->getId(); ?>/fulfillments/new">Take
 					it</a>
 			</div>
 		</li>
