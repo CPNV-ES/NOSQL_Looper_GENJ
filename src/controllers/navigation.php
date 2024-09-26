@@ -20,5 +20,9 @@ function takeAnExercises()
 
 function manageExercises()
 {
+	$buildingExercises = exercises::getExercises(Status::Building);
+	$answeringExercises = exercises::getExercises(Status::Answering);
+	$closeExercises = exercises::getExercises(Status::Closed);
+
 	include VIEW_DIR . '/manage_an_exercise.php';
 }
