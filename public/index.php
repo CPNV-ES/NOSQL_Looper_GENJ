@@ -23,9 +23,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
 	case 'POST':
 		post_redirection($redirect_uri);
 		break;
-	case '/exercises/answering':
-		exercises_root();
-		break;
 	default:
 		method_not_allowed();
 }
@@ -35,6 +32,9 @@ function get_redirection($redirect_uri)
 	switch ($redirect_uri) {
 		case '/':
 			home();
+			break;
+		case '/exercises/answering':
+			exercises_root();
 			break;
 		case '/exercises/new':
 			create_an_exercises();
