@@ -32,4 +32,18 @@ class Exercises
 	{
 		return $this->database_access->getexerciseTitle($this->id);
 	}
+
+	public static function getExercises()
+	{
+		$database_access = (new DatabasesChoose())->getDatabase();
+		$exercises_data = $database_access->getExercises();
+
+		$exercises = [];
+		foreach ($exercises_data as $exercise_data) {
+			$exercise = new self($exercise_data['id']);
+			$exercises[] = $exercise;
+		}
+
+		return $exercises;
+	} 
 }
