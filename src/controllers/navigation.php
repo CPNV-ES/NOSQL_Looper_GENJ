@@ -5,9 +5,9 @@ function home()
 	include VIEW_DIR . '/home.php';
 }
 
-function exercices_root()
+function exercises_root()
 {
-	include VIEW_DIR . '/exercices_root.php';
+	include VIEW_DIR . '/exercises_root.php';
 }
 
 function lost()
