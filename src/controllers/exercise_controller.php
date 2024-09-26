@@ -9,6 +9,6 @@ function createExercise()
 		return;
 	}
 
-	$Exercise = exercises::create($_POST['exercise_title']);
-	header('Location: /exercises/' . $Exercise->getId() . '/fields');
+	$exercise = Exercises::create($_POST['exercise_title']);
+	header('Location: /exercises/' . $exercise->getId() . '/fields');
 }
