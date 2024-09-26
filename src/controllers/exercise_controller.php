@@ -5,7 +5,7 @@ include_once MODEL_DIR . '/exercise.php';
 function createExercise()
 {
 	if (!isset($_POST['exercise_title'])) {
-		bad_request();
+		badRequest();
 		return;
 	}
 

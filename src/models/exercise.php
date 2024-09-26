@@ -2,6 +2,13 @@
 
 require_once MODEL_DIR . '/databases_connectors/databases_choose.php';
 
+enum Status: int
+{
+	case Building = 0;
+	case Answering = 1;
+	case Closed = 2;
+}
+
 class Exercises
 {
 	private DatabasesAccess $database_access;
@@ -33,24 +40,15 @@ class Exercises
 		return $this->database_access->getexerciseTitle($this->id);
 	}
 
-	public static function getExercises()
+	public static function getExercises(Status $status = null)
 	{
 		$database_access = (new DatabasesChoose())->getDatabase();
-		$exercises_data = $database_access->getExercises();
-
-		$exercises = [];
-		foreach ($exercises_data as $exercise_data) {
-			$exercise = new self($exercise_data['id']);
-			$exercises[] = $exercise;
+		$exercises_data = [];
+		if ($status == null) {
+			$exercises_data = $database_access->getExercises();
+		} else {
+			$exercises_data = $database_access->getExercises($status->value);
 		}
-
-		return $exercises;
-	}
-
-	public static function getExercisesAnswering()
-	{
-		$database_access = (new DatabasesChoose())->getDatabase();
-		$exercises_data = $database_access->getExercisesAnswering();
 
 		$exercises = [];
 		foreach ($exercises_data as $exercise_data) {

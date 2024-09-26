@@ -1,36 +1,28 @@
 <?php
 
+include_once MODEL_DIR . '/exercise.php';
+
 function home()
 {
 	include VIEW_DIR . '/home.php';
 }
 
-function create_an_exercises()
+function createAnExercises()
 {
 	include VIEW_DIR . '/create_an_exercise.php';
 }
 
-function exercises_root()
+function takeAnExercises()
 {
-	include VIEW_DIR . '/exercises_root.php';
+	$exercises = exercises::getExercises(Status::Answering);
+	include VIEW_DIR . '/take_an_exercise.php';
 }
 
-function lost()
+function manageExercises()
 {
-	include VIEW_DIR . '/errors/lost.php';
-}
+	$buildingExercises = exercises::getExercises(Status::Building);
+	$answeringExercises = exercises::getExercises(Status::Answering);
+	$closeExercises = exercises::getExercises(Status::Closed);
 
-function bad_request()
-{
-	include VIEW_DIR . '/errors/bad_request.php';
-}
-
-function method_not_allowed()
-{
-	include VIEW_DIR . '/errors/method_not_allowed.php';
-}
-
-function manage()
-{
-	include VIEW_DIR . '/manage.php';
+	include VIEW_DIR . '/manage_an_exercise.php';
 }
