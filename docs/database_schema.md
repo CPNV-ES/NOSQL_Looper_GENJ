@@ -32,14 +32,14 @@ Table fulfillments {
 
 Table fulfillments_data {
   id integer [primary key]
-  fullfilment_id integer
+  fulfilment_id integer
   field_id integer
   body text //raw data with \n to separate lines
 }
 
 Ref: fields.exercise_id > exercises.id
 Ref: fulfillments.exercise_id > exercises.id
-Ref: fulfillments.exercise_id < fulfillments_data.fullfilment_id
+Ref: fulfillments.id < fulfillments_data.fulfilment_id
 Ref: fields.id < fulfillments_data.field_id
 ```
 
@@ -67,16 +67,16 @@ CREATE TABLE "fulfillments" (
 
 CREATE TABLE "fulfillments_data" (
   "id" integer PRIMARY KEY,
-  "fullfilment_id" integer,
+  "fulfilment_id" integer,
   "field_id" integer,
   "body" text
 );
 
-ALTER TABLE "exercises" ADD FOREIGN KEY ("id") REFERENCES "fields" ("exercise_id");
+ALTER TABLE "fields" ADD FOREIGN KEY ("exercise_id") REFERENCES "exercises" ("id");
 
-ALTER TABLE "exercises" ADD FOREIGN KEY ("id") REFERENCES "fulfillments" ("exercise_id");
+ALTER TABLE "fulfillments" ADD FOREIGN KEY ("exercise_id") REFERENCES "exercises" ("id");
 
-ALTER TABLE "fulfillments_data" ADD FOREIGN KEY ("fullfilment_id") REFERENCES "fulfillments" ("exercise_id");
+ALTER TABLE "fulfillments_data" ADD FOREIGN KEY ("fulfilment_id") REFERENCES "fulfillments" ("id");
 
 ALTER TABLE "fulfillments_data" ADD FOREIGN KEY ("field_id") REFERENCES "fields" ("id");
 
