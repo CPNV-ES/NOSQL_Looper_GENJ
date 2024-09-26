@@ -7,18 +7,18 @@ function home()
 	include VIEW_DIR . '/home.php';
 }
 
-function create_an_exercises()
+function createAnExercises()
 {
 	include VIEW_DIR . '/create_an_exercise.php';
 }
 
-function exercises_root()
+function takeAnExercises()
 {
 	$exercises = exercises::getExercises(Status::Answering);
 	include VIEW_DIR . '/exercises_root.php';
 }
 
-function manage()
+function manageExercises()
 {
 	include VIEW_DIR . '/manage.php';
 }

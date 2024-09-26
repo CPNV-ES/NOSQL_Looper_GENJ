@@ -5,12 +5,12 @@ function lost()
 	include VIEW_DIR . '/errors/lost.php';
 }
 
-function bad_request()
+function badRequest()
 {
 	include VIEW_DIR . '/errors/bad_request.php';
 }
 
-function method_not_allowed()
+function methodNotAllowed()
 {
 	include VIEW_DIR . '/errors/method_not_allowed.php';
 }

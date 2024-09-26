@@ -19,36 +19,36 @@ $redirect_uri = explode('?', $redirect_uri)[0];
 
 switch ($_SERVER['REQUEST_METHOD']) {
 	case 'GET':
-		get_redirection($redirect_uri);
+		getRedirection($redirect_uri);
 		break;
 	case 'POST':
-		post_redirection($redirect_uri);
+		postRedirection($redirect_uri);
 		break;
 	default:
-		method_not_allowed();
+		methodNotAllowed();
 }
 
-function get_redirection($redirect_uri)
+function getRedirection($redirect_uri)
 {
 	switch ($redirect_uri) {
 		case '/':
 			home();
 			break;
 		case '/exercises':
-			manage();
+			manageExercises();
 			break;
 		case '/exercises/answering':
-			exercises_root();
+			takeAnExercises();
 			break;
 		case '/exercises/new':
-			create_an_exercises();
+			createAnExercises();
 			break;
 		default:
 			lost();
 	}
 }
 
-function post_redirection($redirect_uri)
+function postRedirection($redirect_uri)
 {
 	switch ($redirect_uri) {
 		case '/exercises':
