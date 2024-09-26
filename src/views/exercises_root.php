@@ -1,7 +1,7 @@
 <?php
 $title = 'ExerciseLooper';
 include_once MODEL_DIR . '/exercise.php';
-$exercises = exercises::getExercises();
+$exercises = exercises::getExercisesAnswering();
 
 ob_start();
 ?>

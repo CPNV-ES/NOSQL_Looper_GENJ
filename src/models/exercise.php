@@ -46,4 +46,18 @@ class Exercises
 
 		return $exercises;
 	}
+
+	public static function getExercisesAnswering()
+	{
+		$database_access = (new DatabasesChoose())->getDatabase();
+		$exercises_data = $database_access->getExercisesAnswering();
+	
+		$exercises = [];
+		foreach ($exercises_data as $exercise_data) {
+			$exercise = new self($exercise_data['id']);
+			$exercises[] = $exercise;
+		}
+	
+		return $exercises;
+	}
 }
