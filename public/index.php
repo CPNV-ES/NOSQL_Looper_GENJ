@@ -8,6 +8,8 @@ define('VIEW_DIR', SOURCE_DIR . '/views');
 define('CONTROLLER_DIR', SOURCE_DIR . '/controllers');
 define('MODEL_DIR', SOURCE_DIR . '/models');
 
+require BASE_DIR . '/vendor/autoload.php';
+
 require CONTROLLER_DIR . '/error.php';
 require CONTROLLER_DIR . '/navigation.php';
 require CONTROLLER_DIR . '/exercise_controller.php';
