@@ -30,14 +30,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
 function getRedirection($redirect_uri)
 {
-	if (preg_match('/^\/exercises\/([0-9]+)\?exercise%5Bstatus%5D=(answering|closed)$/A', $_SERVER['REQUEST_URI'], $output_array)) {
-		if ($output_array[2] == 'answering') {
-			setExerciseAsAnswering($output_array[1]);
-		} elseif ($output_array[2] == 'closed') {
-			setExerciseAsClosed($output_array[1]);
-		}
-		return;
-	}
 	switch ($redirect_uri) {
 		case '/':
 			home();
@@ -50,6 +42,13 @@ function getRedirection($redirect_uri)
 			break;
 		case '/exercises/new':
 			createAnExercises();
+			break;
+		case (preg_match('/^\/exercises\/([0-9]+)\?exercise%5Bstatus%5D=(answering|closed)$/A', $_SERVER['REQUEST_URI'], $output_array) ? true : false):
+			if ($output_array[2] == 'answering') {
+				setExerciseAsAnswering($output_array[1]);
+			} elseif ($output_array[2] == 'closed') {
+				setExerciseAsClosed($output_array[1]);
+			}
 			break;
 		default:
 			lost();
