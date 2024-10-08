@@ -10,7 +10,7 @@ function badRequest()
 	include VIEW_DIR . '/errors/bad_request.php';
 }
 
-function methodNotAllowed()
+function serverError()
 {
-	include VIEW_DIR . '/errors/method_not_allowed.php';
+	include VIEW_DIR . '/errors/server_error.php';
 }

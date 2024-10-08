@@ -1,6 +1,8 @@
 <?php
 $title = 'Method Not Allowed';
 
+http_response_code(500);
+
 ob_start();
 ?>
 
