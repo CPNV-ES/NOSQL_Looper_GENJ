@@ -2,27 +2,41 @@
 
 include_once MODEL_DIR . '/exercise.php';
 
-function home()
-{
-	include VIEW_DIR . '/home.php';
-}
+$entry = [
+	'Navigation()' => [
+		'GET' => [
+			'/' => 'home()',
+			'/exercises' => 'manageExercises()',
+			'/exercises/answering' => 'takeAnExercises()',
+			'/exercises/new' => 'createAnExercises()'
+		]
+	]
+];
 
-function createAnExercises()
+class Navigation
 {
-	include VIEW_DIR . '/create_an_exercise.php';
-}
+	public function home()
+	{
+		include VIEW_DIR . '/home.php';
+	}
 
-function takeAnExercises()
-{
+	public function createAnExercises()
+	{
+		include VIEW_DIR . '/create_an_exercise.php';
+	}
+
+	public function takeAnExercises()
+	{
 	$exercises = exercises::getExercises(Status::Answering);
-	include VIEW_DIR . '/take_an_exercise.php';
-}
+		include VIEW_DIR . '/take_an_exercise.php';
+	}
 
-function manageExercises()
-{
+	public function manageExercises()
+	{
 	$buildingExercises = exercises::getExercises(Status::Building);
 	$answeringExercises = exercises::getExercises(Status::Answering);
 	$closeExercises = exercises::getExercises(Status::Closed);
 
-	include VIEW_DIR . '/manage_an_exercise.php';
+		include VIEW_DIR . '/manage_an_exercise.php';
+	}
 }

@@ -2,13 +2,24 @@
 
 include_once MODEL_DIR . '/exercise.php';
 
-function createExercise()
+$entry = [
+	'ExerciseController()' => [
+		'POST' => [
+			'/exercises' => 'createExercise()'
+		]
+	]
+];
+
+class ExerciseController
 {
-	if (!isset($_POST['exercise_title'])) {
-		badRequest();
-		return;
-	}
+	public function createExercise()
+	{
+		if (!isset($_POST['exercise_title'])) {
+			badRequest();
+			return;
+		}
 
 	$exercise = Exercises::create($_POST['exercise_title']);
-	header('Location: /exercises/' . $exercise->getId() . '/fields');
+		header('Location: /exercises/' . $exercise->getId() . '/fields');
+	}
 }
