@@ -58,4 +58,13 @@ class Exercises
 
 		return $exercises;
 	}
+	public function getStatus(): mixed
+	{
+		return $this->database_access->getExerciseStatus($this->id);
+	}
+
+	public function setExerciseAs(Status $status)
+	{
+		$this->database_access->setExerciseStatus($this->id, $status);
+	}
 }
