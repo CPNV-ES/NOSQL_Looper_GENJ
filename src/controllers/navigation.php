@@ -27,15 +27,15 @@ class Navigation
 
 	public function takeAnExercises()
 	{
-	$exercises = exercises::getExercises(Status::Answering);
+		$exercises = Exercise::getExercises(Status::Answering);
 		include VIEW_DIR . '/take_an_exercise.php';
 	}
 
 	public function manageExercises()
 	{
-	$buildingExercises = exercises::getExercises(Status::Building);
-	$answeringExercises = exercises::getExercises(Status::Answering);
-	$closeExercises = exercises::getExercises(Status::Closed);
+		$buildingExercises = Exercise::getExercises(Status::Building);
+		$answeringExercises = Exercise::getExercises(Status::Answering);
+		$closeExercises = Exercise::getExercises(Status::Closed);
 
 		include VIEW_DIR . '/manage_an_exercise.php';
 	}

@@ -9,7 +9,7 @@ enum Status: int
 	case Closed = 2;
 }
 
-class Exercises
+class Exercise
 {
 	private DatabasesAccess $database_access;
 	private int $id;
@@ -17,7 +17,7 @@ class Exercises
 	public function __construct(int $id)
 	{
 		$this->database_access = (new DatabasesChoose())->getDatabase();
-		if (!$this->database_access->doesexerciseExist($id)) {
+		if (!$this->database_access->doesExerciseExist($id)) {
 			throw new Exception('The exercise does not exist');
 		}
 
@@ -37,7 +37,7 @@ class Exercises
 
 	public function getTitle()
 	{
-		return $this->database_access->getexerciseTitle($this->id);
+		return $this->database_access->getExerciseTitle($this->id);
 	}
 
 	public static function getExercises(Status $status = null)

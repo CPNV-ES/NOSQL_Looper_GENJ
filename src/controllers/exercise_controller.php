@@ -19,7 +19,7 @@ class ExerciseController
 			return;
 		}
 
-	$exercise = Exercises::create($_POST['exercise_title']);
+		$exercise = Exercise::create($_POST['exercise_title']);
 		header('Location: /exercises/' . $exercise->getId() . '/fields');
 	}
 }
