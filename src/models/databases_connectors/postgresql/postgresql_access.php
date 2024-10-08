@@ -43,4 +43,16 @@ class PostgresqlAccess implements DatabasesAccess
 			$this->postgresql->modify(file_get_contents(filename: MODEL_DIR . '/databases_connectors/postgresql/createdb.sql'));
 		}
 	}
+
+	public function getExerciseStatus(int $id = -1): Status
+	{
+		$result = $this->postgresql->select('SELECT status FROM exercises WHERE id = :id', [':id' => $id]);
+		return Status::from($result[0]['status']);
+	}
+
+	public function setExerciseStatus(int $id, Status $status)
+	{
+		$result = $this->postgresql->select('UPDATE exercises set status=:status WHERE id = :id', [':id' => $id, ':status' => $status->value]);
+		return $result;
+	}
 }
