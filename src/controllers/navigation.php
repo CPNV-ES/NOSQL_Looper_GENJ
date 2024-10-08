@@ -8,7 +8,8 @@ $entry = [
 			'/' => 'home()',
 			'/exercises' => 'manageExercises()',
 			'/exercises/answering' => 'takeAnExercises()',
-			'/exercises/new' => 'createAnExercises()'
+			'/exercises/new' => 'createAnExercises()',
+			'/exercises/:id:int/fields' => 'manageField(:id:int)'
 		]
 	]
 ];
@@ -38,5 +39,12 @@ class Navigation
 		$closeExercises = Exercise::getExercises(Status::Closed);
 
 		include VIEW_DIR . '/manage_an_exercise.php';
+	}
+
+	public function manageField(int $id)
+	{
+		$exercise = new Exercise($id);
+
+		include VIEW_DIR . '/manage_field.php';
 	}
 }
