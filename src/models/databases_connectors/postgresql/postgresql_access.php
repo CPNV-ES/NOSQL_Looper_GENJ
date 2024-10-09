@@ -29,12 +29,23 @@ class PostgresqlAccess implements DatabasesAccess
 		return $result[0]['title'];
 	}
 
+	public function getExerciseStatus(int $id): string
+	{
+		$result = $this->postgresql->select('SELECT status FROM exercises WHERE id = :id', [':id' => $id]);
+		return $result[0]['status'];
+	}
+
 	public function getExercises(int $status = -1): array
 	{
 		if ($status < 0) {
 			return $this->postgresql->select('SELECT id FROM exercises');
 		}
 		return $this->postgresql->select('SELECT id FROM exercises WHERE status = :status', [':status' => $status]);
+	}
+
+	public function deleteExercise(int $id): void
+	{
+		$this->postgresql->modify('DELETE FROM exercises WHERE id = :id', [':id' => $id]);
 	}
 
 	private function create_db_if_not_exist()
