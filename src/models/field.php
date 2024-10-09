@@ -19,6 +19,10 @@ class Field
 		$this->id = $id;
 
 		$this->database_access = (new DatabasesChoose())->getDatabase();
+
+		if (!$this->database_access->doesFieldExist($id)) {
+			throw new Exception('Field Does Not Exist');
+		}
 	}
 
 	public function getId(): int
@@ -36,7 +40,7 @@ class Field
 		switch ($this->database_access->getFieldKind($this->id)) {
 			case 1:
 				return Kind::ListOfSingleLines;
-			case 3:
+			case 2:
 				return Kind::MultiLineText;
 			default:
 				return Kind::SingleLineText;
