@@ -42,7 +42,7 @@ class Exercises
 
 	public function getExerciseStatus()
 	{
-		return $this->database_access->getexerciseStatus($this->id);
+		return $this->database_access->getExerciseStatus($this->id);
 	}
 
 	public function delete()
