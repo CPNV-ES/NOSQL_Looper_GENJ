@@ -43,12 +43,8 @@ function getRedirection($redirect_uri)
 		case '/exercises/new':
 			createAnExercises();
 			break;
-		case (preg_match('/^\/exercises\/([0-9]+)\?exercise%5Bstatus%5D=(answering|closed)$/A', $_SERVER['REQUEST_URI'], $output_array) ? true : false):
-			if ($output_array[2] == 'answering') {
-				setExerciseAsAnswering($output_array[1]);
-			} elseif ($output_array[2] == 'closed') {
-				setExerciseAsClosed($output_array[1]);
-			}
+		case (preg_match('/^\/exercises\/([0-9]+)$/A', $redirect_uri, $output_array) ? true : false):
+			changeStateOfExercise($output_array[1]);
 			break;
 		default:
 			lost();

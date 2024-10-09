@@ -13,19 +13,37 @@ function createExercise()
 	header('Location: /exercises/' . $exercise->getId() . '/fields');
 }
 
-function setExerciseAsAnswering(int $id)
+function changeStateOfExercise(int $id)
 {
-	$exercise = new Exercises($id);
-	if ($exercise->getStatus() === Status::Building && $exercise->getFieldsCount() > 0) {
-		$exercise->setExerciseAs(Status::Answering);
+	if (!isset($_GET['exercise']['status'])) {
+		badRequest();
+		return;
 	}
-	header('Location: /exercises');
-}
-function setExerciseAsClosed(int $id)
-{
-	$exercise = new Exercises($id);
-	if ($exercise->getStatus() === Status::Answering) {
-		$exercise->setExerciseAs(Status::Closed);
+
+	$exercise = null;
+	try {
+		$exercise = new Exercises($id);
+	} catch (Exception) {
+		lost();
+		return;
 	}
+
+	if ($exercise->getFieldsCount() < 1) {
+		badRequest();
+		return;
+	}
+
+	switch ($_GET['exercise']['status']) {
+		case 'answering' && $exercise->getStatus() == Status::Building:
+			$exercise->setExerciseAs(Status::Answering);
+			break;
+		case 'closed' && $exercise->getStatus() == Status::Answering:
+			$exercise->setExerciseAs(Status::Closed);
+			break;
+		default:
+			badRequest();
+			return;
+	}
+
 	header('Location: /exercises');
 }
