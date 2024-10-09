@@ -10,7 +10,7 @@ function badRequest()
 	include VIEW_DIR . '/errors/bad_request.php';
 }
 
-function serverError()
+function serverError(string $console_log = '')
 {
 	include VIEW_DIR . '/errors/server_error.php';
 }

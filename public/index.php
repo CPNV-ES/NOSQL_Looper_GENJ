@@ -21,6 +21,6 @@ try {
 	if (!$router->run($_SERVER['REQUEST_METHOD'], $request_uri)) {
 		lost();
 	}
-} catch (\Throwable) {
-	serverError();
+} catch (\Throwable $e) {
+	serverError($e->getTraceAsString());
 }
