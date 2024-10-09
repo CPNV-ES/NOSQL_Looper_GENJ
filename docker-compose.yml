@@ -16,6 +16,7 @@ services:
     volumes:
       - ./src:/var/www/src
       - ./public:/var/www/html 
+      - ./.env:/var/www/.env
     networks:
       - internal
     environment:
