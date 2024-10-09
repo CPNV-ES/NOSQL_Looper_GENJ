@@ -1,6 +1,7 @@
 <?php
 
 require_once MODEL_DIR . '/databases_connectors/databases_choose.php';
+require_once MODEL_DIR . '/field.php';
 
 enum Status: int
 {
@@ -38,6 +39,15 @@ class Exercise
 	public function getTitle()
 	{
 		return $this->database_access->getExerciseTitle($this->id);
+	}
+
+	public function getFields(): array
+	{
+		$array_field = [];
+		foreach ($this->database_access->getFields($this->id) as $field) {
+			array_push($array_field, new Field($field['id']));
+		}
+		return $array_field;
 	}
 
 	public static function getExercises(Status $status = null)
