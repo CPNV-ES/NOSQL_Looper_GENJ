@@ -62,6 +62,16 @@ class PostgresqlAccess implements DatabasesAccess
 		return (int)$this->postgresql->select('INSERT INTO fields (label, kind, exercise_id) VALUES (:label, :kind, :exercise_id) RETURNING id', [':label' => $label, ':kind' => $kind, ':exercise_id' => $exercise_id]);
 	}
 
+	public function deleteField(int $id): void
+	{
+		$this->postgresql->modify('DELETE FROM fields WHERE id = :id', [':id' => $id]);
+	}
+
+	public function isFieldInExercise(int $exercise_id, int $field_id): bool
+	{
+		return count($this->postgresql->select('SELECT id FROM fields WHERE exercise_id = :exercise_id AND id = :field_id', [':exercise_id' => $exercise_id, ':field_id' => $field_id])) > 0;
+	}
+
 	private function create_db_if_not_exist()
 	{
 		if (count($this->postgresql->select("SELECT 1 FROM information_schema.tables WHERE table_name = 'exercises'")) < 1) {

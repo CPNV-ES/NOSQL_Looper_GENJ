@@ -55,6 +55,11 @@ class Exercise
 		return (new Field($this->database_access->createField($this->id, $label, $kind->value)));
 	}
 
+	public function isFieldInExercise(Field $field): bool
+	{
+		return $this->database_access->isFieldInExercise($this->id, $field->getId());
+	}
+
 	public static function getExercises(Status $status = null)
 	{
 		$database_access = (new DatabasesChoose())->getDatabase();

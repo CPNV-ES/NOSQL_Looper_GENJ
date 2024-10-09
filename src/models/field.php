@@ -46,4 +46,9 @@ class Field
 				return Kind::SingleLineText;
 		}
 	}
+
+	public function delete()
+	{
+		$this->database_access->deleteField($this->id);
+	}
 }

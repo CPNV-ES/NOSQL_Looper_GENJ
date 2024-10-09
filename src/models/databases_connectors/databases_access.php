@@ -19,4 +19,8 @@ interface DatabasesAccess
 	public function getFieldKind(int $id): int;
 
 	public function createField(int $exercise_id, string $label, int $kind): int;
+
+	public function deleteField(int $id): void;
+
+	public function isFieldInExercise(int $exercise_id, int $field_id): bool;
 }
