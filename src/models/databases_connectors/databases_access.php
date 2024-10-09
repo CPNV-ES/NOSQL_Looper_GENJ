@@ -12,5 +12,9 @@ interface DatabasesAccess
 
 	public function deleteExercise(int $id): void;
 
-	public function getExerciseStatus(int $id): string;
+	public function getExerciseStatus(int $id = -1): Status;
+
+	public function setExerciseStatus(int $id, Status $status);
+
+	public function getFieldsCount(int $exercise_id): int;
 }
