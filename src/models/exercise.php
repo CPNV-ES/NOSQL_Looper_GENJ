@@ -50,6 +50,11 @@ class Exercise
 		return $array_field;
 	}
 
+	public function createField(string $label, Kind $kind): Field
+	{
+		return (new Field($this->database_access->createField($this->id, $label, $kind->value)));
+	}
+
 	public static function getExercises(Status $status = null)
 	{
 		$database_access = (new DatabasesChoose())->getDatabase();

@@ -30,17 +30,17 @@ ob_start();
                         <td><?= $field->getLabel() ?></td>
                         <td>
                         <?php
-							switch($field->getKind()) {
-								case Kind::SingleLineText:
-									echo 'single_line';
-									break;
-								case Kind::ListOfSingleLines:
-									echo 'single_line_list';
-									break;
-								case Kind::MultiLineText:
-									echo 'multi_line';
-									break;
-							}
+						switch($field->getKind()) {
+							case Kind::SingleLineText:
+								echo 'single_line';
+								break;
+							case Kind::ListOfSingleLines:
+								echo 'single_line_list';
+								break;
+							case Kind::MultiLineText:
+								echo 'multi_line';
+								break;
+						}
                     	?>
                         </td>
                         <td>

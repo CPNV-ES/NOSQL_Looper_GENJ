@@ -17,4 +17,6 @@ interface DatabasesAccess
 	public function getFieldLabel(int $id): string;
 
 	public function getFieldKind(int $id): int;
+
+	public function createField(int $exercise_id, string $label, int $kind): int;
 }
