@@ -44,6 +44,7 @@ class Navigation
 	public function manageField(int $id)
 	{
 		$exercise = new Exercise($id);
+		$fields = $exercise->getFields();
 
 		include VIEW_DIR . '/manage_field.php';
 	}
