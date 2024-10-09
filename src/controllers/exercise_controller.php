@@ -15,7 +15,14 @@ function createExercise()
 
 function deleteExercise($id)
 {
-	$exercise = new Exercises($id);
+	try {
+		$exercise = new Exercises($id);
+	}
+	catch (Exception $e) {
+		lost();
+		return;
+	}
+
 	if ($exercise->getExerciseStatus() == Status::Building->value || $exercise->getExerciseStatus() == Status::Closed->value)
 	{
 		$exercise->delete();
