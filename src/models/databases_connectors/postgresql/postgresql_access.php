@@ -55,4 +55,8 @@ class PostgresqlAccess implements DatabasesAccess
 		$result = $this->postgresql->select('UPDATE exercises set status=:status WHERE id = :id', [':id' => $id, ':status' => $status->value]);
 		return $result;
 	}
+	public function getFieldsCount(int $exercise_id): int
+	{
+		return $this->postgresql->select('SELECT COUNT(id) FROM fields WHERE exercise_id = :exercise_id', [':exercise_id' => $exercise_id])[0][0];
+	}
 }
