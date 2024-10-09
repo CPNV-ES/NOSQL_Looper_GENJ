@@ -71,7 +71,6 @@ class Exercises
 
 	public function getFieldsCount(): int
 	{
-		$array_field = [];
 		return $this->database_access->getFieldsCount($this->id);
 	}
 }
