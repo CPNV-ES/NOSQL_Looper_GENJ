@@ -27,4 +27,12 @@ interface DatabasesAccess
 	public function setFieldLabel(int $id, string $label): void;
 
 	public function setFieldKind(int $id, int $kind): void;
+
+	public function deleteExercise(int $id): void;
+
+	public function getExerciseStatus(int $id): int;
+
+	public function setExerciseStatus(int $id, int $status);
+
+	public function getFieldsCount(int $exercise_id): int;
 }

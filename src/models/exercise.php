@@ -60,6 +60,11 @@ class Exercise
 		return $this->database_access->isFieldInExercise($this->id, $field->getId());
 	}
 
+	public function delete()
+	{
+		$this->database_access->deleteExercise($this->id);
+	}
+
 	public static function getExercises(Status $status = null)
 	{
 		$database_access = (new DatabasesChoose())->getDatabase();
@@ -77,5 +82,20 @@ class Exercise
 		}
 
 		return $exercises;
+	}
+
+	public function getStatus(): Status
+	{
+		return Status::from($this->database_access->getExerciseStatus($this->id));
+	}
+
+	public function setExerciseAs(Status $status)
+	{
+		$this->database_access->setExerciseStatus($this->id, $status->value);
+	}
+
+	public function getFieldsCount(): int
+	{
+		return $this->database_access->getFieldsCount($this->id);
 	}
 }
