@@ -26,6 +26,6 @@ function deleteExercise($id)
 	if ($exercise->getExerciseStatus() == Status::Building->value || $exercise->getExerciseStatus() == Status::Closed->value)
 	{
 		$exercise->delete();
-	} 
+	}
 	header('Location: /exercises');
 }
