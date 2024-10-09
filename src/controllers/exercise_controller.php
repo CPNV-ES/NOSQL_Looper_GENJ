@@ -17,14 +17,12 @@ function deleteExercise($id)
 {
 	try {
 		$exercise = new Exercises($id);
-	}
-	catch (Exception $e) {
+	} catch (Exception $e) {
 		lost();
 		return;
 	}
 
-	if ($exercise->getExerciseStatus() == Status::Building->value || $exercise->getExerciseStatus() == Status::Closed->value)
-	{
+	if ($exercise->getExerciseStatus() == Status::Building->value || $exercise->getExerciseStatus() == Status::Closed->value) {
 		$exercise->delete();
 	}
 	header('Location: /exercises');
