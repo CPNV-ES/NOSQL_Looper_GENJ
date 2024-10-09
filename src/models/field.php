@@ -47,6 +47,16 @@ class Field
 		}
 	}
 
+	public function setLabel(string $label): void
+	{
+		$this->database_access->setFieldLabel($this->id, $label);
+	}
+
+	public function setKind(Kind $kind): void
+	{
+		$this->database_access->setFieldKind($this->id, $kind->value);
+	}
+
 	public function delete()
 	{
 		$this->database_access->deleteField($this->id);

@@ -23,4 +23,8 @@ interface DatabasesAccess
 	public function deleteField(int $id): void;
 
 	public function isFieldInExercise(int $exercise_id, int $field_id): bool;
+
+	public function setFieldLabel(int $id, string $label): void;
+
+	public function setFieldKind(int $id, int $kind): void;
 }

@@ -72,6 +72,16 @@ class PostgresqlAccess implements DatabasesAccess
 		return count($this->postgresql->select('SELECT id FROM fields WHERE exercise_id = :exercise_id AND id = :field_id', [':exercise_id' => $exercise_id, ':field_id' => $field_id])) > 0;
 	}
 
+	public function setFieldLabel(int $id, string $label): void
+	{
+		$this->postgresql->modify('UPDATE fields SET label = :label WHERE id = :id RETURNING label', [':label' => $label, ':id' => $id]);
+	}
+
+	public function setFieldKind(int $id, int $kind): void
+	{
+		$this->postgresql->modify('UPDATE fields SET kind = :kind WHERE id = :id RETURNING kind', [':kind' => $kind, ':id' => $id]);
+	}
+
 	private function create_db_if_not_exist()
 	{
 		if (count($this->postgresql->select("SELECT 1 FROM information_schema.tables WHERE table_name = 'exercises'")) < 1) {
