@@ -27,13 +27,13 @@ class Postgresql
 		if ($args) {
 			$statement = $this->db->prepare($squery);
 			foreach ($args as $key => $value) {
-				$statement->bindParam( $key, $value);
+				$statement->bindParam($key, $value);
 			}
 			$statement->execute();
 		} else {
 			$this->db->exec($squery);
 		}
-		
+
 		return;
 	}
 }

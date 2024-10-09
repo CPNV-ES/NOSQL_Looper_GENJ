@@ -16,9 +16,8 @@ function createExercise()
 function deleteExercise($id)
 {
 	$exercise = new Exercises($id);
-	if ($exercise->getExerciseStatus() == Status::Building->value || $exercise->getExerciseStatus() == Status::Closed->value)
-	{
+	if ($exercise->getExerciseStatus() == Status::Building->value || $exercise->getExerciseStatus() == Status::Closed->value) {
 		$exercise->delete();
-	} 
+	}
 	header('Location: /exercises');
 }
