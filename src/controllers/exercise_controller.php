@@ -16,7 +16,7 @@ function createExercise()
 function setExerciseAsAnswering(int $id)
 {
 	$exercise = new Exercises($id);
-	if ($exercise->getStatus() === Status::Building) {
+	if ($exercise->getStatus() === Status::Building && $exercise->getFieldsCount() > 0) {
 		$exercise->setExerciseAs(Status::Answering);
 	}
 	header('Location: /exercises');
