@@ -40,6 +40,16 @@ class Exercises
 		return $this->database_access->getexerciseTitle($this->id);
 	}
 
+	public function getExerciseStatus()
+	{
+		return $this->database_access->getexerciseStatus($this->id);
+	}
+
+	public function delete()
+	{
+		$this->database_access->deleteExercise($this->id);
+	}
+
 	public static function getExercises(Status $status = null)
 	{
 		$database_access = (new DatabasesChoose())->getDatabase();

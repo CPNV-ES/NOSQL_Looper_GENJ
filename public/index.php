@@ -30,6 +30,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
 function getRedirection($redirect_uri)
 {
+	if (preg_match("/^\/exercises\/([0-9]+)$/", $redirect_uri, $str)) {
+		deleteExercise($str[1]);
+		return;
+	}
 	switch ($redirect_uri) {
 		case '/':
 			home();
