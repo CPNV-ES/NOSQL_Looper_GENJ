@@ -10,6 +10,7 @@ define('MODEL_DIR', SOURCE_DIR . '/models');
 
 require BASE_DIR . '/vendor/autoload.php';
 require CONTROLLER_DIR . '/error.php';
+require MODEL_DIR . '/exceptions/looper_exception.php';
 require MODEL_DIR . '/router.php';
 
 $_ENV = parse_ini_file(BASE_DIR . '/.env');
