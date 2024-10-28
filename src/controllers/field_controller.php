@@ -25,7 +25,7 @@ class FieldController
 
 		try {
 			$exercise = new Exercise($exercise_id);
-		} catch (Exception $e) {
+		} catch (ExerciseNotFoundException $e) {
 			lost();
 			return;
 		}
@@ -48,7 +48,7 @@ class FieldController
 			if ($exercise->isFieldInExercise($field)) {
 				$field->delete();
 			}
-		} catch (Exception) {
+		} catch (ExerciseNotFoundException | FieldNotFoundException) {
 			lost();
 			return;
 		}
@@ -64,7 +64,7 @@ class FieldController
 		try {
 			$exercise = new Exercise($exercise_id);
 			$field = new Field($field_id);
-		} catch (Exception) {
+		} catch (ExerciseNotFoundException | FieldNotFoundException) {
 			lost();
 			return;
 		}

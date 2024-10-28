@@ -21,7 +21,7 @@ class Field
 		$this->database_access = (new DatabasesChoose())->getDatabase();
 
 		if (!$this->database_access->doesFieldExist($id)) {
-			throw new Exception('Field Does Not Exist');
+			throw new FieldNotFoundException('Field Does Not Exist');
 		}
 	}
 
@@ -60,5 +60,14 @@ class Field
 	public function delete()
 	{
 		$this->database_access->deleteField($this->id);
+	}
+}
+
+class FieldNotFoundException extends Exception
+{
+	public function __construct($message = 'The field does not exist', $code = 0, Exception $previous = null)
+	{
+		// Make sure everything is assigned properly
+		parent::__construct($message, $code, $previous);
 	}
 }

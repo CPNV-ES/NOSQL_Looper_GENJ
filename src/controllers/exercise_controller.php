@@ -31,7 +31,7 @@ class ExerciseController
 	{
 		try {
 			$exercise = new Exercise($id);
-		} catch (Exception $e) {
+		} catch (ExerciseNotFoundException $e) {
 			lost();
 			return;
 		}
@@ -52,7 +52,7 @@ class ExerciseController
 		$exercise = null;
 		try {
 			$exercise = new Exercise($id);
-		} catch (Exception) {
+		} catch (ExerciseNotFoundException) {
 			lost();
 			return;
 		}

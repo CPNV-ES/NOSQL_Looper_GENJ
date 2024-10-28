@@ -57,7 +57,7 @@ class Navigation
 		try {
 			$exercise = new Exercise($exerciseId);
 			$field = new Field($id);
-		} catch (Exception $e) {
+		} catch (ExerciseNotFoundException | FieldNotFoundException) {
 			lost();
 			return;
 		}
