@@ -31,7 +31,6 @@ class ExerciseController
 	{
 		$exercise = new Exercise($id);
 
-
 		if ($exercise->getStatus() == Status::Building || $exercise->getStatus() == Status::Closed) {
 			$exercise->delete();
 		}

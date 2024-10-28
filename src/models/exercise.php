@@ -105,6 +105,6 @@ class ExerciseNotFoundException extends LooperException
 	public function __construct($message = 'The exercise does not exist', $code = 0, Exception $previous = null)
 	{
 		// Make sure everything is assigned properly
-		parent::__construct(404,"Exercise not found",$message, $code, $previous);
+		parent::__construct(404, 'Exercise not found', $message, $code, $previous);
 	}
 }

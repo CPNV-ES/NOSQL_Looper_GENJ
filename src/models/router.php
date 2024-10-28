@@ -57,8 +57,7 @@ class Router
 				}
 				try {
 					eval('$inst->' . $method . ';');
-				} catch (LooperException $e)
-				{
+				} catch (LooperException $e) {
 					lost($e->getReturnCode(), $e->getErrorMessage());
 				}
 				return true;
