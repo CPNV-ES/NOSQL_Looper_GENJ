@@ -102,9 +102,9 @@ class Exercise
 
 class ExerciseNotFoundException extends Exception
 {
-    public function __construct($message = "The exercise does not exist", $code = 0, Exception $previous = null)
-    {
-        // Make sure everything is assigned properly
-        parent::__construct($message, $code, $previous);
-    }
+	public function __construct($message = 'The exercise does not exist', $code = 0, Exception $previous = null)
+	{
+		// Make sure everything is assigned properly
+		parent::__construct($message, $code, $previous);
+	}
 }
