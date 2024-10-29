@@ -67,7 +67,6 @@ class FieldNotFoundException extends LooperException
 {
 	public function __construct($message = 'The field does not exist', $code = 0, Exception $previous = null)
 	{
-		// Make sure everything is assigned properly
 		parent::__construct(404, 'Field not found', $message, $code, $previous);
 	}
 }
