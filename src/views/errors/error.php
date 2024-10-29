@@ -1,5 +1,5 @@
 <?php
-$title = 'Bad Request';
+$title = $error_message;
 
 http_response_code($return_code);
 
