@@ -21,7 +21,7 @@ class Field
 		$this->database_access = (new DatabasesChoose())->getDatabase();
 
 		if (!$this->database_access->doesFieldExist($id)) {
-			throw new FieldNotFoundException('Field Does Not Exist');
+			throw new FieldNotFoundException();
 		}
 	}
 
