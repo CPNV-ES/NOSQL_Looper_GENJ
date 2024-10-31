@@ -32,13 +32,13 @@ Table fulfillments {
 
 Table fulfillments_data {
   id serial [primary key]
-  fulfilment_id integer
+  fulfillment_id integer
   field_id integer
   body text //raw data with \n to separate lines
 }
 
 Ref: fields.exercise_id > exercises.id
 Ref: fulfillments.exercise_id > exercises.id
-Ref: fulfillments.id < fulfillments_data.fulfilment_id
+Ref: fulfillments.id < fulfillments_data.fulfillment_id
 Ref: fields.id < fulfillments_data.field_id
 ```
