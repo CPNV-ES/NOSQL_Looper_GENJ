@@ -2,6 +2,7 @@
 
 require_once MODEL_DIR . '/databases_connectors/databases_choose.php';
 require_once MODEL_DIR . '/field.php';
+require_once MODEL_DIR . '/fulfillment.php';
 
 enum Status: int
 {
@@ -52,7 +53,7 @@ class Exercise
 
 	public function createField(string $label, Kind $kind): Field
 	{
-		return (new Field($this->database_access->createField($this->id, $label, $kind->value)));
+		return new Field($this->database_access->createField($this->id, $label, $kind->value));
 	}
 
 	public function isFieldInExercise(Field $field): bool
@@ -97,5 +98,10 @@ class Exercise
 	public function getFieldsCount(): int
 	{
 		return $this->database_access->getFieldsCount($this->id);
+	}
+
+	public function createFulfillment(): Fulfillment
+	{
+		return new Fulfillment($this->database_access->createFulfillment($this->id));
 	}
 }
