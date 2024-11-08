@@ -12,31 +12,31 @@ $entry = [
 
 class FulfillmentController
 {
-    public function createFulfillment(int $exercise_id)
+	public function createFulfillment(int $exercise_id)
 	{
-        if (!isset($_POST['fulfillment']['answers_attributes'])){
-            badRequest();
-            return;
-        }
+		if (!isset($_POST['fulfillment']['answers_attributes'])) {
+			badRequest();
+			return;
+		}
 
 		$exercise = new Exercise($exercise_id);
 
 		$fields = $exercise->getFields();
 
-		foreach($_POST['fulfillment']['answers_attributes'] as $answers_attribute) {
-			if(!isset($answers_attribute["field_id"], $answers_attribute["value"])) {
+		foreach ($_POST['fulfillment']['answers_attributes'] as $answers_attribute) {
+			if (!isset($answers_attribute['field_id'], $answers_attribute['value'])) {
 				badRequest();
-            	return;
+				return;
 			}
-			if(!$exercise->isFieldInExercise(new Field($answers_attribute["field_id"]))) {
+			if (!$exercise->isFieldInExercise(new Field($answers_attribute['field_id']))) {
 				badRequest();
-            	return;
+				return;
 			}
 		}
 		$fulfillment = $exercise->createFulfillment();
 
-		foreach($fields as $field) {
-			$fulfillment->createFields($field, $_POST['fulfillment']['answers_attributes'][$field->getId()]["value"]);
+		foreach ($fields as $field) {
+			$fulfillment->createFields($field, $_POST['fulfillment']['answers_attributes'][$field->getId()]['value']);
 		}
 
 		header('Location: /exercises/' . $exercise->getId() . '/fulfillments/' . $fulfillment->getId() . '/edit');

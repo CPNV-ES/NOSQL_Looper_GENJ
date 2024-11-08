@@ -63,7 +63,8 @@ class Navigation
 		include VIEW_DIR . '/edit_a_field.php';
 	}
 
-	public function take(int $exercise_id) {
+	public function take(int $exercise_id)
+	{
 		$edit_take = false;
 		$exercise = new Exercise($exercise_id);
 
