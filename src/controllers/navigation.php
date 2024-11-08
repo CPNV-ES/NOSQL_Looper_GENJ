@@ -53,15 +53,8 @@ class Navigation
 
 	public function editAField(int $exercise_id, int $id)
 	{
-		$exercise = null;
-		$field = null;
-		try {
-			$exercise = new Exercise($exercise_id);
-			$field = new Field($id);
-		} catch (Exception $e) {
-			lost();
-			return;
-		}
+		$exercise = new Exercise($exercise_id);
+		$field = new Field($id);
 
 		if (!$exercise->isFieldInExercise($field)) {
 			lost();

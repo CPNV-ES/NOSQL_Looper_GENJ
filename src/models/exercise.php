@@ -20,7 +20,7 @@ class Exercise
 	{
 		$this->database_access = (new DatabasesChoose())->getDatabase();
 		if (!$this->database_access->doesExerciseExist($id)) {
-			throw new Exception('The exercise does not exist');
+			throw new ExerciseNotFoundException();
 		}
 
 		$this->id = $id;
@@ -103,5 +103,14 @@ class Exercise
 	public function createFulfillment(): Fulfillment
 	{
 		return new Fulfillment($this->database_access->createFulfillment($this->id));
+	}
+}
+
+class ExerciseNotFoundException extends LooperException
+{
+	public function __construct($message = 'The exercise does not exist', $code = 0, Exception $previous = null)
+	{
+		// Make sure everything is assigned properly
+		parent::__construct(404, 'Exercise not found', $message, $code, $previous);
 	}
 }
