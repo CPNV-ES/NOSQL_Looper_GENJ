@@ -48,9 +48,6 @@ class FieldController
 
 	public function editField(int $exercise_id, int $field_id)
 	{
-		$exercise = null;
-		$field = null;
-
 		$exercise = new Exercise($exercise_id);
 		$field = new Field($field_id);
 

@@ -10,6 +10,7 @@ $entry = [
 			'/exercises/answering' => 'takeAnExercises()',
 			'/exercises/new' => 'createAnExercises()',
 			'/exercises/:id:int/fields' => 'manageField(:id:int)',
+			'/exercises/:id:int/fulfillments/new' => 'take(:id:int)',
 			'/exercises/:id:int/fields/:idFields:int/edit' => 'editAField(:id:int, :idFields:int)'
 		]
 	]
@@ -50,11 +51,9 @@ class Navigation
 		include VIEW_DIR . '/manage_field.php';
 	}
 
-	public function editAField(int $exerciseId, int $id)
+	public function editAField(int $exercise_id, int $id)
 	{
-		$exercise = null;
-		$field = null;
-		$exercise = new Exercise($exerciseId);
+		$exercise = new Exercise($exercise_id);
 		$field = new Field($id);
 
 		if (!$exercise->isFieldInExercise($field)) {
@@ -62,5 +61,15 @@ class Navigation
 		}
 
 		include VIEW_DIR . '/edit_a_field.php';
+	}
+
+	public function take(int $exercise_id)
+	{
+		$edit_take = false;
+		$exercise = new Exercise($exercise_id);
+
+		$fields = $exercise->getFields();
+
+		include VIEW_DIR . '/take.php';
 	}
 }

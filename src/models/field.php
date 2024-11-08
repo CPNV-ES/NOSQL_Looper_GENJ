@@ -11,7 +11,7 @@ enum Kind: int
 
 class Field
 {
-	private DatabasesAccess $database_access;
+	protected DatabasesAccess $database_access;
 	private int $id;
 
 	public function __construct(int $id)
