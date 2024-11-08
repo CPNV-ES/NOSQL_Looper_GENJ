@@ -16,6 +16,16 @@ interface DatabasesAccess
 
 	public function doesFieldExist(int $id): bool;
 
+	public function doesFulfillmentExist(int $id): bool;
+
+	public function getFulfillmentFields(int $id): array;
+
+	public function getFulfillmentBody(int $field_id, int $fulfillment_id): string;
+
+	public function createFulfillment(int $exercise_id): int;
+
+	public function createFulfillmentField(int $field_id, int $fulfillment_id, string $body): void;
+
 	public function getFieldLabel(int $id): string;
 
 	public function getFieldKind(int $id): int;
