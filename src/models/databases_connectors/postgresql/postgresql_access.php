@@ -73,6 +73,11 @@ class PostgresqlAccess implements DatabasesAccess
 		return $this->postgresql->select('SELECT fulfillments.creation_date FROM fulfillments WHERE fulfillments.id = :id', [':id' => $id])[0][0];
 	}
 
+	public function setFulfillmentBody(int $field_id, int $fulfillment_id, string $body): void
+	{
+		$this->postgresql->modify('UPDATE fulfillments_data SET body = :body WHERE fulfillment_id = :id AND field_id = :field_id', [':id' => $fulfillment_id, ':field_id' => $field_id, ':body' => $body]);
+	}
+
 	public function createFulfillment(int $exercise_id): int
 	{
 		return (int)$this->postgresql->select('INSERT INTO fulfillments(exercise_id) VALUES (:exercise_id) RETURNING id', [':exercise_id' => $exercise_id])[0][0];
@@ -111,6 +116,11 @@ class PostgresqlAccess implements DatabasesAccess
 	public function isFieldInExercise(int $exercise_id, int $field_id): bool
 	{
 		return count($this->postgresql->select('SELECT id FROM fields WHERE exercise_id = :exercise_id AND id = :field_id', [':exercise_id' => $exercise_id, ':field_id' => $field_id])) > 0;
+	}
+
+	public function isFulfillmentInExercise(int $exercise_id, int $fulfillment_id): bool
+	{
+		return count($this->postgresql->select('SELECT id FROM fulfillments WHERE exercise_id = :exercise_id AND id = :fulfillment_id', [':exercise_id' => $exercise_id, ':fulfillment_id' => $fulfillment_id])) > 0;
 	}
 
 	public function setFieldLabel(int $id, string $label): void

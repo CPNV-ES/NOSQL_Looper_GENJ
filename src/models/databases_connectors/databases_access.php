@@ -24,6 +24,8 @@ interface DatabasesAccess
 
 	public function getFulfillmentTimestamp(int $id);
 
+	public function setFulfillmentBody(int $field_id, int $fulfillment_id, string $body): void;
+
 	public function createFulfillment(int $exercise_id): int;
 
 	public function getFulfillments(int $exercise_id);
@@ -39,6 +41,8 @@ interface DatabasesAccess
 	public function deleteField(int $id): void;
 
 	public function isFieldInExercise(int $exercise_id, int $field_id): bool;
+
+	public function isFulfillmentInExercise(int $exercise_id, int $fulfillment_id): bool;
 
 	public function setFieldLabel(int $id, string $label): void;
 
