@@ -11,7 +11,8 @@ $entry = [
 			'/exercises/new' => 'createAnExercises()',
 			'/exercises/:id:int/fields' => 'manageField(:id:int)',
 			'/exercises/:id:int/fulfillments/new' => 'take(:id:int)',
-			'/exercises/:id:int/fields/:idFields:int/edit' => 'editAField(:id:int, :idFields:int)'
+			'/exercises/:id:int/fields/:idFields:int/edit' => 'editAField(:id:int, :idFields:int)',
+			'/exercises/:id:int/results' => 'showResults(:id:int)'
 		]
 	]
 ];
@@ -71,5 +72,11 @@ class Navigation
 		$fields = $exercise->getFields();
 
 		include VIEW_DIR . '/take.php';
+	}
+
+	public function showResults(int $id)
+	{
+		$exercise = new Exercise($id);
+		include VIEW_DIR . '/show_exercise_results.php';
 	}
 }
