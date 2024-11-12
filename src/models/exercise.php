@@ -109,7 +109,7 @@ class Exercise
 	{
 		$fulfillments = [];
 		foreach ($this->database_access->getFulfillments($this->id) as $field) {
-			array_push($fulfillments , new Fulfillment($field['id']));
+			array_push($fulfillments, new Fulfillment($field['id']));
 		}
 		return $fulfillments;
 	}

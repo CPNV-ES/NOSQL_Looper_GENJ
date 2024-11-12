@@ -70,7 +70,7 @@ class PostgresqlAccess implements DatabasesAccess
 
 	public function getFulfillmentTimestamp(int $id)
 	{
-		return $this->postgresql->select('SELECT fulfillments.creation_date FROM fulfillments WHERE fulfillments.id = :id',[':id' => $id])[0][0];
+		return $this->postgresql->select('SELECT fulfillments.creation_date FROM fulfillments WHERE fulfillments.id = :id', [':id' => $id])[0][0];
 	}
 
 	public function createFulfillment(int $exercise_id): int
@@ -82,6 +82,7 @@ class PostgresqlAccess implements DatabasesAccess
 	{
 		return $this->postgresql->select('SELECT id FROM public.fulfillments WHERE exercise_id = :exercise_id ORDER BY creation_date ASC ', [':exercise_id' => $exercise_id]);
 	}
+
 	public function createFulfillmentField(int $field_id, int $fulfillment_id, string $body): void
 	{
 		$this->postgresql->modify('INSERT INTO fulfillments_data(field_id, fulfillment_id, body) VALUES (:field_id, :fulfillment_id, :body)', [':field_id' => $field_id, ':fulfillment_id' => $fulfillment_id, ':body' => $body]);
