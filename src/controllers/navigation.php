@@ -11,7 +11,8 @@ $entry = [
 			'/exercises/new' => 'createAnExercises()',
 			'/exercises/:id:int/fields' => 'manageField(:id:int)',
 			'/exercises/:id:int/fulfillments/new' => 'take(:id:int)',
-			'/exercises/:id:int/fields/:idFields:int/edit' => 'editAField(:id:int, :idFields:int)'
+			'/exercises/:id:int/fields/:idFields:int/edit' => 'editAField(:id:int, :idFields:int)',
+			'/exercises/:id:int/fulfillments/:idFulfillments:int/edit' => 'editFulfillment(:id:int, :idFulfillments:int)'
 		]
 	]
 ];
@@ -69,6 +70,20 @@ class Navigation
 		$exercise = new Exercise($exercise_id);
 
 		$fields = $exercise->getFields();
+
+		include VIEW_DIR . '/take.php';
+	}
+
+	public function editFulfillment(int $exercise_id, int $fulfillment_id)
+	{
+		$exercise = new Exercise($exercise_id);
+		$fulfillment = new Fulfillment($fulfillment_id);
+
+		$fields = $fulfillment->getFields();
+
+		if (!$exercise->isFulfillmentInExercise($fulfillment)) {
+			lost();
+		}
 
 		include VIEW_DIR . '/take.php';
 	}
