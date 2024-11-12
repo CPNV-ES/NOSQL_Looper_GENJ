@@ -7,7 +7,7 @@ ob_start();
 	<section class="container">
 		<a href="/"><img src="/assets/img/logo.png"></a>
 		<span class="exercise-label">Exercise: <a
-				href="/exercises/<?=$exercise->Id?>/results"><?=$exercise->Name?></a></span>
+				href="/exercises/<?=$exercise->getId()?>/results"><?=$exercise->getTitle()?></a></span>
 	</section>
 </header>
 <main class="container">
@@ -15,7 +15,7 @@ ob_start();
 		<thead>
 			<tr>
 				<th>Take</th>
-				<?php foreach ($exercise->fields as $i => $field): ?>
+				<?php foreach ($exercise->getFields() as $i => $field): ?>
 				<th><a
 						href="/exercises/<?=$exercise->Id?>/results/<?=$field->Id?>"><?=$i + 1?></a>
 				</th>
@@ -23,13 +23,13 @@ ob_start();
 			</tr>
 		</thead>
 		<tbody>
-			<?php foreach ($exercise->$fulfillments as $fulfillment) : ?>
+			<?php foreach ($exercise->getFulfillments() as $fulfillment) : ?>
 			<tr>
 				<td><a
-						href="/exercises/<?=$exercise->Id?>/fulfillments/<?=$fulfillment->Id?>"><?=$fulfillment->timestamp?></a>
+						href="/exercises/<?=$exercise->getId()?>/fulfillments/<?=$fulfillment->getId()?>"><?=$fulfillment->getTimestamp()?></a>
 				</td>
-				<?php foreach ($exercise->fields as $field):
-					$len = strlen($fulfillment->getData($field->id));
+				<?php foreach ($exercise->getFields() as $i => $field):
+					$len = strlen($fulfillment->getFields()[$i]->getBody());
 					if ($len == 0):?>
 				<td class="answer"><i class="fa fa-times empty"></i></td>
 				<?php elseif ($len > 10):?>
