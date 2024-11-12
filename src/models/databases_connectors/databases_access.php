@@ -22,7 +22,11 @@ interface DatabasesAccess
 
 	public function getFulfillmentBody(int $field_id, int $fulfillment_id): string;
 
+	public function getFulfillmentTimestamp(int $id);
+
 	public function createFulfillment(int $exercise_id): int;
+
+	public function getFulfillments(int $exercise_id);
 
 	public function createFulfillmentField(int $field_id, int $fulfillment_id, string $body): void;
 

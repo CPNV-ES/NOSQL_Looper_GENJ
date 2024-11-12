@@ -25,6 +25,11 @@ class Fulfillment
 		return $this->id;
 	}
 
+	public function getTimestamp()
+	{
+		return $this->database_access->getFulfillmentTimestamp($this->id);
+	}
+
 	public function createFields(Field $field, string $body)
 	{
 		$this->database_access->createFulfillmentField($field->getId(), $this->id, $body);
