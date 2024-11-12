@@ -60,12 +60,17 @@ class PostgresqlAccess implements DatabasesAccess
 
 	public function getFulfillmentFields(int $id): array
 	{
-		return $this->postgresql->select('SELECT fulfillments_data.field_id FROM fulfillments INNER JOIN fulfillments_data ON fulfillments.id = fulfillments_data.fulfillment_id WHERE id = :id ', [':id' => $id]);
+		return $this->postgresql->select('SELECT fulfillments_data.field_id FROM fulfillments INNER JOIN fulfillments_data ON fulfillments.id = fulfillments_data.fulfillment_id WHERE fulfillments.id = :id ', [':id' => $id]);
 	}
 
 	public function getFulfillmentBody(int $field_id, int $fulfillment_id): string
 	{
 		return $this->postgresql->select('SELECT fulfillments_data.body FROM fulfillments INNER JOIN fulfillments_data ON fulfillments.id = fulfillments_data.fulfillment_id WHERE fulfillments.id = :id AND fulfillments_data.field_id = :field_id', [':id' => $fulfillment_id, ':field_id' => $field_id])[0][0];
+	}
+
+	public function setFulfillmentBody(int $field_id, int $fulfillment_id, string $body): void
+	{
+		$this->postgresql->modify('UPDATE fulfillments_data SET body = :body WHERE fulfillment_id = :id AND field_id = :field_id', [':id' => $fulfillment_id, ':field_id' => $field_id, ':body' => $body]);
 	}
 
 	public function createFulfillment(int $exercise_id): int
@@ -101,6 +106,11 @@ class PostgresqlAccess implements DatabasesAccess
 	public function isFieldInExercise(int $exercise_id, int $field_id): bool
 	{
 		return count($this->postgresql->select('SELECT id FROM fields WHERE exercise_id = :exercise_id AND id = :field_id', [':exercise_id' => $exercise_id, ':field_id' => $field_id])) > 0;
+	}
+
+	public function isFulfillmentInExercise(int $exercise_id, int $fulfillment_id): bool 
+	{
+		return count($this->postgresql->select('SELECT id FROM fulfillments WHERE exercise_id = :exercise_id AND id = :fulfillment_id', [':exercise_id' => $exercise_id, ':fulfillment_id' => $fulfillment_id])) > 0;
 	}
 
 	public function setFieldLabel(int $id, string $label): void
