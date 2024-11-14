@@ -23,9 +23,9 @@ ob_start();
 		</thead>
 
 		<tbody>
-			<?php foreach ($exercise->getFulfillments() as $fulfillment) : 
-			$fulfillmentField = new FulfillmentField($field->getId(), $fulfillment->getId());	
-			?>
+			<?php foreach ($exercise->getFulfillments() as $fulfillment) :
+				$fulfillmentField = new FulfillmentField($field->getId(), $fulfillment->getId());
+				?>
 			<tr>
 				<td><a href="/exercises/<?=$exercise->getId()?>/fulfillments/<?=$fulfillment->getId()?>"><?=$fulfillment->getTimestamp()?></a></td>
 				<td><?=$fulfillmentField->getBody()?></td>
