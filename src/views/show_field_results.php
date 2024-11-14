@@ -12,7 +12,7 @@ ob_start();
 </header>
 
 <main class="container">
-	<h1><?= $field->getId()?></h1>
+	<h1><?= $field->getLabel()?></h1>
 
 	<table>
 		<thead>

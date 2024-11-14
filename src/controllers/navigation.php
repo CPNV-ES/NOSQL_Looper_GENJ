@@ -87,6 +87,12 @@ class Navigation
 	{
 		$exercise = new Exercise($exercise_id);
 		$field = new Field($field_id);
+
+		if (!$exercise->isFieldInExercise($field)) {
+			lost();
+			return;
+		}
+
 		include VIEW_DIR . '/show_field_results.php';
 	}
 

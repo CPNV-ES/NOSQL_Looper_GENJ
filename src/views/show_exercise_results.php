@@ -15,9 +15,9 @@ ob_start();
 		<thead>
 			<tr>
 				<th>Take</th>
-				<?php foreach ($exercise->getFields() as $i => $field): ?>
+				<?php foreach ($exercise->getFields() as $field): ?>
 				<th><a
-						href="/exercises/<?=$exercise->getId()?>/results/<?=$field->getId()?>"><?=$i + 1?></a>
+						href="/exercises/<?=$exercise->getId()?>/results/<?=$field->getId()?>"><?=$field->getLabel()?></a>
 				</th>
 				<?php endforeach; ?>
 			</tr>
