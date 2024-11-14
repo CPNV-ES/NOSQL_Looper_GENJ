@@ -12,7 +12,7 @@ ob_start();
 </header>
 
 <main class="container">
-	<h1>10</h1>
+	<h1><?= $field->getId()?></h1>
 
 	<table>
 		<thead>
