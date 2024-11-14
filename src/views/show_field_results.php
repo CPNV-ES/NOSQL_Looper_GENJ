@@ -7,7 +7,7 @@ ob_start();
 <header class="heading results">
 	<section class="container">
 		<a href="/"><img src="/assets/img/logo.png"></a>
-		<span class="exercise-label">Exercise: <a href="/exercises/<?=$exercise->id?>/results"><?=$exercise->title?></a></span>
+		<span class="exercise-label">Exercise: <a href="/exercises/<?=$exercise->getId()?>/results"><?=$exercise->getTitle()?></a></span>
 	</section>
 </header>
 
@@ -23,10 +23,12 @@ ob_start();
 		</thead>
 
 		<tbody>
-			<?php foreach ($exercise->$fulfillments as $fulfillment) : ?>
+			<?php foreach ($exercise->getFulfillments() as $fulfillment) : 
+			$fulfillmentField = new FulfillmentField($field->getId(), $fulfillment->getId());	
+			?>
 			<tr>
-				<td><a href="/exercises/<?=$exercise->Id?>/fulfillments/<?=$fulfillment->Id?>"><?=$fulfillment->timestamp?></a></td>
-				<td><?=$fulfillment->getData($field->id)?></td>
+				<td><a href="/exercises/<?=$exercise->getId()?>/fulfillments/<?=$fulfillment->getId()?>"><?=$fulfillment->getTimestamp()?></a></td>
+				<td><?=$fulfillmentField->getBody()?></td>
 			</tr>
 			<?php endforeach; ?>
 		</tbody>
