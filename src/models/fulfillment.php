@@ -16,7 +16,7 @@ class Fulfillment
 		$this->database_access = (new DatabasesChoose())->getDatabase();
 
 		if (!$this->database_access->doesFulfillmentExist($id)) {
-			throw new Exception('Fulfillment Does Not Exist');
+			throw new FulfillmentNotFoundException();
 		}
 	}
 
@@ -46,5 +46,13 @@ class Fulfillment
 		}
 
 		return $fulfillment;
+	}
+}
+
+class FulfillmentNotFoundException extends LooperException
+{
+	public function __construct($message = 'The fulfillment does not exist', $code = 0, Exception $previous = null)
+	{
+		parent::__construct(404, 'fulfillment not found', $message, $code, $previous);
 	}
 }

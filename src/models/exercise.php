@@ -61,6 +61,11 @@ class Exercise
 		return $this->database_access->isFieldInExercise($this->id, $field->getId());
 	}
 
+	public function isFulfillmentInExercise(Fulfillment $fulfillment): bool
+	{
+		return $this->database_access->isFulfillmentInExercise($this->id, $fulfillment->getId());
+	}
+
 	public function delete()
 	{
 		$this->database_access->deleteExercise($this->id);
