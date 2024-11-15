@@ -13,7 +13,7 @@ class FulfillmentField extends Field
 		$this->fulfillment_id = $fulfillment_id;
 
 		if (!$this->database_access->doesFulfillmentExist($fulfillment_id)) {
-			throw new Exception('Fulfillment Does Not Exist');
+			throw new FulfillmentNotFoundException();
 		}
 	}
 

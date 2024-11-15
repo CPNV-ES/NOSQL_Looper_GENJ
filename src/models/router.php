@@ -78,6 +78,9 @@ class Router
 
 		foreach ($route_splitted as $key => $value) {
 			if ($value != $request_method_splitted[$key]) {
+				if (empty($value)) {
+					return false;
+				}
 				if ($value[0] == ':') {
 					if (!$this->checkRegexAndTypeMatch($value, $request_method_splitted[$key])) {
 						return false;

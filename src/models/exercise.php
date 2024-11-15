@@ -109,6 +109,15 @@ class Exercise
 	{
 		return new Fulfillment($this->database_access->createFulfillment($this->id));
 	}
+
+	public function getFulfillments()
+	{
+		$fulfillments = [];
+		foreach ($this->database_access->getFulfillments($this->id) as $field) {
+			array_push($fulfillments, new Fulfillment($field['id']));
+		}
+		return $fulfillments;
+	}
 }
 
 class ExerciseNotFoundException extends LooperException
