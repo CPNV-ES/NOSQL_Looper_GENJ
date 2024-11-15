@@ -83,6 +83,7 @@ class Navigation
 
 		if (!$exercise->isFulfillmentInExercise($fulfillment)) {
 			lost();
+			return;
 		}
 
 		include VIEW_DIR . '/take.php';
