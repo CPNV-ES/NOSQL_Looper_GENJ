@@ -108,7 +108,7 @@ class PostgresqlAccess implements DatabasesAccess
 		return count($this->postgresql->select('SELECT id FROM fields WHERE exercise_id = :exercise_id AND id = :field_id', [':exercise_id' => $exercise_id, ':field_id' => $field_id])) > 0;
 	}
 
-	public function isFulfillmentInExercise(int $exercise_id, int $fulfillment_id): bool 
+	public function isFulfillmentInExercise(int $exercise_id, int $fulfillment_id): bool
 	{
 		return count($this->postgresql->select('SELECT id FROM fulfillments WHERE exercise_id = :exercise_id AND id = :fulfillment_id', [':exercise_id' => $exercise_id, ':fulfillment_id' => $fulfillment_id])) > 0;
 	}

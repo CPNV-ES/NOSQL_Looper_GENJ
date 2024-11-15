@@ -26,7 +26,7 @@ ob_start();
 			<div class="field">
 				<label
 					for="<?=$field->getId()?>"><?=$field->getLabel()?></label>
-				<?php $body = $field instanceof FulfillmentField ? $field->getBody() : "" ?>
+				<?php $body = $field instanceof FulfillmentField ? $field->getBody() : '' ?>
 				<?php if($field->getKind()->value == 0): ?>
 					<input required type="text" value="<?= $body ?>" id="<?=$field->getId()?>"
 						name="fulfillment[answers_attributes][<?=$field->getId()?>][value]">
