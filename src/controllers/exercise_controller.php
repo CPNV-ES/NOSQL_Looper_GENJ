@@ -2,18 +2,6 @@
 
 include_once MODEL_DIR . '/exercise.php';
 
-$entry = [
-	'ExerciseController()' => [
-		'GET' => [
-			'/exercises/:id:int' => 'changeStateOfExercise(:id:int)',
-			'/exercises/:id:int/delete' => 'deleteExercise(:id:int)'
-		],
-		'POST' => [
-			'/exercises' => 'createExercise()'
-		]
-	]
-];
-
 class ExerciseController
 {
 	public function createExercise()

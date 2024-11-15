@@ -26,8 +26,8 @@ CREATE TABLE "fulfillments_data" (
 
 ALTER TABLE "fields" ADD FOREIGN KEY ("exercise_id") REFERENCES "exercises" ("id") ON DELETE CASCADE;
 
-ALTER TABLE "fulfillments" ADD FOREIGN KEY ("exercise_id") REFERENCES "exercises" ("id");
+ALTER TABLE "fulfillments" ADD FOREIGN KEY ("exercise_id") REFERENCES "exercises" ("id") ON DELETE CASCADE;
 
-ALTER TABLE "fulfillments_data" ADD FOREIGN KEY ("fulfillment_id") REFERENCES "fulfillments" ("id");
+ALTER TABLE "fulfillments_data" ADD FOREIGN KEY ("fulfillment_id") REFERENCES "fulfillments" ("id") ON DELETE CASCADE;
 
-ALTER TABLE "fulfillments_data" ADD FOREIGN KEY ("field_id") REFERENCES "fields" ("id");
+ALTER TABLE "fulfillments_data" ADD FOREIGN KEY ("field_id") REFERENCES "fields" ("id") ON DELETE CASCADE;

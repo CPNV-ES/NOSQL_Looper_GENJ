@@ -2,15 +2,6 @@
 
 include_once MODEL_DIR . '/exercise.php';
 
-$entry = [
-	'FulfillmentController()' => [
-		'POST' => [
-			'/exercises/:id:int/fulfillments' => 'createFulfillment(:id:int)',
-			'/exercises/:id:int/fulfillments/:idFulfillment:int' => 'editFulfillment(:id:int, :idFulfillment:int)'
-		]
-	]
-];
-
 class FulfillmentController
 {
 	public function createFulfillment(int $exercise_id)

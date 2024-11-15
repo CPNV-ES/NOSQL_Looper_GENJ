@@ -18,7 +18,7 @@ $_ENV = parse_ini_file(BASE_DIR . '/.env');
 $request_uri = $_SERVER['REQUEST_URI'] ?? '/';
 $request_uri = explode('?', $request_uri)[0];
 
-$router = new Router(CONTROLLER_DIR);
+$router = new Router();
 if (!$router->run($_SERVER['REQUEST_METHOD'], $request_uri)) {
 	lost();
 }
