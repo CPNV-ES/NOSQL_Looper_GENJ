@@ -2,23 +2,6 @@
 
 include_once MODEL_DIR . '/exercise.php';
 
-$entry = [
-	'Navigation()' => [
-		'GET' => [
-			'/' => 'home()',
-			'/exercises' => 'manageExercises()',
-			'/exercises/answering' => 'takeAnExercises()',
-			'/exercises/new' => 'createAnExercises()',
-			'/exercises/:id:int/fields' => 'manageField(:id:int)',
-			'/exercises/:id:int/fulfillments/new' => 'take(:id:int)',
-			'/exercises/:id:int/fields/:idFields:int/edit' => 'editAField(:id:int, :idFields:int)',			'/exercises/:id:int/results' => 'showResults(:id:int)',
-			'/exercises/:exercise:int/results/:field:int' => 'showFieldResults(:exercise:int,:field:int)',
-			'/exercises/:id:int/fulfillments/:idFulfillments:int' => 'showFulfillmentResults(:id:int, :idFulfillments:int)',
-			'/exercises/:id:int/fulfillments/:idFulfillments:int/edit' => 'editFulfillment(:id:int, :idFulfillments:int)'
-		]
-	]
-];
-
 class Navigation
 {
 	public function home()

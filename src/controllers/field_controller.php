@@ -1,16 +1,6 @@
 <?php
 
-$entry = [
-	'FieldController()' => [
-		'GET' => [
-			'/exercises/:id:int/fields/:idFields:int' => 'deleteField(:id:int, :idFields:int)'
-		],
-		'POST' => [
-			'/exercises/:id:int/fields' => 'createField(:id:int)',
-			'/exercises/:id:int/fields/:idFields:int' => 'editField(:id:int, :idFields:int)'
-		]
-	]
-];
+require_once MODEL_DIR . '/exercise.php';
 
 class FieldController
 {
