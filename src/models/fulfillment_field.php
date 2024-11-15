@@ -26,4 +26,9 @@ class FulfillmentField extends Field
 	{
 		return $this->database_access->getFulfillmentBody(parent::getId(), $this->fulfillment_id);
 	}
+
+	public function setBody(string $body)
+	{
+		$this->database_access->setFulfillmentBody(parent::getId(), $this->fulfillment_id, $body);
+	}
 }
