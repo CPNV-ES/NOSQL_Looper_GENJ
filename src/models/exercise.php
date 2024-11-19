@@ -137,7 +137,7 @@ class ExerciseNotFoundException extends LooperException
 
 class ExerciseNotInBuildingStatus extends LooperException
 {
-	public function __construct($message = 'The Exercise is not in building mode', $code = 0, Exception|null $previous = null)
+	public function __construct($message = 'The Exercise is not in building status', $code = 0, Exception|null $previous = null)
 	{
 		parent::__construct(400, 'The Exercise is not in building status', $message, $code, $previous);
 	}
@@ -145,7 +145,7 @@ class ExerciseNotInBuildingStatus extends LooperException
 
 class ExerciseNotInAnsweringStatus extends LooperException
 {
-	public function __construct($message = 'The Exercise is not in answering mode', $code = 0, Exception|null $previous = null)
+	public function __construct($message = 'The Exercise is not in answering status', $code = 0, Exception|null $previous = null)
 	{
 		parent::__construct(400, 'The Exercise is not in answering status', $message, $code, $previous);
 	}
