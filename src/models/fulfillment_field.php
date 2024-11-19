@@ -30,7 +30,7 @@ class FulfillmentField extends Field
 	public function setBody(string $body)
 	{
 		if ($this->getExercise()->getStatus() != Status::Answering) {
-			throw new ExerciseNotInAnsweringMode();
+			throw new ExerciseNotInAnsweringStatus();
 		}
 		$this->database_access->setFulfillmentBody(parent::getId(), $this->fulfillment_id, $body);
 	}

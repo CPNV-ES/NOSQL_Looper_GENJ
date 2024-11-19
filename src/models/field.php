@@ -51,7 +51,7 @@ class Field
 	public function setLabel(string $label): void
 	{
 		if ($this->getExercise()->getStatus() != Status::Building) {
-			throw new ExerciseNotInBuildingMode();
+			throw new ExerciseNotInBuildingStatus();
 		}
 		$this->database_access->setFieldLabel($this->id, $label);
 	}
@@ -59,7 +59,7 @@ class Field
 	public function setKind(Kind $kind): void
 	{
 		if ($this->getExercise()->getStatus() != Status::Building) {
-			throw new ExerciseNotInBuildingMode();
+			throw new ExerciseNotInBuildingStatus();
 		}
 		$this->database_access->setFieldKind($this->id, $kind->value);
 	}
@@ -67,7 +67,7 @@ class Field
 	public function delete()
 	{
 		if ($this->getExercise()->getStatus() != Status::Building) {
-			throw new ExerciseNotInBuildingMode();
+			throw new ExerciseNotInBuildingStatus();
 		}
 		$this->database_access->deleteField($this->id);
 	}

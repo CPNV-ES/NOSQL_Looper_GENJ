@@ -34,7 +34,7 @@ class Fulfillment
 	public function createFields(Field $field, string $body)
 	{
 		if ($this->getExercise()->getStatus() != Status::Answering) {
-			throw new ExerciseNotInAnsweringMode();
+			throw new ExerciseNotInAnsweringStatus();
 		}
 
 		$this->database_access->createFulfillmentField($field->getId(), $this->id, $body);
