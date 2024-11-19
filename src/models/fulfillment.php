@@ -3,6 +3,7 @@
 require_once MODEL_DIR . '/databases_connectors/databases_choose.php';
 require_once MODEL_DIR . '/fulfillment_field.php';
 require_once MODEL_DIR . '/field.php';
+require_once MODEL_DIR . '/exercise.php';
 
 class Fulfillment
 {
@@ -32,6 +33,10 @@ class Fulfillment
 
 	public function createFields(Field $field, string $body)
 	{
+		if ($this->getExercise()->getStatus() != Status::Answering) {
+			throw new ExerciseNotInAnsweringMode();
+		}
+
 		$this->database_access->createFulfillmentField($field->getId(), $this->id, $body);
 
 		return new FulfillmentField($field->getId(), $this->id);
@@ -46,6 +51,11 @@ class Fulfillment
 		}
 
 		return $fulfillment;
+	}
+
+	public function getExercise()
+	{
+		return new Exercise($this->database_access->getExerciseByFulfillmentId($this->id));
 	}
 }
 

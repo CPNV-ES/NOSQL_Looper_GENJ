@@ -53,6 +53,9 @@ class Exercise
 
 	public function createField(string $label, Kind $kind): Field
 	{
+		if ($this->getStatus() != Status::Building) {
+			throw new ExerciseNotInBuildingMode();
+		}
 		return new Field($this->database_access->createField($this->id, $label, $kind->value));
 	}
 
@@ -107,6 +110,9 @@ class Exercise
 
 	public function createFulfillment(): Fulfillment
 	{
+		if ($this->getStatus() != Status::Answering) {
+			throw new ExerciseNotInAnsweringMode();
+		}
 		return new Fulfillment($this->database_access->createFulfillment($this->id));
 	}
 
@@ -126,5 +132,21 @@ class ExerciseNotFoundException extends LooperException
 	{
 		// Make sure everything is assigned properly
 		parent::__construct(404, 'Exercise not found', $message, $code, $previous);
+	}
+}
+
+class ExerciseNotInBuildingMode extends LooperException
+{
+	public function __construct($message = 'The Exercise is not in building mode', $code = 0, Exception|null $previous = null)
+	{
+		parent::__construct(400, 'The Exercise is not in building mode', $message, $code, $previous);
+	}
+}
+
+class ExerciseNotInAnsweringMode extends LooperException
+{
+	public function __construct($message = 'The Exercise is not in answering mode', $code = 0, Exception|null $previous = null)
+	{
+		parent::__construct(400, 'The Exercise is not in answering mode', $message, $code, $previous);
 	}
 }

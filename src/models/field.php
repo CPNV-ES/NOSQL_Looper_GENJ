@@ -1,6 +1,7 @@
 <?php
 
 require_once MODEL_DIR . '/databases_connectors/databases_choose.php';
+require_once MODEL_DIR . '/exercise.php';
 
 enum Kind: int
 {
@@ -49,17 +50,31 @@ class Field
 
 	public function setLabel(string $label): void
 	{
+		if ($this->getExercise()->getStatus() != Status::Building) {
+			throw new ExerciseNotInBuildingMode();
+		}
 		$this->database_access->setFieldLabel($this->id, $label);
 	}
 
 	public function setKind(Kind $kind): void
 	{
+		if ($this->getExercise()->getStatus() != Status::Building) {
+			throw new ExerciseNotInBuildingMode();
+		}
 		$this->database_access->setFieldKind($this->id, $kind->value);
 	}
 
 	public function delete()
 	{
+		if ($this->getExercise()->getStatus() != Status::Building) {
+			throw new ExerciseNotInBuildingMode();
+		}
 		$this->database_access->deleteField($this->id);
+	}
+
+	public function getExercise()
+	{
+		return new Exercise($this->database_access->getExerciseByFieldId($this->id));
 	}
 }
 
