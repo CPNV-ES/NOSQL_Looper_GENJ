@@ -62,7 +62,7 @@ ob_start();
 				disabled href="#">
 				<?php else:?>
                 href="/exercises/<?= $exercise->getId() ?>?exercise%5Bstatus%5D=answering">
-				<?php endif;?>
+				<?php endif; ?>
 				
 				<i class="fa fa-comment"></i> Complete and be ready for answers</a>
 
