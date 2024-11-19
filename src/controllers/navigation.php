@@ -34,6 +34,11 @@ class Navigation
 		$exercise = new Exercise($id);
 		$fields = $exercise->getFields();
 
+		if ($exercise->getStatus() != Status::Building) {
+			unauthorized();
+			return;
+		}
+
 		include VIEW_DIR . '/manage_field.php';
 	}
 
@@ -47,6 +52,11 @@ class Navigation
 			return;
 		}
 
+		if ($exercise->getStatus() != Status::Building) {
+			unauthorized();
+			return;
+		}
+
 		include VIEW_DIR . '/edit_a_field.php';
 	}
 
@@ -56,6 +66,11 @@ class Navigation
 		$exercise = new Exercise($exercise_id);
 
 		$fields = $exercise->getFields();
+
+		if ($exercise->getStatus() != Status::Answering) {
+			unauthorized();
+			return;
+		}
 
 		include VIEW_DIR . '/take.php';
 	}
@@ -102,6 +117,11 @@ class Navigation
 
 		if (!$exercise->isFulfillmentInExercise($fulfillment)) {
 			lost();
+			return;
+		}
+
+		if ($exercise->getStatus() != Status::Answering) {
+			unauthorized();
 			return;
 		}
 

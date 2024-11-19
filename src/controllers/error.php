@@ -15,6 +15,11 @@ function badRequest($return_code = 400, $error_message = 'Bad Request')
 	include VIEW_DIR . '/errors/error.php';
 }
 
+function unauthorized($return_code = 401, $error_message = 'Unauthorized')
+{
+	include VIEW_DIR . '/errors/error.php';
+}
+
 function serverError($return_code = 500, $error_message = 'Server Error')
 {
 	include VIEW_DIR . '/errors/error.php';
