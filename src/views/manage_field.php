@@ -56,10 +56,15 @@ ob_start();
                 </tbody>
             </table>
 
-            <a data-confirm="Are you sure? You won&#39;t be able to further edit this exercise" class="button"
-                rel="nofollow" data-method="put"
-                href="/exercises/<?= $exercise->getId() ?>?exercise%5Bstatus%5D=answering"><i
-                    class="fa fa-comment"></i> Complete and be ready for answers</a>
+            <a class="button" 
+			
+				<?php if (count($exercise->getFields()) <= 0):?>
+				disabled href="#">
+				<?php else:?>
+                href="/exercises/<?= $exercise->getId() ?>?exercise%5Bstatus%5D=answering">
+				<?php endif; ?>
+				
+				<i class="fa fa-comment"></i> Complete and be ready for answers</a>
 
         </section>
         <section class="column">

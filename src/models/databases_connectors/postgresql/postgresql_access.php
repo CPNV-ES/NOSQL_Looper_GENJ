@@ -35,9 +35,9 @@ class PostgresqlAccess implements DatabasesAccess
 		return $result[0]['status'];
 	}
 
-	public function getExercises(int $status = -1): array
+	public function getExercises(int $status = ALL_EXERCISES): array
 	{
-		if ($status < 0) {
+		if ($status == ALL_EXERCISES) {
 			return $this->postgresql->select('SELECT id FROM exercises');
 		}
 		return $this->postgresql->select('SELECT id FROM exercises WHERE status = :status', [':status' => $status]);
@@ -51,6 +51,46 @@ class PostgresqlAccess implements DatabasesAccess
 	public function doesFieldExist(int $id): bool
 	{
 		return count($this->postgresql->select('SELECT id FROM fields WHERE id = :id', [':id' => $id])) > 0;
+	}
+
+	public function doesFulfillmentExist(int $id): bool
+	{
+		return count($this->postgresql->select('SELECT id FROM fulfillments WHERE id = :id', [':id' => $id])) > 0;
+	}
+
+	public function getFulfillmentFields(int $id): array
+	{
+		return $this->postgresql->select('SELECT fulfillments_data.field_id FROM fulfillments INNER JOIN fulfillments_data ON fulfillments.id = fulfillments_data.fulfillment_id WHERE fulfillments.id = :id ', [':id' => $id]);
+	}
+
+	public function getFulfillmentBody(int $field_id, int $fulfillment_id): string
+	{
+		return $this->postgresql->select('SELECT fulfillments_data.body FROM fulfillments INNER JOIN fulfillments_data ON fulfillments.id = fulfillments_data.fulfillment_id WHERE fulfillments.id = :id AND fulfillments_data.field_id = :field_id', [':id' => $fulfillment_id, ':field_id' => $field_id])[0][0];
+	}
+
+	public function getFulfillmentTimestamp(int $id)
+	{
+		return $this->postgresql->select('SELECT fulfillments.creation_date FROM fulfillments WHERE fulfillments.id = :id', [':id' => $id])[0][0];
+	}
+
+	public function setFulfillmentBody(int $field_id, int $fulfillment_id, string $body): void
+	{
+		$this->postgresql->modify('UPDATE fulfillments_data SET body = :body WHERE fulfillment_id = :id AND field_id = :field_id', [':id' => $fulfillment_id, ':field_id' => $field_id, ':body' => $body]);
+	}
+
+	public function createFulfillment(int $exercise_id): int
+	{
+		return (int)$this->postgresql->select('INSERT INTO fulfillments(exercise_id) VALUES (:exercise_id) RETURNING id', [':exercise_id' => $exercise_id])[0][0];
+	}
+
+	public function getFulfillments(int $exercise_id)
+	{
+		return $this->postgresql->select('SELECT id FROM public.fulfillments WHERE exercise_id = :exercise_id ORDER BY creation_date ASC ', [':exercise_id' => $exercise_id]);
+	}
+
+	public function createFulfillmentField(int $field_id, int $fulfillment_id, string $body): void
+	{
+		$this->postgresql->modify('INSERT INTO fulfillments_data(field_id, fulfillment_id, body) VALUES (:field_id, :fulfillment_id, :body)', [':field_id' => $field_id, ':fulfillment_id' => $fulfillment_id, ':body' => $body]);
 	}
 
 	public function getFieldLabel(int $id): string
@@ -78,6 +118,11 @@ class PostgresqlAccess implements DatabasesAccess
 		return count($this->postgresql->select('SELECT id FROM fields WHERE exercise_id = :exercise_id AND id = :field_id', [':exercise_id' => $exercise_id, ':field_id' => $field_id])) > 0;
 	}
 
+	public function isFulfillmentInExercise(int $exercise_id, int $fulfillment_id): bool
+	{
+		return count($this->postgresql->select('SELECT id FROM fulfillments WHERE exercise_id = :exercise_id AND id = :fulfillment_id', [':exercise_id' => $exercise_id, ':fulfillment_id' => $fulfillment_id])) > 0;
+	}
+
 	public function setFieldLabel(int $id, string $label): void
 	{
 		$this->postgresql->modify('UPDATE fields SET label = :label WHERE id = :id', [':label' => $label, ':id' => $id]);
@@ -102,6 +147,16 @@ class PostgresqlAccess implements DatabasesAccess
 	public function getFieldsCount(int $exercise_id): int
 	{
 		return $this->postgresql->select('SELECT COUNT(id) FROM fields WHERE exercise_id = :exercise_id', [':exercise_id' => $exercise_id])[0][0];
+	}
+
+	public function getExerciseByFieldId(int $field_id): int
+	{
+		return $this->postgresql->select('SELECT exercise_id FROM fields WHERE id = :field_id', ['field_id' => $field_id])[0][0];
+	}
+
+	public function getExerciseByFulfillmentId(int $fulfillment_id): int
+	{
+		return $this->postgresql->select('SELECT exercise_id FROM fulfillments WHERE id = :fulfillment_id', ['fulfillment_id' => $fulfillment_id])[0][0];
 	}
 
 	private function create_db_if_not_exist()

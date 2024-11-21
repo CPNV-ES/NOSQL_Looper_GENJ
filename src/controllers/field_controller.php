@@ -1,16 +1,6 @@
 <?php
 
-$entry = [
-	'FieldController()' => [
-		'GET' => [
-			'/exercises/:id:int/fields/:idFields:int' => 'deleteField(:id:int, :idFields:int)'
-		],
-		'POST' => [
-			'/exercises/:id:int/fields' => 'createField(:id:int)',
-			'/exercises/:id:int/fields/:idFields:int' => 'editField(:id:int, :idFields:int)'
-		]
-	]
-];
+require_once MODEL_DIR . '/exercise.php';
 
 class FieldController
 {
@@ -23,12 +13,7 @@ class FieldController
 
 		$exercise = null;
 
-		try {
-			$exercise = new Exercise($exercise_id);
-		} catch (Exception $e) {
-			lost();
-			return;
-		}
+		$exercise = new Exercise($exercise_id);
 
 		$kind = $this->kindStringToKindEnum($_POST['field']['value_kind']);
 
@@ -41,16 +26,11 @@ class FieldController
 	{
 		$exercise = null;
 
-		try {
-			$exercise = new Exercise($exercise_id);
-			$field = new Field($field_id);
+		$exercise = new Exercise($exercise_id);
+		$field = new Field($field_id);
 
-			if ($exercise->isFieldInExercise($field)) {
-				$field->delete();
-			}
-		} catch (Exception) {
-			lost();
-			return;
+		if ($exercise->isFieldInExercise($field)) {
+			$field->delete();
 		}
 
 		header('Location: /exercises/' . $exercise_id . '/fields');
@@ -58,16 +38,8 @@ class FieldController
 
 	public function editField(int $exercise_id, int $field_id)
 	{
-		$exercise = null;
-		$field = null;
-
-		try {
-			$exercise = new Exercise($exercise_id);
-			$field = new Field($field_id);
-		} catch (Exception) {
-			lost();
-			return;
-		}
+		$exercise = new Exercise($exercise_id);
+		$field = new Field($field_id);
 
 		if (!$exercise->isFieldInExercise($field)) {
 			lost();

@@ -1,6 +1,7 @@
 <?php
 
 require_once MODEL_DIR . '/databases_connectors/databases_choose.php';
+require_once MODEL_DIR . '/exercise.php';
 
 enum Kind: int
 {
@@ -11,7 +12,7 @@ enum Kind: int
 
 class Field
 {
-	private DatabasesAccess $database_access;
+	protected DatabasesAccess $database_access;
 	private int $id;
 
 	public function __construct(int $id)
@@ -21,7 +22,7 @@ class Field
 		$this->database_access = (new DatabasesChoose())->getDatabase();
 
 		if (!$this->database_access->doesFieldExist($id)) {
-			throw new Exception('Field Does Not Exist');
+			throw new FieldNotFoundException();
 		}
 	}
 
@@ -49,16 +50,38 @@ class Field
 
 	public function setLabel(string $label): void
 	{
+		if ($this->getExercise()->getStatus() != Status::Building) {
+			throw new ExerciseNotInBuildingStatus();
+		}
 		$this->database_access->setFieldLabel($this->id, $label);
 	}
 
 	public function setKind(Kind $kind): void
 	{
+		if ($this->getExercise()->getStatus() != Status::Building) {
+			throw new ExerciseNotInBuildingStatus();
+		}
 		$this->database_access->setFieldKind($this->id, $kind->value);
 	}
 
 	public function delete()
 	{
+		if ($this->getExercise()->getStatus() != Status::Building) {
+			throw new ExerciseNotInBuildingStatus();
+		}
 		$this->database_access->deleteField($this->id);
+	}
+
+	public function getExercise()
+	{
+		return new Exercise($this->database_access->getExerciseByFieldId($this->id));
+	}
+}
+
+class FieldNotFoundException extends LooperException
+{
+	public function __construct($message = 'The field does not exist', $code = 0, Exception $previous = null)
+	{
+		parent::__construct(404, 'Field not found', $message, $code, $previous);
 	}
 }

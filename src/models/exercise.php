@@ -2,6 +2,7 @@
 
 require_once MODEL_DIR . '/databases_connectors/databases_choose.php';
 require_once MODEL_DIR . '/field.php';
+require_once MODEL_DIR . '/fulfillment.php';
 
 enum Status: int
 {
@@ -19,7 +20,7 @@ class Exercise
 	{
 		$this->database_access = (new DatabasesChoose())->getDatabase();
 		if (!$this->database_access->doesExerciseExist($id)) {
-			throw new Exception('The exercise does not exist');
+			throw new ExerciseNotFoundException();
 		}
 
 		$this->id = $id;
@@ -52,12 +53,20 @@ class Exercise
 
 	public function createField(string $label, Kind $kind): Field
 	{
-		return (new Field($this->database_access->createField($this->id, $label, $kind->value)));
+		if ($this->getStatus() != Status::Building) {
+			throw new ExerciseNotInBuildingStatus();
+		}
+		return new Field($this->database_access->createField($this->id, $label, $kind->value));
 	}
 
 	public function isFieldInExercise(Field $field): bool
 	{
 		return $this->database_access->isFieldInExercise($this->id, $field->getId());
+	}
+
+	public function isFulfillmentInExercise(Fulfillment $fulfillment): bool
+	{
+		return $this->database_access->isFulfillmentInExercise($this->id, $fulfillment->getId());
 	}
 
 	public function delete()
@@ -97,5 +106,47 @@ class Exercise
 	public function getFieldsCount(): int
 	{
 		return $this->database_access->getFieldsCount($this->id);
+	}
+
+	public function createFulfillment(): Fulfillment
+	{
+		if ($this->getStatus() != Status::Answering) {
+			throw new ExerciseNotInAnsweringStatus();
+		}
+		return new Fulfillment($this->database_access->createFulfillment($this->id));
+	}
+
+	public function getFulfillments()
+	{
+		$fulfillments = [];
+		foreach ($this->database_access->getFulfillments($this->id) as $field) {
+			array_push($fulfillments, new Fulfillment($field['id']));
+		}
+		return $fulfillments;
+	}
+}
+
+class ExerciseNotFoundException extends LooperException
+{
+	public function __construct($message = 'The exercise does not exist', $code = 0, Exception $previous = null)
+	{
+		// Make sure everything is assigned properly
+		parent::__construct(404, 'Exercise not found', $message, $code, $previous);
+	}
+}
+
+class ExerciseNotInBuildingStatus extends LooperException
+{
+	public function __construct($message = 'The Exercise is not in building status', $code = 0, Exception|null $previous = null)
+	{
+		parent::__construct(400, 'The Exercise is not in building status', $message, $code, $previous);
+	}
+}
+
+class ExerciseNotInAnsweringStatus extends LooperException
+{
+	public function __construct($message = 'The Exercise is not in answering status', $code = 0, Exception|null $previous = null)
+	{
+		parent::__construct(400, 'The Exercise is not in answering status', $message, $code, $previous);
 	}
 }

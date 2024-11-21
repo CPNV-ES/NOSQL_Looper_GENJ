@@ -2,18 +2,6 @@
 
 include_once MODEL_DIR . '/exercise.php';
 
-$entry = [
-	'ExerciseController()' => [
-		'GET' => [
-			'/exercises/:id:int' => 'changeStateOfExercise(:id:int)',
-			'/exercises/:id:int/delete' => 'deleteExercise(:id:int)'
-		],
-		'POST' => [
-			'/exercises' => 'createExercise()'
-		]
-	]
-];
-
 class ExerciseController
 {
 	public function createExercise()
@@ -29,12 +17,7 @@ class ExerciseController
 
 	public function deleteExercise(int $id)
 	{
-		try {
-			$exercise = new Exercise($id);
-		} catch (Exception $e) {
-			lost();
-			return;
-		}
+		$exercise = new Exercise($id);
 
 		if ($exercise->getStatus() == Status::Building || $exercise->getStatus() == Status::Closed) {
 			$exercise->delete();
@@ -50,12 +33,7 @@ class ExerciseController
 		}
 
 		$exercise = null;
-		try {
-			$exercise = new Exercise($id);
-		} catch (Exception) {
-			lost();
-			return;
-		}
+		$exercise = new Exercise($id);
 
 		if ($exercise->getFieldsCount() < 1) {
 			badRequest();

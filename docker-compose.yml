@@ -12,7 +12,7 @@ services:
   php-fpm:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: php.dev.Dockerfile
     volumes:
       - ./src:/var/www/src
       - ./public:/var/www/html 

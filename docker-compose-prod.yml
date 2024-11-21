@@ -10,15 +10,16 @@ services:
       - internal
 
   php-fpm:
-    image: php:8.3.11-fpm
+    build:
+      context: .
+      dockerfile: php.prod.Dockerfile
     volumes:
       - ./src:/var/www/src
       - ./public:/var/www/html 
+      - ./.env:/var/www/.env
+      - ./vendor:/var/www/vendor
     networks:
       - internal
-    environment:
-      XDEBUG_MODE: debug
-      XDEBUG_CONFIG: client_host=host.docker.internal client_port=9003
   postgresql:
     image: postgres:16.4
     environment:
