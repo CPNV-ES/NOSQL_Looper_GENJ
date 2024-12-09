@@ -1,7 +1,7 @@
 # MAW11_Looper_GEJ 
 ## Description
 
-This is a project for the MAW11 course. We're supposed to rewrite [this website](https://maw-looper.mycpnv.ch)
+This was a project for the MAW11 course. Now for the NOSQL1 course, we were supposed to rewrite [this website](https://maw-looper.mycpnv.ch) and now add NoSQL database.
 
 ## Getting Started
 ### Prerequisites
