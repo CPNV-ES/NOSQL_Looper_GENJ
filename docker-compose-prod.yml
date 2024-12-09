@@ -30,6 +30,17 @@ services:
       - ./.pgdata:/var/lib/postgresql/data
     networks:
       - internal
+
+  mongodb:
+    image: mongodb/mongodb-community-server:7.0.5-ubuntu2204
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - ./.mongo_data:/data/db
+    networks:
+      - internal
+
 networks:
   internal:
     driver: bridge
