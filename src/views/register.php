@@ -1,9 +1,9 @@
 <?php
 
 /**
- * @author Ethann Schneider, Guillaume Aubert, Jomana Kaempf
- * @version 29.11.2024
- * @description Create an exercise view
+ * @author Ethann Schneider, Geoffroy  Wildi, Jomana Kaempf, Nathan Chauveau
+ * @version 11.12.2024
+ * @description Register view
  */
 $title = 'ExerciseLooper';
 

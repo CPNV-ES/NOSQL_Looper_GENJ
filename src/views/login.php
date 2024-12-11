@@ -1,9 +1,9 @@
 <?php
 
 /**
- * @author Ethann Schneider, Guillaume Aubert, Jomana Kaempf
- * @version 29.11.2024
- * @description Create an exercise view
+ * @author Ethann Schneider, Geoffroy  Wildi, Jomana Kaempf, Nathan Chauveau
+ * @version 11.12.2024
+ * @description Login view
  */
 $title = 'ExerciseLooper';
 
@@ -17,9 +17,24 @@ ob_start();
     </section>
 </header>
 
-<form>
+<main class="container">
+    <title>ExerciseLooper</title>
+    <h1>Login</h1>
+    <form action="/?" accept-charset="UTF-8" method="post">
+        <div class="field">
+            <label for="exercise_title">Username</label>
+            <input type="text" name="user_username" id="user_username">
+        </div>
+        <label for="exercise_title">Password</label>
+        <input type="text" name="user_password" id="user_password">
+        </div>
 
-</form>
+
+        <div class="actions">
+            <input type="submit" name="commit" value="Login">
+        </div>
+    </form>
+</main>
 
 <?php
 $content = ob_get_clean();
