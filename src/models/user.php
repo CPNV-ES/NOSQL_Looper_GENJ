@@ -11,7 +11,8 @@ require_once MODEL_DIR . '/databases_connectors/databases_choose.php';
 /**
  * This class is the user buiness logic of the application
  */
-class User {
+class User
+{
     private DatabasesAccess $database_access;
     private int $id;
 
@@ -23,7 +24,8 @@ class User {
      * @throws UserNotFoundException if the user does not exist
      * @return void
      */
-    public function __construct(int $id) {
+    public function __construct(int $id)
+    {
         $this->id = $id;
 
         $this->database_access = (new DatabasesChoose())->getDatabase();
@@ -38,7 +40,8 @@ class User {
      *
      * @return int the id of the user
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -47,13 +50,28 @@ class User {
      *
      * @return string the name of the user
      */
-    public function getUsername(): string {
+    public function getUsername(): string
+    {
         return $this->database_access->getUserUsername($this->id);
+    }
+
+    /**
+     * Get the user based on the form
+     *
+     * @return User username and password;
+     */
+    public static function FindUser($username)/*: User*/
+    {
+        $database_access = (new DatabasesChoose())->getDatabase();
+
+        return $database_access->findUser($username->value);;
     }
 }
 
-class UserNotFoundException extends LooperException {
-    public function __construct() {
-        parent::__construct(404,"User not found");
+class UserNotFoundException extends LooperException
+{
+    public function __construct()
+    {
+        parent::__construct(404, "User not found");
     }
 }

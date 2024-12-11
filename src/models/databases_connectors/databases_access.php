@@ -259,4 +259,6 @@ interface DatabasesAccess
 	 * @return string The username of the user.
 	 */
 	public function getUserUsername(int $id): string;
+
+	public function findUser(string $username);
 }
