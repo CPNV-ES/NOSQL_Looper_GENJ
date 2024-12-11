@@ -7,6 +7,7 @@
  */
 
 require MODEL_DIR . '/databases_connectors/postgresql/postgresql_access.php';
+require MODEL_DIR . '/databases_connectors/mongodb/mongodb_access.php';
 
 /**
  * This class serves as a hub for managing multiple databases, allowing for easy addition or removal of database systems as needed.
@@ -14,7 +15,7 @@ require MODEL_DIR . '/databases_connectors/postgresql/postgresql_access.php';
 class DatabasesChoose
 {
 	// static for now but should be in a dynamic config
-	private string $databases = 'postgresql';
+	private string $databases = '';
 	private static DatabasesAccess $database;
 
 	/**
@@ -24,10 +25,14 @@ class DatabasesChoose
 	 */
 	public function __construct()
 	{
+		$this->databases = $_ENV['DATABASES'] ?? 'postgresql';
 		if (isset(self::$database)) {
 			return;
 		}
 		switch ($this->databases) {
+			case 'mongodb':
+				self::$database = new MongodbAccess('mongodb', 27017, 'db_looper', $_ENV['MONGO_INITDB_ROOT_USERNAME'], $_ENV['MONGO_INITDB_ROOT_PASSWORD']);
+				break;
 			default:
 				self::$database = new PostgresqlAccess('postgresql', 5432, 'db_looper', $_ENV['POSTGRES_USER'], $_ENV['POSTGRES_PASSWORD']);
 		}
