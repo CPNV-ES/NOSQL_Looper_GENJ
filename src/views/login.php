@@ -20,13 +20,14 @@ ob_start();
 <main class="container">
     <title>ExerciseLooper</title>
     <h1>Login</h1>
-    <form action="/?" accept-charset="UTF-8" method="post">
+    <form action="/login" accept-charset="UTF-8" method="post">
         <div class="field">
             <label for="exercise_title">Username</label>
             <input type="text" name="user_username" id="user_username">
         </div>
-        <label for="exercise_title">Password</label>
-        <input type="text" name="user_password" id="user_password">
+        <div class="field">
+            <label for="exercise_title">Password</label>
+            <input type="text" name="user_password" id="user_password">
         </div>
 
 

@@ -29,26 +29,6 @@ class Navigation
 	}
 
 	/**
-	 * Display the login page.
-	 *
-	 * @return void
-	 */
-	public function login()
-	{
-		include VIEW_DIR . '/login.php';
-	}
-
-	/**
-	 * Display the login page.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-		include VIEW_DIR . '/register.php';
-	}
-
-	/**
 	 * Display the create an exercise page.
 	 *
 	 * @return void
