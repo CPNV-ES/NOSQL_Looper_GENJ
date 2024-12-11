@@ -242,4 +242,21 @@ interface DatabasesAccess
 	 * @return int The ID of the exercise.
 	 */
 	public function getExerciseByFulfillmentId(int $fulfillment_id): int;
+
+	/** 
+	 * Retrieves the user ID associated with a specific fulfillment ID.
+	 * 
+	 * @param int $fulfillment_id The ID of the fulfillment.
+	 * 
+	 * @return int The ID of the user.
+	 */
+	public function doesUserExist(int $id): bool;
+
+	/**
+	 * Retrieves the username of a specific user.
+	 *
+	 * @param int $id The ID of the user.
+	 * @return string The username of the user.
+	 */
+	public function getUserUsername(int $id): string;
 }
