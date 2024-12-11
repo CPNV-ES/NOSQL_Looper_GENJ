@@ -7,6 +7,7 @@
  */
 
 include_once MODEL_DIR . '/exercise.php';
+include_once MODEL_DIR . '/user.php';
 
 /**
  * Navigation Controller
@@ -206,5 +207,16 @@ class Navigation
 		}
 
 		include VIEW_DIR . '/take.php';
+	}
+
+	/**
+	 * Display the manage users page.
+	 *
+	 * @return void
+	 */
+	public function manageUsers()
+	{
+		$users = User::all();
+		include VIEW_DIR . '/manage_users.php';
 	}
 }

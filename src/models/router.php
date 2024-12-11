@@ -51,7 +51,8 @@ class Router
 				'/exercises/:id:int/results' => 'showResults(:id:int)',
 				'/exercises/:exercise:int/results/:field:int' => 'showFieldResults(:exercise:int,:field:int)',
 				'/exercises/:id:int/fulfillments/:idFulfillments:int' => 'showFulfillmentResults(:id:int, :idFulfillments:int)',
-				'/exercises/:id:int/fulfillments/:idFulfillments:int/edit' => 'editFulfillment(:id:int, :idFulfillments:int)'
+				'/exercises/:id:int/fulfillments/:idFulfillments:int/edit' => 'editFulfillment(:id:int, :idFulfillments:int)',
+				'/users' => 'manageUsers()',
 			],
 			'controller_file_name' => 'navigation.php'
 		]
