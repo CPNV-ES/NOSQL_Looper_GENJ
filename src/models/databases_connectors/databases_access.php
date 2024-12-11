@@ -243,11 +243,11 @@ interface DatabasesAccess
 	 */
 	public function getExerciseByFulfillmentId(int $fulfillment_id): int;
 
-	/** 
+	/**
 	 * Retrieves the user ID associated with a specific fulfillment ID.
-	 * 
+	 *
 	 * @param int $fulfillment_id The ID of the fulfillment.
-	 * 
+	 *
 	 * @return int The ID of the user.
 	 */
 	public function doesUserExist(int $id): bool;
@@ -259,4 +259,12 @@ interface DatabasesAccess
 	 * @return string The username of the user.
 	 */
 	public function getUserUsername(int $id): string;
+
+	/**
+	 * Retrieves the role of a specific user.
+	 *
+	 * @param int $id The ID of the user.
+	 * @return int The role of the user.
+	 */
+	public function getUserRole(int $id): int;
 }

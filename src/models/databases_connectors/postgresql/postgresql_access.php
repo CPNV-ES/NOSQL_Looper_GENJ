@@ -179,14 +179,19 @@ class PostgresqlAccess implements DatabasesAccess
 		return $this->postgresql->select('SELECT exercise_id FROM fulfillments WHERE id = :fulfillment_id', ['fulfillment_id' => $fulfillment_id])[0][0];
 	}
 
-	public function doesUserExist(int $id): bool 
+	public function doesUserExist(int $id): bool
 	{
 		return count($this->postgresql->select('SELECT id FROM users WHERE id = :id', [':id' => $id])) > 0;
 	}
 
-	public function getUserUsername(int $id): string 
+	public function getUserUsername(int $id): string
 	{
 		return $this->postgresql->select('SELECT username FROM users WHERE id = :id', [':id' => $id])[0]['username'];
+	}
+
+	public function getUserRole(int $id): int
+	{
+		return $this->postgresql->select('SELECT role FROM users WHERE id = :id', [':id' => $id])[0]['role'];
 	}
 
 	private function create_db_if_not_exist()
