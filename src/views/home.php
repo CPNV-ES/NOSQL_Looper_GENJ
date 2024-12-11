@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Ethann Schneider, Guillaume Aubert, Jomana Kaempf
  * @version 29.11.2024
@@ -27,6 +28,9 @@ ob_start();
     </div>
     <div class="column">
       <a class="button results column" href="/exercises">Manage an exercise</a>
+    </div>
+    <div class="column">
+      <a class="button results column" href="/login">Login</a>
     </div>
   </section>
 </div>

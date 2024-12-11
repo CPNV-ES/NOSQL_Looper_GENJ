@@ -42,6 +42,8 @@ class Router
 		'Navigation()' => [
 			'GET' => [
 				'/' => 'home()',
+				'/login' => 'login()',
+				'/register' => 'register()',
 				'/exercises' => 'manageExercises()',
 				'/exercises/answering' => 'takeAnExercises()',
 				'/exercises/new' => 'createAnExercises()',
