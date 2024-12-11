@@ -6,8 +6,6 @@ services:
     volumes:
       - ./public:/var/www/html
       - ./default.conf:/etc/nginx/conf.d/default.conf
-    networks:
-      - internal
 
   php-fpm:
     build:
@@ -18,8 +16,6 @@ services:
       - ./public:/var/www/html 
       - ./.env:/var/www/.env
       - ./vendor:/var/www/vendor
-    networks:
-      - internal
     environment:
       XDEBUG_MODE: debug
       XDEBUG_CONFIG: client_host=host.docker.internal client_port=9003
@@ -31,8 +27,6 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - ./.pgdata:/var/lib/postgresql/data
-    networks:
-      - internal
 
   pgadmin4:
     image: elestio/pgadmin:REL-8_11
@@ -42,24 +36,16 @@ services:
       PGADMIN_LISTEN_PORT: 8080
     ports:
       - "8081:8080"
-    networks:
-      - internal
 
   mongodb:
     image: mongodb/mongodb-community-server:7.0.5-ubuntu2204
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGODB_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGODB_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
       - ./.mongo_data:/data/db
     ports:
       - "27017:27017"
-    networks:
-      - internal
-
-networks:
-  internal:
-    driver: bridge
 
 volumes:
   postgres_data:
