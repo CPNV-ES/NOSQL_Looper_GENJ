@@ -29,6 +29,26 @@ class Navigation
 	}
 
 	/**
+	 * Display the login page.
+	 *
+	 * @return void
+	 */
+	public function login()
+	{
+		include VIEW_DIR . '/login.php';
+	}
+
+	/**
+	 * Display the login page.
+	 *
+	 * @return void
+	 */
+	public function register()
+	{
+		include VIEW_DIR . '/register.php';
+	}
+
+	/**
 	 * Display the create an exercise page.
 	 *
 	 * @return void
@@ -83,12 +103,12 @@ class Navigation
 	}
 
 	/**
-		 * Display the edit field page.
-		 *
-		 * @param int $exercise_id The ID of the exercise.
-		 * @param int $id The ID of the field to edit.
-		 * @return void
-		 */
+	 * Display the edit field page.
+	 *
+	 * @param int $exercise_id The ID of the exercise.
+	 * @param int $id The ID of the field to edit.
+	 * @return void
+	 */
 	public function editAField(int $exercise_id, int $id)
 	{
 		$exercise = new Exercise($exercise_id);
