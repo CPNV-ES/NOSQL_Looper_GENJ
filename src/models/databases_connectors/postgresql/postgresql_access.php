@@ -194,6 +194,14 @@ class PostgresqlAccess implements DatabasesAccess
 		return $this->postgresql->select('SELECT role FROM users WHERE id = :id', [':id' => $id])[0]['role'];
 	}
 
+	public function getUsers(int $role = ALL_USER): array
+	{
+		if ($role == ALL_USER) {
+			return $this->postgresql->select('SELECT id FROM users');
+		}
+		return $this->postgresql->select('SELECT id FROM users WHERE role = :role', [':role' => $role]);
+	}
+
 	private function create_db_if_not_exist()
 	{
 		if (count($this->postgresql->select("SELECT 1 FROM information_schema.tables WHERE table_name = 'exercises'")) < 1) {

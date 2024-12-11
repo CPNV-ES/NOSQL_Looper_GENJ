@@ -43,6 +43,20 @@ class User
 	}
 
 	/**
+	 * Get all users
+	 *
+	 * @return array[User] an array of all users
+	 */
+	public static function all(): array
+	{
+		$users = [];
+		foreach ((new DatabasesChoose())->getDatabase()->getUsers() as $user) {
+			$users[] = new User($user['id']);
+		}
+		return $users;
+	}
+
+	/**
 	 * Get the id of the user
 	 *
 	 * @return int the id of the user
