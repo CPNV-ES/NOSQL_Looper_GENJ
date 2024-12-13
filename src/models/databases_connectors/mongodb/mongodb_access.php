@@ -67,9 +67,9 @@ class MongodbAccess implements DatabasesAccess
 	public function getExercises(int $status = ALL_EXERCISES): array
 	{
 		if ($status == ALL_EXERCISES) {
-			$result = $this->db->find($this->exercises, [],  ['projection' => ['id' => $id]]);
+			$result = $this->db->find($this->exercises, [], ['projection' => ['id' => $id]]);
 		} else {
-			$result = $this->db->find($this->exercises, ['status' => $status],  ['projection' => ['id' => 1]]);
+			$result = $this->db->find($this->exercises, ['status' => $status], ['projection' => ['id' => 1]]);
 		}
 
 		return $result;
@@ -197,7 +197,6 @@ class MongodbAccess implements DatabasesAccess
 
 	public function getFieldsCount(int $exercise_id): int
 	{
-
 		$result = $this->db->find($this->fields, ['exercise_id' => $exercise_id]);
 		return count($result);
 	}

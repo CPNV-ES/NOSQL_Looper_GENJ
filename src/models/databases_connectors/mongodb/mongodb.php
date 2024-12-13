@@ -29,11 +29,12 @@ class MongoDB
 
 		$this->mongodb = $client->nosql1;
 	}
-	
+
 	/**
 	 * Create database "nosql1" with needed collections with their setup
 	 */
-	private function createDB($client){
+	private function createDB($client)
+	{
 		//Create collections
 		foreach ($this->collections as $collection) {
 			$client->nosql1->createCollection($collection);
@@ -59,7 +60,7 @@ class MongoDB
 			['$inc' => ['sequence_id' => 1]],
 			['returnDocument' => MongoDB\Operation\FindOneAndUpdate::RETURN_DOCUMENT_AFTER]
 		)->sequence_id;
-		
+
 		return $nextId;
 	}
 
@@ -83,12 +84,12 @@ class MongoDB
 		} else {
 			$option['projection'] = ['_id' => 0];
 		}
-		
+
 		$objects_result = $collection->find($filter, $option);
-		
+
 		//Transform to array from object
 		$array_result = [];
-		foreach($objects_result as $result) {
+		foreach ($objects_result as $result) {
 			$array_result[] = (array) $result;
 		}
 
@@ -111,9 +112,9 @@ class MongoDB
 		$document['id'] = $this->idIncrement($collection);
 
 		$resultObject = $collection->insertOne($document, $option)->getInsertedId();
-		
-		$filter = ["_id" => $resultObject];
-		
+
+		$filter = ['_id' => $resultObject];
+
 		return $this->find($collection, $filter);
 	}
 
