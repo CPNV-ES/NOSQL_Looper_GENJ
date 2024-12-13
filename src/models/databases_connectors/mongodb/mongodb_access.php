@@ -6,6 +6,7 @@
  */
 
 require_once MODEL_DIR . '/databases_connectors/databases_access.php';
+require_once MODEL_DIR . '/databases_connectors/mongodb/mongodb.php';
 
 /**
  * Class MongodbAccess
@@ -14,68 +15,82 @@ require_once MODEL_DIR . '/databases_connectors/databases_access.php';
  */
 class MongodbAccess implements DatabasesAccess
 {
-	private $client;
-	private $mongodb;
+	private $db;
+	private $exercises;
+	private $fields;
+	private $fulfillments;
+	private $fulfillments_data;
 
 	/**
 	 * MongodbAccess constructor.
 	 *
 	 * @param string $host The host of the MongoDB server.
 	 * @param int $port The port of the MongoDB server.
-	 * @param string $dbname The name of the database.
 	 * @param string $mongo_user The username for the MongoDB server.
 	 * @param string $mongo_password The password for the MongoDB server.
 	 */
-	public function __construct($host, $port, $dbname, $mongo_user, $mongo_password)
+	public function __construct($host, $port, $mongo_user, $mongo_password)
 	{
-		$this->client = new MongoDB\Client("mongodb://$mongo_user:$mongo_password@$host:$port");
-		$this->mongodb = $this->client->$dbname;
+		$this->db = new MongoDB($host, $port, $mongo_user, $mongo_password);
+
+		//Direct setup on collections
+		$this->exercises = $this->db->mongodb->exercises;
+		$this->fields = $this->db->mongodb->fields;
+		$this->fulfillments = $this->db->mongodb->fulfillments;
+		$this->fulfillments_data = $this->db->mongodb->fulfillments_data;
 	}
 
 	public function doesExerciseExist(int $id): bool
 	{
-		return $this->mongodb->exercises->countDocuments(['id' => $id]) > 0;
+		$result = $this->db->find($this->exercises, ['id' => $id]);
+		return count($result) > 0;
 	}
 
 	public function createExercise(string $title): int
 	{
-		$result = $this->mongodb->exercises->insertOne(['title' => $title]);
-		return $result->getInsertedId();
+		$result = $this->db->insert($this->exercises, ['title' => $title, 'status' => 0]);
+		return $result[0]['id'];
 	}
 
 	public function getExerciseTitle(int $id): string
 	{
-		$result = $this->mongodb->exercises->findOne(['id' => $id]);
-		return $result['title'];
+		$result = $this->db->find($this->exercises, ['id' => $id], ['projection' => ['title' => 1]]);
+		return $result[0]['title'];
 	}
 
 	public function getExerciseStatus(int $id): int
 	{
-		$result = $this->mongodb->findOne('exercises', ['id' => $id]);
-		return $result['status'];
+		$result = $this->db->find($this->exercises, ['id' => $id], ['projection' => ['status' => 1]]);
+		return $result[0]['status'];
 	}
 
 	public function getExercises(int $status = ALL_EXERCISES): array
 	{
 		if ($status == ALL_EXERCISES) {
-			return $this->mongodb->exercises->find()->toArray();
+			$result = $this->db->find($this->exercises, [],  ['projection' => ['id' => $id]]);
+		} else {
+			$result = $this->db->find($this->exercises, ['status' => $status],  ['projection' => ['id' => 1]]);
 		}
-		return $this->mongodb->exercises->find(['status' => $status])->toArray();
+
+		return $result;
 	}
 
 	public function getFields(int $exercise_id): array
 	{
-		return $this->mongodb->fields->find(['exercise_id' => $exercise_id])->toArray();
+		$result = $this->db->find($this->fields, ['exercise_id' => $exercise_id], ['projection' => ['id' => 1]]);
+		return $result;
 	}
 
 	public function doesFieldExist(int $id): bool
 	{
-		return $this->mongodb->fields->countDocuments(['id' => $id]) > 0;
+		$result = $this->db->find($this->fields, ['id' => $id], ['projection' => ['id' => 1]]);
+		return count($result) > 0;
 	}
 
 	public function doesFulfillmentExist(int $id): bool
 	{
-		return $this->mongodb->fulfillments->countDocuments(['id' => $id]) > 0;
+		$result = $this->db->find($this->fulfillments, ['id' => $id], ['projection' => ['id' => 1]]);
+		return count($result) > 0;
 	}
 
 	public function getFulfillmentFields(int $id): array
@@ -91,8 +106,8 @@ class MongodbAccess implements DatabasesAccess
 
 	public function getFulfillmentTimestamp(int $id)
 	{
-		$result = $this->mongodb->fulfillments->findOne(['id' => $id]);
-		return $result['creation_date'];
+		$result = $this->db->find($this->fulfillments, ['id' => $id], ['projection' => ['creation_date' => 1]]);
+		return $result[0]['creation_date'];
 	}
 
 	public function setFulfillmentBody(int $field_id, int $fulfillment_id, string $body): void
@@ -102,46 +117,49 @@ class MongodbAccess implements DatabasesAccess
 
 	public function createFulfillment(int $exercise_id): int
 	{
-		$result = $this->mongodb->fulfillments->insertOne(['exercise_id' => $exercise_id]);
-		return $result->getInsertedId();
+		$result = $this->db->insert($this->fulfillments, ['exercise_id' => $exercise_id, 'creation_date' => new MongoDB\BSON\UTCDateTime()]);
+		return $result[0]['id'];
 	}
 
 	public function getFulfillments(int $exercise_id)
 	{
-		return $this->mongodb->fulfillments->find(['exercise_id' => $exercise_id], ['sort' => ['creation_date' => 1]])->toArray();
+		$result = $this->db->find($this->fulfillments, ['exercise_id' => $exercise_id], ['projection' => ['id' => 1], 'sort' => ['timestamp' => 1]]);
+		return $result;
 	}
 
-	public function createFulfillmentField(int $field_id, int $fulfillment_id, string $body): void
+	public function createFulfillmentField(int $field_id, int $fulfillment_id, string $body): void //array
 	{
-		$this->mongodb->fulfillments_data->insertOne(['field_id' => $field_id, 'fulfillment_id' => $fulfillment_id, 'body' => $body]);
+		$result = $this->db->insert($this->fulfillments_data, ['field_id' => $field_id, 'fulfillment_id' => $fulfillment_id, 'body' => $body]);
+		//return $result;
 	}
 
 	public function getFieldLabel(int $id): string
 	{
-		$result = $this->mongodb->fields->findOne(['id' => $id]);
-		return $result['label'];
+		$result = $this->db->find($this->fields, ['id' => $id], ['projection' => ['label' => 1]]);
+		return $result[0]['label'];
 	}
 
 	public function getFieldKind(int $id): int
 	{
-		$result = $this->mongodb->findOne('fields', ['id' => $id]);
-		return $result['kind'];
+		$result = $this->db->find($this->fields, ['id' => $id], ['projection' => ['kind' => 1]]);
+		return $result[0]['kind'];
 	}
 
 	public function createField(int $exercise_id, string $label, int $kind): int
 	{
-		$result = $this->mongodb->fields->insertOne(['label' => $label, 'kind' => $kind, 'exercise_id' => $exercise_id]);
-		return $result->getInsertedId();
+		$result = $this->db->insert($this->fields, ['label' => $label, 'kind' => $kind, 'exercise_id' => $exercise_id]);
+		return $result[0]['id'];
 	}
 
 	public function deleteField(int $id): void
 	{
-		$this->mongodb->fields->deleteOne(['id' => $id]);
+		$result = $this->db->remove($this->fields, ['id' => $id]);
 	}
 
 	public function isFieldInExercise(int $exercise_id, int $field_id): bool
 	{
-		return $this->mongodb->fields->countDocuments(['exercise_id' => $exercise_id, 'id' => $field_id]) > 0;
+		$result = $this->db->find($this->fields, ['exercise_id' => $exercise_id, 'id' => $field_id], ['projection' => ['id' => 1]]);
+		return count($result) > 0;
 	}
 
 	public function isFulfillmentInExercise(int $exercise_id, int $fulfillment_id): bool
@@ -149,40 +167,46 @@ class MongodbAccess implements DatabasesAccess
 		return $this->mongodb->fulfillments->countDocuments(['exercise_id' => $exercise_id, 'id' => $fulfillment_id]) > 0;
 	}
 
-	public function setFieldLabel(int $id, string $label): void
+	public function setFieldLabel(int $id, string $label): void //array
 	{
-		$this->mongodb->fields->updateOne(['id' => $id], ['$set' => ['label' => $label]]);
+		$result = $this->db->update($this->fields, ['id' => $id], ['$set' => ['label' => $label]]);
+		//return $result;
 	}
 
-	public function setFieldKind(int $id, int $kind): void
+	public function setFieldKind(int $id, int $kind): void //array
 	{
-		$this->mongodb->fields->updateOne(['id' => $id], ['$set' => ['kind' => $kind]]);
+		$result = $this->db->update($this->fields, ['id' => $id], ['$set' => ['kind' => $kind]]);
+		//return $result;
 	}
 
-	public function deleteExercise(int $id): void
+	public function deleteExercise(int $id): void //array
 	{
-		$this->mongodb->exercises->deleteOne(['id' => $id]);
+		$result = $this->db->remove($this->exercises, ['id' => $id]);
+		//return $result;
 	}
 
 	public function setExerciseStatus(int $id, int $status)
 	{
-		$this->mongodb->exercises->updateOne(['id' => $id], ['$set' => ['status' => $status]]);
+		$result = $this->db->update($this->exercises, ['id' => $id], ['$set' => ['status' => $status]]);
+		return $result;
 	}
 
 	public function getFieldsCount(int $exercise_id): int
 	{
-		return $this->mongodb->fields->countDocuments(['exercise_id' => $exercise_id]);
+
+		$result = $this->db->find($this->fields, ['exercise_id' => $exercise_id]);
+		return count($result);
 	}
 
 	public function getExerciseByFieldId(int $field_id): int
 	{
-		$result = $this->mongodb->fields->findOne(['id' => $field_id]);
-		return $result['exercise_id'];
+		$result = $this->db->find($this->fields, ['id' => $field_id], ['projection' => ['exercise_id' => 1]]);
+		return $result[0]['exercise_id'];
 	}
 
 	public function getExerciseByFulfillmentId(int $fulfillment_id): int
 	{
-		$result = $this->mongodb->fulfillments->findOne(['id' => $fulfillment_id]);
-		return $result['exercise_id'];
+		$result = $this->db->find($this->fulfillments, ['id' => $fulfillment_id], ['projection' => ['exercise_id' => 1]]);
+		return $result[0]['exercise_id'];
 	}
 }
