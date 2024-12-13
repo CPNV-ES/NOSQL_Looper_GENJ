@@ -31,7 +31,7 @@ class DatabasesChoose
 		}
 		switch ($this->databases) {
 			case 'mongodb':
-				self::$database = new MongodbAccess('mongodb', 27017, 'db_looper', $_ENV['MONGO_INITDB_ROOT_USERNAME'], $_ENV['MONGO_INITDB_ROOT_PASSWORD']);
+				self::$database = new MongodbAccess('mongodb', 27017, $_ENV['MONGO_INITDB_ROOT_USERNAME'], $_ENV['MONGO_INITDB_ROOT_PASSWORD']);
 				break;
 			default:
 				self::$database = new PostgresqlAccess('postgresql', 5432, 'db_looper', $_ENV['POSTGRES_USER'], $_ENV['POSTGRES_PASSWORD']);
