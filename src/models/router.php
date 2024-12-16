@@ -43,6 +43,7 @@ class Router
 			'GET' => [
 				'/' => 'home()',
 				'/login' => 'login()',
+				'/logout' => 'logout()',
 				'/register' => 'register()',
 				'/exercises' => 'manageExercises()',
 				'/exercises/answering' => 'takeAnExercises()',

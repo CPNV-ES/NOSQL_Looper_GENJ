@@ -93,6 +93,8 @@ class Navigation
 
 			$user = User::FindUser($_POST['user_username']);
 
+			//TODO : log in
+
 			include VIEW_DIR . '/home.php';
 		} else {
 			include VIEW_DIR . '/login.php';
@@ -110,10 +112,22 @@ class Navigation
 
 			$user = User::FindUser($_POST['user_username']);
 
+			//TODO : create user an then log in
+
+			$_SESSION['state'] == "login";
+			$_SESSION['user'] == ""; //TODO replace this by  username
+
 			include VIEW_DIR . '/home.php';
 		} else {
 			include VIEW_DIR . '/register.php';
 		}
+	}
+
+	public function lougout()
+	{
+		$_SESSION['state'] == "logout";
+		$_SESSION['user'] == null;
+		include VIEW_DIR . '/home.php';
 	}
 
 	/**
