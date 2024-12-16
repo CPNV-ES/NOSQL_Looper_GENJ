@@ -64,14 +64,16 @@ class User
 	{
 		$database_access = (new DatabasesChoose())->getDatabase();
 
-		return $database_access->findUser($username->value);;
+		return $database_access->findUser($username->value);
+		;
 	}
 
 	public static function CreateUser($request)
 	{
 		$database_access = (new DatabasesChoose())->getDatabase();
 
-		return $database_access->createUser($request['user_username'], $request['user_password']);;
+		return $database_access->createUser($request['user_username'], $request['user_password']);
+		;
 	}
 }
 
