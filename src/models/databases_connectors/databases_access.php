@@ -284,4 +284,12 @@ interface DatabasesAccess
 	 * @param int $role The role of the user.
 	 */
 	public function deleteUser(int $userId): void;
+
+	/**
+	 * Sets the role of a specific user.
+	 *
+	 * @param int $id The ID of the user.
+	 * @param int $role The role to set.
+	 */
+	public function setUserRole(int $id, int $role): void;
 }

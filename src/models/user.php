@@ -13,6 +13,21 @@ enum Role: int
 	case Student = 0;
 	case Teacher = 1;
 	case Dean = 2;
+
+	public static function fromName(string $name): Role
+	{
+		switch ($name) {
+			case 'student':
+				return Role::Student;
+				// no break
+			case 'teacher':
+				return Role::Teacher;
+			case 'dean':
+				return Role::Dean;
+			default:
+				throw new RoleNotFoundException();
+		}
+	}
 }
 
 /**
@@ -87,6 +102,18 @@ class User
 	}
 
 	/**
+	 * Set the role of the user
+	 *
+	 * @param Role $role the role to set
+	 *
+	 * @return void
+	 */
+	public function setRole(Role $role): void
+	{
+		$this->database_access->setUserRole($this->id, $role->value);
+	}
+
+	/**
 	 * Delete the user
 	 *
 	 * @return void
@@ -102,5 +129,13 @@ class UserNotFoundException extends LooperException
 	public function __construct()
 	{
 		parent::__construct(404, 'User not found');
+	}
+}
+
+class RoleNotFoundException extends LooperException
+{
+	public function __construct()
+	{
+		parent::__construct(404, 'Role not found');
 	}
 }
