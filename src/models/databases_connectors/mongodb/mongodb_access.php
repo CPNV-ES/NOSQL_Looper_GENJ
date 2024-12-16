@@ -95,24 +95,27 @@ class MongodbAccess implements DatabasesAccess
 
 	public function getFulfillmentFields(int $id): array
 	{
-		return $this->mongodb->fulfillments_data->find(['fulfillment_id' => $id])->toArray();
+		$result = $this->db->find($this->fulfillments_data, ['fulfillment_id' => $id], ['projection' => ['field_id' => 1]]);
+		return $result;
 	}
 
 	public function getFulfillmentBody(int $field_id, int $fulfillment_id): string
 	{
-		$result = $this->mongodb->fulfillments_data->findOne(['fulfillment_id' => $fulfillment_id, 'field_id' => $field_id]);
-		return $result['body'];
+		$result = $this->db->find($this->fulfillments_data, ['fulfillment_id' => $fulfillment_id, 'field_id' => $field_id], ['projection' => ['body' => 1]]);
+		return $result[0]['body'];
 	}
 
 	public function getFulfillmentTimestamp(int $id)
 	{
 		$result = $this->db->find($this->fulfillments, ['id' => $id], ['projection' => ['creation_date' => 1]]);
-		return $result[0]['creation_date'];
+		//Convert here since og db directly returned string
+		return $result[0]['creation_date']->toDateTime()->format('Y-m-d H:i:s.u');
 	}
 
-	public function setFulfillmentBody(int $field_id, int $fulfillment_id, string $body): void
+	public function setFulfillmentBody(int $field_id, int $fulfillment_id, string $body): void //array
 	{
-		$this->mongodb->fulfillments_data->updateOne(['fulfillment_id' => $fulfillment_id, 'field_id' => $field_id], ['$set' => ['body' => $body]]);
+		$result = $this->db->update($this->fulfillments_data, ['fulfillment_id' => $fulfillment_id, 'field_id' => $field_id], ['$set' => ['body' => $body]]);
+		//return $result;
 	}
 
 	public function createFulfillment(int $exercise_id): int
@@ -164,7 +167,8 @@ class MongodbAccess implements DatabasesAccess
 
 	public function isFulfillmentInExercise(int $exercise_id, int $fulfillment_id): bool
 	{
-		return $this->mongodb->fulfillments->countDocuments(['exercise_id' => $exercise_id, 'id' => $fulfillment_id]) > 0;
+		$result = $this->db->find($this->fulfillments, ['exercise_id' => $exercise_id, 'id' => $fulfillment_id], ['projection' => ['id' => 1]]);
+		return count($result) > 0;
 	}
 
 	public function setFieldLabel(int $id, string $label): void //array
