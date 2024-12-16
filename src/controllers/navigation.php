@@ -112,8 +112,8 @@ class Navigation
 
 			//TODO : create user an then log in
 
-			$_SESSION['state'] == "login";
-			$_SESSION['user'] == ""; //TODO replace this by  username
+			$_SESSION['state'] == 'login';
+			$_SESSION['user'] == ''; //TODO replace this by  username
 
 			include VIEW_DIR . '/home.php';
 		} else {
@@ -123,7 +123,7 @@ class Navigation
 
 	public function lougout()
 	{
-		$_SESSION['state'] == "logout";
+		$_SESSION['state'] == 'logout';
 		$_SESSION['user'] == null;
 		include VIEW_DIR . '/home.php';
 	}
