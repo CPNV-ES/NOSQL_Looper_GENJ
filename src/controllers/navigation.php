@@ -90,9 +90,11 @@ class Navigation
 	public function login()
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$user = User::FindUser($_POST['user_username']);
+			$userid = User::FindUserId($_POST['user_username']);
 
 			//TODO : log in
+
+			$_SESSION['user'] == $userid; //TODO replace this by  username
 
 			include VIEW_DIR . '/home.php';
 		} else {
@@ -107,13 +109,17 @@ class Navigation
 	 */
 	public function register()
 	{
+		//TODO : create user an then log in
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$user = User::FindUser($_POST['user_username']);
+			$user = User::FindUserId($_POST['user_username']);
+			if ($user) {
+				include VIEW_DIR . '/register.php';
+				//TODO : error message to already exist username
+			}
 
-			//TODO : create user an then log in
+			User::CreateUser($_POST);
 
-			$_SESSION['state'] == "login";
-			$_SESSION['user'] == ""; //TODO replace this by  username
+			$_SESSION['user'] == $_POST['user_username']; //TODO replace this by  username
 
 			include VIEW_DIR . '/home.php';
 		} else {
@@ -123,8 +129,7 @@ class Navigation
 
 	public function lougout()
 	{
-		$_SESSION['state'] == "logout";
-		$_SESSION['user'] == null;
+		session_destroy();
 		include VIEW_DIR . '/home.php';
 	}
 
