@@ -14,6 +14,11 @@ ob_start();
     <section class="container">
         <a href="/"><img src="/assets/img/logo.png"></a>
         <span class="exercise-label">Login</span>
+        <?php if ($_SESSION['state'] == 'login'): ?>
+            <a class="link-label" href="/Logout">Log in</a>
+        <?php else: ?>
+            <a class="link-label" href="/Logout">Log out</a>
+        <?php endif; ?>
     </section>
 </header>
 
