@@ -90,7 +90,6 @@ class Navigation
 	public function login()
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
 			$user = User::FindUser($_POST['user_username']);
 
 			include VIEW_DIR . '/home.php';
@@ -107,7 +106,6 @@ class Navigation
 	public function register()
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
 			$user = User::FindUser($_POST['user_username']);
 
 			include VIEW_DIR . '/home.php';
