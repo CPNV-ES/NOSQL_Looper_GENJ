@@ -20,4 +20,18 @@ class UserController
 		$user->delete();
 		header('Location: /users');
 	}
+
+	public function editUser(int $user_id)
+	{
+		$user = new User($user_id);
+
+		if (!isset($_POST['role'])) {
+			header('Location: /users/' . $user_id);
+			return;
+		}
+
+		$user->setRole(Role::fromName($_POST['role']));
+
+		header('Location: /users');
+	}
 }

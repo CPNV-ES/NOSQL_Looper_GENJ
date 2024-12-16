@@ -219,4 +219,15 @@ class Navigation
 		$users = User::all();
 		include VIEW_DIR . '/manage_users.php';
 	}
+
+	/**
+	 * Display the manage single user page.
+	 *
+	 * @return void
+	 */
+	public function manageSingleUser(int $userId)
+	{
+		$user = new User($userId);
+		include VIEW_DIR . '/manage_single_user.php';
+	}
 }

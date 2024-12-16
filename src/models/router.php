@@ -43,6 +43,9 @@ class Router
 			'GET' => [
 				'/users/:id:int/delete' => 'deleteUser(:id:int)'
 			],
+			'POST' => [
+				'/users/:id:int/edit' => 'editUser(:id:int)'
+			],
 			'controller_file_name' => 'user_controller.php'
 		],
 		'Navigation()' => [
@@ -59,6 +62,7 @@ class Router
 				'/exercises/:id:int/fulfillments/:idFulfillments:int' => 'showFulfillmentResults(:id:int, :idFulfillments:int)',
 				'/exercises/:id:int/fulfillments/:idFulfillments:int/edit' => 'editFulfillment(:id:int, :idFulfillments:int)',
 				'/users' => 'manageUsers()',
+				'/users/:id:int' => 'manageSingleUser(:id:int)',
 			],
 			'controller_file_name' => 'navigation.php'
 		]

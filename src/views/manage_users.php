@@ -25,7 +25,7 @@ ob_start();
                 <div class="title">
                     <?= htmlspecialchars($user->getUsername()); ?>
                 </div>
-                <a class="button" href="/users/<?= $user->getId(); ?>/edit">Edit</a>
+                <a class="button" href="/users/<?= $user->getId(); ?>">Edit</a>
                 <a class="button" href="/users/<?= $user->getId(); ?>/delete">Delete</a>
             </div>
         <?php endforeach; ?>
