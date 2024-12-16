@@ -13,65 +13,66 @@ require_once MODEL_DIR . '/databases_connectors/databases_choose.php';
  */
 class User
 {
-    private DatabasesAccess $database_access;
-    private int $id;
+	private DatabasesAccess $database_access;
+	private int $id;
 
-    /**
-     * constructor of the user
-     *
-     * @param  int $id the id of the user
-     *
-     * @throws UserNotFoundException if the user does not exist
-     * @return void
-     */
-    public function __construct(int $id)
-    {
-        $this->id = $id;
+	/**
+	 * constructor of the user
+	 *
+	 * @param  int $id the id of the user
+	 *
+	 * @throws UserNotFoundException if the user does not exist
+	 * @return void
+	 */
+	public function __construct(int $id)
+	{
+		$this->id = $id;
 
-        $this->database_access = (new DatabasesChoose())->getDatabase();
+		$this->database_access = (new DatabasesChoose())->getDatabase();
 
-        if (!$this->database_access->doesUserExist($id)) {
-            throw new UserNotFoundException();
-        }
-    }
+		if (!$this->database_access->doesUserExist($id)) {
+			throw new UserNotFoundException();
+		}
+	}
 
-    /**
-     * Get the id of the user
-     *
-     * @return int the id of the user
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+	/**
+	 * Get the id of the user
+	 *
+	 * @return int the id of the user
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
-    /**
-     * Get the name of the user
-     *
-     * @return string the name of the user
-     */
-    public function getUsername(): string
-    {
-        return $this->database_access->getUserUsername($this->id);
-    }
+	/**
+	 * Get the name of the user
+	 *
+	 * @return string the name of the user
+	 */
+	public function getUsername(): string
+	{
+		return $this->database_access->getUserUsername($this->id);
+	}
 
-    /**
-     * Get the user based on the form
-     *
-     * @return User username and password;
-     */
-    public static function FindUser($username)/*: User*/
-    {
-        $database_access = (new DatabasesChoose())->getDatabase();
+	/**
+	 * Get the user based on the form
+	 *
+	 * @return User username and password;
+	 */
+	public static function FindUser($username)/*: User*/
+	{
+		$database_access = (new DatabasesChoose())->getDatabase();
 
-        return $database_access->findUser($username->value);;
-    }
+		return $database_access->findUser($username->value);
+		;
+	}
 }
 
 class UserNotFoundException extends LooperException
 {
-    public function __construct()
-    {
-        parent::__construct(404, "User not found");
-    }
+	public function __construct()
+	{
+		parent::__construct(404, 'User not found');
+	}
 }
