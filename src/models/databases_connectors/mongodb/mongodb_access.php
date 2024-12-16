@@ -112,10 +112,9 @@ class MongodbAccess implements DatabasesAccess
 		return $result[0]['creation_date']->toDateTime()->format('Y-m-d H:i:s.u');
 	}
 
-	public function setFulfillmentBody(int $field_id, int $fulfillment_id, string $body): void //array
+	public function setFulfillmentBody(int $field_id, int $fulfillment_id, string $body): void
 	{
 		$result = $this->db->update($this->fulfillments_data, ['fulfillment_id' => $fulfillment_id, 'field_id' => $field_id], ['$set' => ['body' => $body]]);
-		//return $result;
 	}
 
 	public function createFulfillment(int $exercise_id): int
@@ -130,10 +129,9 @@ class MongodbAccess implements DatabasesAccess
 		return $result;
 	}
 
-	public function createFulfillmentField(int $field_id, int $fulfillment_id, string $body): void //array
+	public function createFulfillmentField(int $field_id, int $fulfillment_id, string $body): void
 	{
 		$result = $this->db->insert($this->fulfillments_data, ['field_id' => $field_id, 'fulfillment_id' => $fulfillment_id, 'body' => $body]);
-		//return $result;
 	}
 
 	public function getFieldLabel(int $id): string
@@ -171,22 +169,19 @@ class MongodbAccess implements DatabasesAccess
 		return count($result) > 0;
 	}
 
-	public function setFieldLabel(int $id, string $label): void //array
+	public function setFieldLabel(int $id, string $label): void
 	{
 		$result = $this->db->update($this->fields, ['id' => $id], ['$set' => ['label' => $label]]);
-		//return $result;
 	}
 
-	public function setFieldKind(int $id, int $kind): void //array
+	public function setFieldKind(int $id, int $kind): void
 	{
 		$result = $this->db->update($this->fields, ['id' => $id], ['$set' => ['kind' => $kind]]);
-		//return $result;
 	}
 
-	public function deleteExercise(int $id): void //array
+	public function deleteExercise(int $id): void
 	{
 		$result = $this->db->remove($this->exercises, ['id' => $id]);
-		//return $result;
 	}
 
 	public function setExerciseStatus(int $id, int $status)

@@ -32,6 +32,8 @@ class MongoDB
 
 	/**
 	 * Create database "nosql1" with needed collections with their setup
+	 *
+	 * @param  MongoDB\Client The client linked to the wanted mongo db.
 	 */
 	private function createDB($client)
 	{
