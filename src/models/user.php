@@ -60,12 +60,18 @@ class User
 	 *
 	 * @return User username and password;
 	 */
-	public static function FindUser($username)/*: User*/
+	public static function FindUserId($username)/*: User*/
 	{
 		$database_access = (new DatabasesChoose())->getDatabase();
 
-		return $database_access->findUser($username->value);
-		;
+		return $database_access->findUser($username->value);;
+	}
+
+	public static function CreateUser($request)
+	{
+		$database_access = (new DatabasesChoose())->getDatabase();
+
+		return $database_access->createUser($request['user_username'], $request['user_password']);;
 	}
 }
 

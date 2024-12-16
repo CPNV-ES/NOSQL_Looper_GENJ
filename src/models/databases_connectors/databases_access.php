@@ -261,4 +261,6 @@ interface DatabasesAccess
 	public function getUserUsername(int $id): string;
 
 	public function findUser(string $username);
+
+	public function createUser($username, $password);
 }
