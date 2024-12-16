@@ -6,6 +6,8 @@
  * @description  This is the router buiness logic and route path
  */
 
+include_once MODEL_DIR . '/user.php';
+
 /**
  * This class is the router buiness logic of the application
  */
@@ -41,10 +43,10 @@ class Router
 		],
 		'UserController()' => [
 			'GET' => [
-				'/users/:id:int/delete' => 'deleteUser(:id:int)'
+				'/users/:id:int/delete' => 'deleteUser(:authenticatedDean, :id:int)'
 			],
 			'POST' => [
-				'/users/:id:int/edit' => 'editUser(:id:int)'
+				'/users/:id:int/edit' => 'editUser(:authenticatedDean, :id:int)'
 			],
 			'controller_file_name' => 'user_controller.php'
 		],
@@ -61,8 +63,8 @@ class Router
 				'/exercises/:exercise:int/results/:field:int' => 'showFieldResults(:exercise:int,:field:int)',
 				'/exercises/:id:int/fulfillments/:idFulfillments:int' => 'showFulfillmentResults(:id:int, :idFulfillments:int)',
 				'/exercises/:id:int/fulfillments/:idFulfillments:int/edit' => 'editFulfillment(:id:int, :idFulfillments:int)',
-				'/users' => 'manageUsers()',
-				'/users/:id:int' => 'manageSingleUser(:id:int)',
+				'/users' => 'manageUsers(:authenticatedDean)',
+				'/users/:id:int' => 'manageSingleUser(:authenticatedDean, :id:int)',
 			],
 			'controller_file_name' => 'navigation.php'
 		]
@@ -104,6 +106,33 @@ class Router
 						$method = str_replace($route_id, '(' . explode(':', $route_id)[2] . ")\"$route_value\"", $method);
 					}
 				}
+
+				if (str_contains($method, ':authenticatedUser')) {
+					$authenticatedUser = $this->authenticatedUser();
+					if ($authenticatedUser == null) {
+						return true;
+					}
+					$method = str_replace(':authenticatedUser', '($authenticatedUser)', $method);
+				}
+
+				if (str_contains($method, ':authenticatedDean')) {
+					$authenticatedUser = $this->authenticatedUser();
+					if ($authenticatedUser == null || $authenticatedUser->getRole() != Role::Dean) {
+						unauthorized();
+						return true;
+					}
+					$method = str_replace(':authenticatedDean', '($authenticatedUser)', $method);
+				}
+
+				if (str_contains($method, ':authenticatedTeacher')) {
+					$authenticatedUser = $this->authenticatedUser();
+					if ($authenticatedUser == null || $authenticatedUser->getRole() != Role::Teacher) {
+						unauthorized();
+						return true;
+					}
+					$method = str_replace(':authenticatedTeacher', '($authenticatedUser)', $method);
+				}
+
 				try {
 					eval('$inst->' . $method . ';');
 				} catch (LooperException $e) {
@@ -159,6 +188,18 @@ class Router
 				return preg_match('/^[0-9]{1,}$/', $routeValue) != 0;
 			default:
 				return false;
+		}
+	}
+
+	private function authenticatedUser(): User|null
+	{
+		if (!isset($_SESSION['user'])) {
+			return null;
+		}
+		try {
+			return new User($_SESSION['user']);
+		} catch (UserNotFoundException $e) {
+			return null;
 		}
 	}
 }

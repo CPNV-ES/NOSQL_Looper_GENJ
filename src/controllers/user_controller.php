@@ -14,14 +14,14 @@ include_once MODEL_DIR . '/user.php';
  */
 class UserController
 {
-	public function deleteUser(int $user_id)
+	public function deleteUser(User $dean, int $user_id)
 	{
 		$user = new User($user_id);
 		$user->delete();
 		header('Location: /users');
 	}
 
-	public function editUser(int $user_id)
+	public function editUser(User $dean, int $user_id)
 	{
 		$user = new User($user_id);
 

@@ -214,7 +214,7 @@ class Navigation
 	 *
 	 * @return void
 	 */
-	public function manageUsers()
+	public function manageUsers(User $dean)
 	{
 		$users = User::all();
 		include VIEW_DIR . '/manage_users.php';
@@ -225,7 +225,7 @@ class Navigation
 	 *
 	 * @return void
 	 */
-	public function manageSingleUser(int $userId)
+	public function manageSingleUser(User $dean, int $userId)
 	{
 		$user = new User($userId);
 		include VIEW_DIR . '/manage_single_user.php';
