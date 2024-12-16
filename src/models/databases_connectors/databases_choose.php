@@ -31,10 +31,10 @@ class DatabasesChoose
 		}
 		switch ($this->databases) {
 			case 'mongodb':
-				self::$database = new MongodbAccess('mongodb', 27017, $_ENV['MONGO_INITDB_ROOT_USERNAME'], $_ENV['MONGO_INITDB_ROOT_PASSWORD']);
+				self::$database = new MongodbAccess($_ENV['MONGO_DB_HOST'] ?? 'mongodb', $_ENV['MONGO_DB_PORT'] ?? 27017, $_ENV['MONGO_INITDB_ROOT_USERNAME'] ?? '', $_ENV['MONGO_INITDB_ROOT_PASSWORD'] ?? '');
 				break;
 			default:
-				self::$database = new PostgresqlAccess('postgresql', 5432, 'db_looper', $_ENV['POSTGRES_USER'], $_ENV['POSTGRES_PASSWORD']);
+				self::$database = new PostgresqlAccess($_ENV['POSTGRES_DB_HOST'] ?? 'postgresql', $_ENV['POSTGRES_DB_PORT'] ?? 5432, $_ENV['POSTGRES_DB_NAME'] ?? 'db_looper', $_ENV['POSTGRES_USER'] ?? '', $_ENV['POSTGRES_PASSWORD'] ?? '');
 		}
 	}
 
