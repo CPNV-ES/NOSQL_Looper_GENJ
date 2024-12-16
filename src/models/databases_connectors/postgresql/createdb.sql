@@ -1,6 +1,6 @@
 CREATE TABLE "users" (
   "id" SERIAL PRIMARY KEY,
-  "username" text NOT NULL,
+  "username" text UNIQUE NOT NULL,
   "password" text NOT NULL,
   "role" integer NOT NULL DEFAULT 0 
 );
