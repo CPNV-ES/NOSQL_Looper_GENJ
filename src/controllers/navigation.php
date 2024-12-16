@@ -90,7 +90,6 @@ class Navigation
 	public function login()
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
 			$user = User::FindUser($_POST['user_username']);
 
 			//TODO : log in
@@ -109,7 +108,6 @@ class Navigation
 	public function register()
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
 			$user = User::FindUser($_POST['user_username']);
 
 			//TODO : create user an then log in
