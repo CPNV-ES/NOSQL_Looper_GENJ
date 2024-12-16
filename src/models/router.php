@@ -39,6 +39,12 @@ class Router
 			],
 			'controller_file_name' => 'fulfillment_controller.php'
 		],
+		'UserController()' => [
+			'GET' => [
+				'/users/:id:int/delete' => 'deleteUser(:id:int)'
+			],
+			'controller_file_name' => 'user_controller.php'
+		],
 		'Navigation()' => [
 			'GET' => [
 				'/' => 'home()',
