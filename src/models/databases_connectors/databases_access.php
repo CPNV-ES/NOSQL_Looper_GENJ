@@ -276,4 +276,12 @@ interface DatabasesAccess
 	 * @return array[array[string|int,int]] An array of users. Each user is represented by an array containing the user's ID.
 	 */
 	public function getUsers(int $role = ALL_USER): array;
+
+	/**
+	 * Creates a new user with the given username and role.
+	 *
+	 * @param string $username The username of the user.
+	 * @param int $role The role of the user.
+	 */
+	public function deleteUser(int $userId): void;
 }

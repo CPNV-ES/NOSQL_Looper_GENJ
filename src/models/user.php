@@ -85,6 +85,16 @@ class User
 	{
 		return Role::from($this->database_access->getUserRole($this->id));
 	}
+
+	/**
+	 * Delete the user
+	 *
+	 * @return void
+	 */
+	public function delete(): void
+	{
+		$this->database_access->deleteUser($this->id);
+	}
 }
 
 class UserNotFoundException extends LooperException

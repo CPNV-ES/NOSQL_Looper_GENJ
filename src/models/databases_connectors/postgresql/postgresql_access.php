@@ -202,6 +202,11 @@ class PostgresqlAccess implements DatabasesAccess
 		return $this->postgresql->select('SELECT id FROM users WHERE role = :role', [':role' => $role]);
 	}
 
+	public function deleteUser(int $userId): void
+	{
+		$this->postgresql->modify('DELETE FROM users WHERE id = :id', [':id' => $userId]);
+	}
+
 	private function create_db_if_not_exist()
 	{
 		if (count($this->postgresql->select("SELECT 1 FROM information_schema.tables WHERE table_name = 'exercises'")) < 1) {
