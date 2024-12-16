@@ -18,6 +18,10 @@ ob_start();
 </header>
 
 <main class="container">
+    <div class="column float-right actions">
+        <label for="exercise_title">Don't have an account yet ?</label>
+        <a class="button results column" href="/register">Register</a>
+    </div>
     <title>ExerciseLooper</title>
     <h1>Login</h1>
     <form action="/login" accept-charset="UTF-8" method="post">
@@ -29,12 +33,12 @@ ob_start();
             <label for="exercise_title">Password</label>
             <input type="text" name="user_password" id="user_password">
         </div>
-
-
         <div class="actions">
             <input type="submit" name="commit" value="Login">
         </div>
     </form>
+
+
 </main>
 
 <?php
