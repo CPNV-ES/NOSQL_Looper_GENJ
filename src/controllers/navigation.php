@@ -1,5 +1,6 @@
 <?php
 
+require_once './src/models/hashedPassword.php';
 /**
  * @author Ethann Schneider, Guillaume Aubert, Jomana Kaempf
  * @version 29.11.2024
@@ -91,12 +92,17 @@ class Navigation
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$userid = User::FindUserId($_POST['user_username']);
+			$hashedPassword = User::getHashedPassword($userid);
+			//TODO : check password and log in
 
-			//TODO : log in
+			if (HashedPassword::fromNonHashed($_POST['user_password']) == $hashedPassword) {
+				//TODO : exception password didn't match account's password
+			} else {
 
-			$_SESSION['user'] == $userid; //TODO replace this by  username
+				$_SESSION['user'] == $userid; //TODO replace this by  username
 
-			include VIEW_DIR . '/home.php';
+				include VIEW_DIR . '/home.php';
+			}
 		} else {
 			include VIEW_DIR . '/login.php';
 		}
@@ -111,15 +117,17 @@ class Navigation
 	{
 		//TODO : create user an then log in
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$user = User::FindUserId($_POST['user_username']);
+			$user = User::findUserId($_POST['user_username']);
 			if ($user) {
 				include VIEW_DIR . '/register.php';
-				//TODO : error message to already exist username
+				//TODO : exception username already in use
 			}
 
-			User::CreateUser($_POST);
+			$passwordhashed = HashedPassword::fromNonHashed($_POST['user_password']);
 
-			$_SESSION['user'] == $_POST['user_username']; //TODO replace this by  username
+			$userid = User::CreateUser($_POST['user_username'], $passwordhashed);
+
+			$_SESSION['user'] == $userid; //TODO replace this by username
 
 			include VIEW_DIR . '/home.php';
 		} else {

@@ -56,24 +56,40 @@ class User
 	}
 
 	/**
-	 * Get the user based on the form
+	 * Get the user ID based on the given username
 	 *
-	 * @return User username and password;
+	 * @return int ID of the user;
 	 */
-	public static function FindUserId($username)/*: User*/
+	public static function findUserId($username): int
 	{
 		$database_access = (new DatabasesChoose())->getDatabase();
 
-		return $database_access->findUser($username->value);
-		;
+		return $database_access->findUser($username->value);;
 	}
 
-	public static function CreateUser($request)
+	/**
+	 * Create the user and return his ID
+	 *
+	 * @return int ID of the user;
+	 */
+	public static function createUser($username, $password)
 	{
 		$database_access = (new DatabasesChoose())->getDatabase();
 
-		return $database_access->createUser($request['user_username'], $request['user_password']);
-		;
+		return $database_access->createUser($username, $password);;
+	}
+
+	/**
+	 * Get the user's hashed password base on the given ID
+	 *
+	 * @return string hashed password of the user;
+	 */
+	public static function getHashedPassword($id)
+	{
+
+		$database_access = (new DatabasesChoose())->getDatabase();
+
+		return $database_access->getPassword($id);
 	}
 }
 

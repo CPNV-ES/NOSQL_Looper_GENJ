@@ -260,7 +260,28 @@ interface DatabasesAccess
 	 */
 	public function getUserUsername(int $id): string;
 
-	public function findUser(string $username);
+	/**
+	 * Retrieves the id of a specific user
+	 *
+	 * @param string $username The username of the user.
+	 * @return int The id of the user.
+	 */
+	public function findUser(string $username): int;
 
-	public function createUser($username, $password);
+	/**
+	 * Create a new user.
+	 *
+	 * @param string $username The username of the user.
+	 * @param string $hashedPassword The password but hashed of the user
+	 * @return int The ID of the user.
+	 */
+	public function createUser(string $username, string $hashedPassword): int;
+
+	/**
+	 * Retrieve the hashed password of a specific user.
+	 *
+	 * @param int $id The ID of the user.
+	 * @return string The password but hashed of the user
+	 */
+	public function getPassword(int $id): string;
 }
