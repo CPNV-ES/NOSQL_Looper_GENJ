@@ -266,7 +266,7 @@ interface DatabasesAccess
 	 * @param string $username The username of the user.
 	 * @return int The id of the user.
 	 */
-	public function findUser(string $username): int;
+	public function findUser(string $username): mixed;
 
 	/**
 	 * Create a new user.
