@@ -39,11 +39,20 @@ class Router
 			],
 			'controller_file_name' => 'fulfillment_controller.php'
 		],
+		'UserController()' => [
+			'POST' => [
+				'/login' => 'login()',
+				'/register' => 'register()',
+
+			],
+			'GET' => [
+				'/logout' => 'logout()',
+			],
+		],
 		'Navigation()' => [
 			'GET' => [
 				'/' => 'home()',
 				'/login' => 'login()',
-				'/logout' => 'logout()',
 				'/register' => 'register()',
 				'/exercises' => 'manageExercises()',
 				'/exercises/answering' => 'takeAnExercises()',
