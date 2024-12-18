@@ -14,7 +14,12 @@ class MongoDB
 
 	public function __construct($host, $port, $mongo_user, $mongo_password)
 	{
-		$client = new MongoDB\Client("mongodb://$mongo_user:$mongo_password@$host:$port");
+		$uri = "mongodb://$mongo_user:$mongo_password@$host:$port";
+		if (empty($mongo_user) || empty($mongo_password)) {
+			$uri = "mongodb://$host:$port";
+		}
+
+		$client = new MongoDB\Client($uri);
 
 		//Extract existing database names
 		$arrayDBNames = [];
