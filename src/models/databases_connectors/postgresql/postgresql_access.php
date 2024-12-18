@@ -118,14 +118,19 @@ class PostgresqlAccess implements DatabasesAccess
 		return $this->postgresql->select('SELECT label FROM fields WHERE id = :id', [':id' => $id])[0]['label'];
 	}
 
+	public function getFieldAnswer(int $id): string
+	{
+		return $this->postgresql->select('SELECT answer FROM fields WHERE id = :id', [':id' => $id])[0]['answer'];
+	}
+
 	public function getFieldKind(int $id): int
 	{
 		return $this->postgresql->select('SELECT kind FROM fields WHERE id = :id', [':id' => $id])[0]['kind'];
 	}
 
-	public function createField(int $exercise_id, string $label, int $kind): int
+	public function createField(int $exercise_id, string $label, string $answer, int $kind): int
 	{
-		return (int)$this->postgresql->select('INSERT INTO fields (label, kind, exercise_id) VALUES (:label, :kind, :exercise_id) RETURNING id', [':label' => $label, ':kind' => $kind, ':exercise_id' => $exercise_id])[0][0];
+		return (int)$this->postgresql->select('INSERT INTO fields (label, answer, kind, exercise_id) VALUES (:label, :answer, :kind, :exercise_id) RETURNING id', [':label' => $label, ':answer' => $answer, ':kind' => $kind, ':exercise_id' => $exercise_id])[0][0];
 	}
 
 	public function deleteField(int $id): void
@@ -146,6 +151,11 @@ class PostgresqlAccess implements DatabasesAccess
 	public function setFieldLabel(int $id, string $label): void
 	{
 		$this->postgresql->modify('UPDATE fields SET label = :label WHERE id = :id', [':label' => $label, ':id' => $id]);
+	}
+
+	public function setFieldAnswer(int $id, string $answer): void
+	{
+		$this->postgresql->modify('UPDATE fields SET answer = :answer WHERE id = :id', [':answer' => $answer, ':id' => $id]);
 	}
 
 	public function setFieldKind(int $id, int $kind): void
@@ -179,12 +189,12 @@ class PostgresqlAccess implements DatabasesAccess
 		return $this->postgresql->select('SELECT exercise_id FROM fulfillments WHERE id = :fulfillment_id', ['fulfillment_id' => $fulfillment_id])[0][0];
 	}
 
-	public function doesUserExist(int $id): bool 
+	public function doesUserExist(int $id): bool
 	{
 		return count($this->postgresql->select('SELECT id FROM users WHERE id = :id', [':id' => $id])) > 0;
 	}
 
-	public function getUserUsername(int $id): string 
+	public function getUserUsername(int $id): string
 	{
 		return $this->postgresql->select('SELECT username FROM users WHERE id = :id', [':id' => $id])[0]['username'];
 	}

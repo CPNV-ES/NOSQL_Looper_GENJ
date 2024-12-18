@@ -15,7 +15,8 @@ CREATE TABLE "fields" (
   "id" SERIAL PRIMARY KEY,
   "exercise_id" integer NOT NULL,
   "label" text NOT NULL,
-  "kind" integer NOT NULL
+  "kind" integer NOT NULL,
+  "answer" text NOT NULL
 );
 
 CREATE TABLE "fulfillments" (

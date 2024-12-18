@@ -99,12 +99,12 @@ class Exercise
 	 * @throws ExerciseNotInBuildingStatus if the exercise is not in building status
 	 * @return Field the created field
 	 */
-	public function createField(string $label, Kind $kind): Field
+	public function createField(string $label, string $answer, Kind $kind): Field
 	{
 		if ($this->getStatus() != Status::Building) {
 			throw new ExerciseNotInBuildingStatus();
 		}
-		return new Field($this->database_access->createField($this->id, $label, $kind->value));
+		return new Field($this->database_access->createField($this->id, $label, $answer, $kind->value));
 	}
 
 	/**

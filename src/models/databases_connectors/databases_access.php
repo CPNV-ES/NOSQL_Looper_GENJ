@@ -143,6 +143,14 @@ interface DatabasesAccess
 	 * @param int $id The ID of the field.
 	 * @return int The kind of the field.
 	 */
+	public function getFieldAnswer(int $id): string;
+
+	/**
+	 * Retrieves the kind of a specific field.
+	 *
+	 * @param int $id The ID of the field.
+	 * @return int The kind of the field.
+	 */
 	public function getFieldKind(int $id): int;
 
 	/**
@@ -150,10 +158,11 @@ interface DatabasesAccess
 	 *
 	 * @param int $exercise_id The ID of the exercise.
 	 * @param string $label The label of the field.
+	 * @param string $answer The answer og the field.
 	 * @param int $kind The kind of the field.
 	 * @return int The ID of the newly created field.
 	 */
-	public function createField(int $exercise_id, string $label, int $kind): int;
+	public function createField(int $exercise_id, string $label, string $answer, int $kind): int;
 
 	/**
 	 * Deletes a specific field by its ID.
@@ -187,6 +196,14 @@ interface DatabasesAccess
 	 * @param string $label The label to set.
 	 */
 	public function setFieldLabel(int $id, string $label): void;
+
+	/**
+	 * Sets the kind of a specific field.
+	 *
+	 * @param int $id The ID of the field.
+	 * @param int $answer The kind to set.
+	 */
+	public function setFieldAnswer(int $id, string $answer): void;
 
 	/**
 	 * Sets the kind of a specific field.
@@ -243,11 +260,11 @@ interface DatabasesAccess
 	 */
 	public function getExerciseByFulfillmentId(int $fulfillment_id): int;
 
-	/** 
+	/**
 	 * Retrieves the user ID associated with a specific fulfillment ID.
-	 * 
+	 *
 	 * @param int $fulfillment_id The ID of the fulfillment.
-	 * 
+	 *
 	 * @return int The ID of the user.
 	 */
 	public function doesUserExist(int $id): bool;
