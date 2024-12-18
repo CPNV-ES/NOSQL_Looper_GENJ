@@ -1,6 +1,5 @@
 <?php
 
-require_once './src/models/hashedPassword.php';
 /**
  * @author Ethann Schneider, Guillaume Aubert, Jomana Kaempf
  * @version 29.11.2024
@@ -84,62 +83,26 @@ class Navigation
 	}
 
 	/**
-	 * Display the login page and log the user in.
+	 * Display the login page .
 	 *
 	 * @return void
 	 */
 	public function login()
 	{
-		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$userid = User::FindUserId($_POST['user_username']);
-			$hashedPassword = User::getHashedPassword($userid);
-			//TODO : check password and log in
-
-			if (HashedPassword::fromNonHashed($_POST['user_password']) == $hashedPassword) {
-				//TODO : exception password didn't match account's password
-			} else {
-
-				$_SESSION['user'] == $userid; //TODO replace this by  username
-
-				include VIEW_DIR . '/home.php';
-			}
-		} else {
-			include VIEW_DIR . '/login.php';
-		}
+		include VIEW_DIR . '/login.php';
 	}
 
 	/**
-	 * Display the login page.
+	 * Display the register page.
 	 *
 	 * @return void
 	 */
 	public function register()
 	{
-		//TODO : create user an then log in
-		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$user = User::findUserId($_POST['user_username']);
-			if ($user) {
-				include VIEW_DIR . '/register.php';
-				//TODO : exception username already in use
-			}
-
-			$passwordhashed = HashedPassword::fromNonHashed($_POST['user_password']);
-
-			$userid = User::CreateUser($_POST['user_username'], $passwordhashed);
-
-			$_SESSION['user'] == $userid; //TODO replace this by username
-
-			include VIEW_DIR . '/home.php';
-		} else {
-			include VIEW_DIR . '/register.php';
-		}
+		include VIEW_DIR . '/register.php';
 	}
 
-	public function lougout()
-	{
-		session_destroy();
-		include VIEW_DIR . '/home.php';
-	}
+
 
 	/**
 	 * Display the edit field page.
