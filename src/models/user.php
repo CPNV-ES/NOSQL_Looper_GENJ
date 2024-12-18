@@ -64,7 +64,7 @@ class User
 	{
 		$database_access = (new DatabasesChoose())->getDatabase();
 
-		return $database_access->findUser($username->value);;
+		return $database_access->findUser($username);;
 	}
 
 	/**
