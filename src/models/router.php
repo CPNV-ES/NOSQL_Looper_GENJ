@@ -48,6 +48,7 @@ class Router
 			'GET' => [
 				'/logout' => 'logout()',
 			],
+			'controller_file_name' => 'user_controller.php'
 		],
 		'Navigation()' => [
 			'GET' => [

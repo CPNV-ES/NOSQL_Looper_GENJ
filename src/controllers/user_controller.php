@@ -7,6 +7,7 @@
  */
 
 include_once MODEL_DIR . '/exercise.php';
+include_once MODEL_DIR . '/user.php';
 require_once MODEL_DIR . '/databases_connectors/databases_choose.php';
 
 /**
