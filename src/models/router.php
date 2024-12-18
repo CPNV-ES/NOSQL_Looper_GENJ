@@ -16,28 +16,28 @@ class Router
 	private array $controller_entry = [
 		'ExerciseController()' => [
 			'GET' => [
-				'/exercises/:id:int' => 'changeStateOfExercise(:id:int)',
-				'/exercises/:id:int/delete' => 'deleteExercise(:id:int)'
+				'/exercises/:id:int' => 'changeStateOfExercise(:authenticatedTeacher, :id:int)',
+				'/exercises/:id:int/delete' => 'deleteExercise(:authenticatedTeacher, :id:int)'
 			],
 			'POST' => [
-				'/exercises' => 'createExercise()'
+				'/exercises' => 'createExercise(:authenticatedTeacher)'
 			],
 			'controller_file_name' => 'exercise_controller.php'
 		],
 		'FieldController()' => [
 			'GET' => [
-				'/exercises/:id:int/fields/:idFields:int' => 'deleteField(:id:int, :idFields:int)'
+				'/exercises/:id:int/fields/:idFields:int' => 'deleteField(:authenticatedTeacher, :id:int, :idFields:int)'
 			],
 			'POST' => [
-				'/exercises/:id:int/fields' => 'createField(:id:int)',
-				'/exercises/:id:int/fields/:idFields:int' => 'editField(:id:int, :idFields:int)'
+				'/exercises/:id:int/fields' => 'createField(:authenticatedTeacher, :id:int)',
+				'/exercises/:id:int/fields/:idFields:int' => 'editField(:authenticatedTeacher, :id:int, :idFields:int)'
 			],
 			'controller_file_name' => 'field_controller.php'
 		],
 		'FulfillmentController()' => [
 			'POST' => [
-				'/exercises/:id:int/fulfillments' => 'createFulfillment(:id:int)',
-				'/exercises/:id:int/fulfillments/:idFulfillment:int' => 'editFulfillment(:id:int, :idFulfillment:int)'
+				'/exercises/:id:int/fulfillments' => 'createFulfillment(:authenticatedUser, :id:int)',
+				'/exercises/:id:int/fulfillments/:idFulfillment:int' => 'editFulfillment(:authenticatedUser, :id:int, :idFulfillment:int)'
 			],
 			'controller_file_name' => 'fulfillment_controller.php'
 		],
@@ -52,17 +52,17 @@ class Router
 		],
 		'Navigation()' => [
 			'GET' => [
-				'/' => 'home()',
-				'/exercises' => 'manageExercises()',
-				'/exercises/answering' => 'takeAnExercises()',
-				'/exercises/new' => 'createAnExercises()',
-				'/exercises/:id:int/fields' => 'manageField(:id:int)',
-				'/exercises/:id:int/fulfillments/new' => 'take(:id:int)',
-				'/exercises/:id:int/fields/:idFields:int/edit' => 'editAField(:id:int, :idFields:int)',
-				'/exercises/:id:int/results' => 'showResults(:id:int)',
-				'/exercises/:exercise:int/results/:field:int' => 'showFieldResults(:exercise:int,:field:int)',
-				'/exercises/:id:int/fulfillments/:idFulfillments:int' => 'showFulfillmentResults(:id:int, :idFulfillments:int)',
-				'/exercises/:id:int/fulfillments/:idFulfillments:int/edit' => 'editFulfillment(:id:int, :idFulfillments:int)',
+				'/' => 'home(:authenticatedUser)',
+				'/exercises' => 'manageExercises(:authenticatedTeacher)',
+				'/exercises/answering' => 'takeAnExercises(:authenticatedUser)',
+				'/exercises/new' => 'createAnExercises(:authenticatedTeacher)',
+				'/exercises/:id:int/fields' => 'manageField(:authenticatedTeacher,:id:int)',
+				'/exercises/:id:int/fulfillments/new' => 'take(:authenticatedUser,:id:int)',
+				'/exercises/:id:int/fields/:idFields:int/edit' => 'editAField(:authenticatedTeacher, :id:int, :idFields:int)',
+				'/exercises/:id:int/results' => 'showResults(:authenticatedTeacher, :id:int)',
+				'/exercises/:exercise:int/results/:field:int' => 'showFieldResults(:authenticatedTeacher, :exercise:int,:field:int)',
+				'/exercises/:id:int/fulfillments/:idFulfillments:int' => 'showFulfillmentResults(:authenticatedTeacher, :id:int, :idFulfillments:int)',
+				'/exercises/:id:int/fulfillments/:idFulfillments:int/edit' => 'editFulfillment(:authenticatedUser, :id:int, :idFulfillments:int)',
 				'/users' => 'manageUsers(:authenticatedDean)',
 				'/users/:id:int' => 'manageSingleUser(:authenticatedDean, :id:int)',
 			],
@@ -110,6 +110,7 @@ class Router
 				if (str_contains($method, ':authenticatedUser')) {
 					$authenticatedUser = $this->authenticatedUser();
 					if ($authenticatedUser == null) {
+						unauthorized();
 						return true;
 					}
 					$method = str_replace(':authenticatedUser', '($authenticatedUser)', $method);
@@ -126,7 +127,7 @@ class Router
 
 				if (str_contains($method, ':authenticatedTeacher')) {
 					$authenticatedUser = $this->authenticatedUser();
-					if ($authenticatedUser == null || $authenticatedUser->getRole() != Role::Teacher) {
+					if ($authenticatedUser == null || ($authenticatedUser->getRole() != Role::Teacher && $authenticatedUser->getRole() != Role::Dean)) {
 						unauthorized();
 						return true;
 					}

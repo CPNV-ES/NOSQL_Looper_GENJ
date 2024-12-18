@@ -22,7 +22,7 @@ class FieldController
 	 * @param int $exercise_id The ID of the exercise for which the field is being created.
 	 * @return void
 	 */
-	public function createField(int $exercise_id)
+	public function createField(User $teacher, int $exercise_id)
 	{
 		if (!isset($_POST['field']['label'], $_POST['field']['value_kind'])) {
 			badRequest();
@@ -47,7 +47,7 @@ class FieldController
 	 * @param  int $field_id The ID of the field that is to be deleted.
 	 * @return void
 	 */
-	public function deleteField(int $exercise_id, int $field_id)
+	public function deleteField(User $teacher, int $exercise_id, int $field_id)
 	{
 		$exercise = null;
 
@@ -68,7 +68,7 @@ class FieldController
 	 * @param  int $field_id The ID of the field to be edited.
 	 * @return void
 	 */
-	public function editField(int $exercise_id, int $field_id)
+	public function editField(User $teacher, int $exercise_id, int $field_id)
 	{
 		$exercise = new Exercise($exercise_id);
 		$field = new Field($field_id);

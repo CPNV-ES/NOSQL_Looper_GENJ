@@ -20,7 +20,7 @@ class ExerciseController
 	 *
 	 * @return void
 	 */
-	public function createExercise()
+	public function createExercise(User $teacher)
 	{
 		if (!isset($_POST['exercise_title'])) {
 			badRequest();
@@ -38,7 +38,7 @@ class ExerciseController
 	 * @param int $id The ID of the exercise to be deleted.
 	 * @return void
 	 */
-	public function deleteExercise(int $id)
+	public function deleteExercise(User $teacher, int $id)
 	{
 		$exercise = new Exercise($id);
 
@@ -54,7 +54,7 @@ class ExerciseController
 	 * @param int $id The ID of the exercise whose state is to be changed.
 	 * @return void
 	 */
-	public function changeStateOfExercise(int $id)
+	public function changeStateOfExercise(User $teacher, int $id)
 	{
 		if (!isset($_GET['exercise']['status'])) {
 			badRequest();

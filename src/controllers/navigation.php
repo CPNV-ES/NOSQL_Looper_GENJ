@@ -24,7 +24,7 @@ class Navigation
 	 *
 	 * @return void
 	 */
-	public function home()
+	public function home(User $user)
 	{
 		include VIEW_DIR . '/home.php';
 	}
@@ -34,7 +34,7 @@ class Navigation
 	 *
 	 * @return void
 	 */
-	public function createAnExercises()
+	public function createAnExercises(User $teacher)
 	{
 		include VIEW_DIR . '/create_an_exercise.php';
 	}
@@ -44,7 +44,7 @@ class Navigation
 	 *
 	 * @return void
 	 */
-	public function takeAnExercises()
+	public function takeAnExercises(User $user)
 	{
 		$exercises = Exercise::getExercises(Status::Answering);
 		include VIEW_DIR . '/take_an_exercise.php';
@@ -55,7 +55,7 @@ class Navigation
 	 *
 	 * @return void
 	 */
-	public function manageExercises()
+	public function manageExercises(User $teacher)
 	{
 		$buildingExercises = Exercise::getExercises(Status::Building);
 		$answeringExercises = Exercise::getExercises(Status::Answering);
@@ -70,7 +70,7 @@ class Navigation
 	 * @param  mixed $id The ID of the exercise.
 	 * @return void
 	 */
-	public function manageField(int $id)
+	public function manageField(User $teacher, int $id)
 	{
 		$exercise = new Exercise($id);
 		$fields = $exercise->getFields();
@@ -90,7 +90,7 @@ class Navigation
 		 * @param int $id The ID of the field to edit.
 		 * @return void
 		 */
-	public function editAField(int $exercise_id, int $id)
+	public function editAField(User $teacher, int $exercise_id, int $id)
 	{
 		$exercise = new Exercise($exercise_id);
 		$field = new Field($id);
@@ -114,7 +114,7 @@ class Navigation
 	 * @param  int $exercise_id The ID of the exercise.
 	 * @return void
 	 */
-	public function take(int $exercise_id)
+	public function take(User $user,int $exercise_id)
 	{
 		$edit_take = false;
 		$exercise = new Exercise($exercise_id);
@@ -135,7 +135,7 @@ class Navigation
 	 * @param $exercise_id The ID of the exercise.
 	 * @return void
 	 */
-	public function showResults(int $id)
+	public function showResults(User $teacher, int $id)
 	{
 		$exercise = new Exercise($id);
 		include VIEW_DIR . '/show_exercise_results.php';
@@ -148,7 +148,7 @@ class Navigation
 	 * @param  int $field_id The ID of the field.
 	 * @return void
 	 */
-	public function showFieldResults(int $exercise_id, int $field_id)
+	public function showFieldResults(User $teacher, int $exercise_id, int $field_id)
 	{
 		$exercise = new Exercise($exercise_id);
 		$field = new Field($field_id);
@@ -168,7 +168,7 @@ class Navigation
 	 * @param  int $fulfillment_id The ID of the fulfillment.
 	 * @return void
 	 */
-	public function showFulfillmentResults(int $exercise_id, int $fulfillment_id): void
+	public function showFulfillmentResults(User $teacher, int $exercise_id, int $fulfillment_id): void
 	{
 		$exercise = new Exercise($exercise_id);
 
@@ -189,7 +189,7 @@ class Navigation
 	 * @param  int $fulfillment_id The ID of the fulfillment to be edited.
 	 * @return void
 	 */
-	public function editFulfillment(int $exercise_id, int $fulfillment_id)
+	public function editFulfillment(User $user, int $exercise_id, int $fulfillment_id)
 	{
 		$exercise = new Exercise($exercise_id);
 		$fulfillment = new Fulfillment($fulfillment_id);
