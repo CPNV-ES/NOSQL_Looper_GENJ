@@ -2,6 +2,8 @@
 .pgdata
 .env
 
+.mongo_data
+
 ##### Windows
 # Windows thumbnail cache files
 Thumbs.db

@@ -6,8 +6,8 @@
  * @description PostgresqlAccess class implementing DatabasesAccess
  */
 
-require MODEL_DIR . '/databases_connectors/databases_access.php';
-require MODEL_DIR . '/databases_connectors/postgresql/postgresql.php';
+require_once MODEL_DIR . '/databases_connectors/databases_access.php';
+require_once MODEL_DIR . '/databases_connectors/postgresql/postgresql.php';
 
 /**
  * Class PostgresqlAccess
