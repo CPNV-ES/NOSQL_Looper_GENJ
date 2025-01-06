@@ -60,6 +60,6 @@ class HashedPassword
 
 	private static function hashPassword(string $password): string
 	{
-		return hash('sha256', $password . $_ENV['PASSWORD_SALT']);
+		return hash('sha256', $password . $_ENV['PASSWORD_SALT'] ?? '');
 	}
 }

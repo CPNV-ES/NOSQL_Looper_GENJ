@@ -30,10 +30,17 @@ class UserController
     {
 
         $userid = User::FindUserId($_POST['user_username']);
-        $hashedPassword = User::getHashedPassword($userid);
+
+        if ($userid) {
+            $hashedPassword = User::getHashedPassword($userid);
+        } else {
+            //TODO : exception username doesn't exist
+            include VIEW_DIR . '/login.php';
+        }
+
         //TODO : check password and log in
 
-        if (HashedPassword::fromNonHashed($_POST['user_password']) == $hashedPassword) {
+        if (HashedPassword::fromNonHashed($_POST['user_password'])->value() !== $hashedPassword) {
             //TODO : exception password didn't match account's password
             include VIEW_DIR . '/login.php';
         } else {
