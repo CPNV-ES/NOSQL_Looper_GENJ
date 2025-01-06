@@ -58,9 +58,9 @@ class User
 	/**
 	 * Get the user ID based on the given username
 	 *
-	 * @return int ID of the user;
+	 * @return mixed ID of the user;
 	 */
-	public static function findUserId($username): int
+	public static function findUserId($username): mixed
 	{
 		$database_access = (new DatabasesChoose())->getDatabase();
 

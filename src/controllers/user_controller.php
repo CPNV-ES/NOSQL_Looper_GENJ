@@ -8,6 +8,7 @@
 
 include_once MODEL_DIR . '/exercise.php';
 include_once MODEL_DIR . '/user.php';
+include_once MODEL_DIR . '/hashedPassword.php';
 require_once MODEL_DIR . '/databases_connectors/databases_choose.php';
 
 /**
@@ -46,7 +47,7 @@ class UserController
     public function register()
     {
         //TODO : create user an then log in
-        $user = new User(User::findUserId($_POST['user_username']));
+        $user = User::findUserId($_POST['user_username']);
         if ($user) {
             include VIEW_DIR . '/register.php';
             //TODO : exception username already in use
