@@ -8,7 +8,7 @@
 
 include_once MODEL_DIR . '/exercise.php';
 include_once MODEL_DIR . '/user.php';
-include_once MODEL_DIR . '/hashedPassword.php';
+require_once MODEL_DIR . '/hashedPassword.php';
 require_once MODEL_DIR . '/databases_connectors/databases_choose.php';
 
 /**
@@ -38,7 +38,12 @@ class UserController
             include VIEW_DIR . '/login.php';
         } else {
 
-            $_SESSION['user'] == $userid; //TODO replace this by  username
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+            }
+
+
+            $_SESSION['user'] = $userid; //TODO replace this by  username
 
             include VIEW_DIR . '/home.php';
         }
@@ -53,11 +58,14 @@ class UserController
             //TODO : exception username already in use
         }
 
-        $passwordhashed = HashedPassword::fromNonHashed($_POST['user_password']);
+        $passwordhashed =   HashedPassword::fromNonHashed($_POST['user_password'])->value();
 
         $userid = User::CreateUser($_POST['user_username'], $passwordhashed);
 
-        $_SESSION['user'] == $userid;
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        $_SESSION['user'] = $userid;
 
         include VIEW_DIR . '/home.php';
     }

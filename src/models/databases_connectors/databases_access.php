@@ -275,7 +275,7 @@ interface DatabasesAccess
 	 * @param string $hashedPassword The password but hashed of the user
 	 * @return int The ID of the user.
 	 */
-	public function createUser(string $username, HashedPassword $hashedPassword): int;
+	public function createUser(string $username, string $hashedPassword): int;
 
 	/**
 	 * Retrieve the hashed password of a specific user.

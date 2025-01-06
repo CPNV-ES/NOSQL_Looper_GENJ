@@ -194,7 +194,7 @@ class PostgresqlAccess implements DatabasesAccess
 		return $this->postgresql->select('SELECT id FROM users WHERE username = :username', [':username' => $username])[0]['id'];
 	}
 
-	public function createUser(string $username, HashedPassword $hashedPassword): int
+	public function createUser(string $username, string $hashedPassword): int
 	{
 		return (int)$this->postgresql->select('INSERT INTO users (username, password) VALUES (:username, :password) RETURNING id', [':username' => $username, ':password' => $hashedPassword])[0][0];
 	}
