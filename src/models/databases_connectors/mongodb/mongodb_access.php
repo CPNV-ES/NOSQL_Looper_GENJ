@@ -38,6 +38,7 @@ class MongodbAccess implements DatabasesAccess
 		$this->fields = $this->db->mongodb->fields;
 		$this->fulfillments = $this->db->mongodb->fulfillments;
 		$this->fulfillments_data = $this->db->mongodb->fulfillments_data;
+		$this->users = $this->db->mongodb->users;
 	}
 
 	public function doesExerciseExist(int $id): bool
@@ -206,5 +207,40 @@ class MongodbAccess implements DatabasesAccess
 	{
 		$result = $this->db->find($this->fulfillments, ['id' => $fulfillment_id], ['projection' => ['exercise_id' => 1]]);
 		return $result[0]['exercise_id'];
+	}
+
+	public function doesUserExist(int $id): bool
+	{
+		$result = $this->db->find($this->users, ['id' => $id], ['projection' => ['id' => 1]]);
+		return count($result) > 0;
+	}
+
+	public function getUserUsername(int $id): string
+	{
+		$result = $this->db->find($this->users, ['id' => $id], ['projection' => ['username' => 1]]);
+		return $result[0]['username'];
+	}
+
+	public function getUserRole(int $id): int
+	{
+		$result = $this->db->find($this->users, ['id' => $id], ['projection' => ['role' => 1]]);
+		return $result[0]['role'];
+	}
+
+	public function getUsers(int $role = ALL_USER): array
+	{
+		return $role == ALL_USER ?
+				$this->db->find($this->users, [], ['projection' => ['id' => 1]]) :
+				$this->db->find($this->users, ['role' => $role], ['projection' => ['id' => 1]]);
+	}
+
+	public function deleteUser(int $userId): void
+	{
+		$this->db->remove($this->users, ['id' => $userId]);
+	}
+
+	public function setUserRole(int $id, int $role): void
+	{
+		$this->db->update($this->users, ['id' => $id], ['$set' => ['role' => $role]]);
 	}
 }
