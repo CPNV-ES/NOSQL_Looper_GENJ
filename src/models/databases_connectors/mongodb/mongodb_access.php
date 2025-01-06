@@ -20,6 +20,7 @@ class MongodbAccess implements DatabasesAccess
 	private $fields;
 	private $fulfillments;
 	private $fulfillments_data;
+	private $users;
 
 	/**
 	 * MongodbAccess constructor.
@@ -68,7 +69,7 @@ class MongodbAccess implements DatabasesAccess
 	public function getExercises(int $status = ALL_EXERCISES): array
 	{
 		if ($status == ALL_EXERCISES) {
-			$result = $this->db->find($this->exercises, [], ['projection' => ['id' => $id]]);
+			$result = $this->db->find($this->exercises, [], ['projection' => ['id' => 1]]);
 		} else {
 			$result = $this->db->find($this->exercises, ['status' => $status], ['projection' => ['id' => 1]]);
 		}
@@ -115,7 +116,7 @@ class MongodbAccess implements DatabasesAccess
 
 	public function setFulfillmentBody(int $field_id, int $fulfillment_id, string $body): void
 	{
-		$result = $this->db->update($this->fulfillments_data, ['fulfillment_id' => $fulfillment_id, 'field_id' => $field_id], ['$set' => ['body' => $body]]);
+		$this->db->update($this->fulfillments_data, ['fulfillment_id' => $fulfillment_id, 'field_id' => $field_id], ['$set' => ['body' => $body]]);
 	}
 
 	public function createFulfillment(int $exercise_id): int
@@ -155,7 +156,7 @@ class MongodbAccess implements DatabasesAccess
 
 	public function deleteField(int $id): void
 	{
-		$result = $this->db->remove($this->fields, ['id' => $id]);
+		$this->db->remove($this->fields, ['id' => $id]);
 	}
 
 	public function isFieldInExercise(int $exercise_id, int $field_id): bool
@@ -172,17 +173,17 @@ class MongodbAccess implements DatabasesAccess
 
 	public function setFieldLabel(int $id, string $label): void
 	{
-		$result = $this->db->update($this->fields, ['id' => $id], ['$set' => ['label' => $label]]);
+		$this->db->update($this->fields, ['id' => $id], ['$set' => ['label' => $label]]);
 	}
 
 	public function setFieldKind(int $id, int $kind): void
 	{
-		$result = $this->db->update($this->fields, ['id' => $id], ['$set' => ['kind' => $kind]]);
+		$this->db->update($this->fields, ['id' => $id], ['$set' => ['kind' => $kind]]);
 	}
 
 	public function deleteExercise(int $id): void
 	{
-		$result = $this->db->remove($this->exercises, ['id' => $id]);
+		$this->db->remove($this->exercises, ['id' => $id]);
 	}
 
 	public function setExerciseStatus(int $id, int $status)
