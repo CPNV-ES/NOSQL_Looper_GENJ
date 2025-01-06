@@ -76,7 +76,8 @@ class User
 	{
 		$database_access = (new DatabasesChoose())->getDatabase();
 
-		return $database_access->createUser($username, $password);;
+		return $database_access->createUser($username, $password);
+		;
 	}
 
 	/**

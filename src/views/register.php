@@ -15,7 +15,7 @@ ob_start();
         <a href="/"><img src="/assets/img/logo.png"></a>
         <span class="exercise-label">Register</span>
         <?php if ($_SESSION['user']): ?>
-            <a class="link-label" href="/Logout"><? ($_SESSION['user']) ?></a>
+            <a class="link-label" href="/Logout"><?php ($_SESSION['user']) ?></a>
         <?php else: ?>
             <a class="link-label" href="/Logout">Log out</a>
         <?php endif; ?>
