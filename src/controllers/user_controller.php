@@ -28,52 +28,26 @@ class UserController
 
     public function login()
     {
-
-        $userid = User::FindUserId($_POST['user_username']);
-
-        if ($userid) {
-            $hashedPassword = User::getHashedPassword($userid);
-        } else {
-            //TODO : exception username doesn't exist
-            include VIEW_DIR . '/login.php';
+        if (!isset($_POST['user_username'], $_POST['user_password'])){
+            badRequest();
+        }
+        try {
+            $user = User::byUsername($_POST['user_username']);
+        } catch (Exception) {
+            header('Location: /login');
+            return;
         }
 
-        //TODO : check password and log in
-
-        if (HashedPassword::fromNonHashed($_POST['user_password'])->value() !== $hashedPassword) {
-            //TODO : exception password didn't match account's password
-            include VIEW_DIR . '/login.php';
+        if ($user->getPassword()->verify($_POST['user_password'])) {
+            $_SESSION['user'] = $user->getId();
+            header('Location: /');
         } else {
-
-            if (session_status() == PHP_SESSION_NONE) {
-                session_start();
-            }
-
-
-            $_SESSION['user'] = $userid; //TODO replace this by  username
-
-            include VIEW_DIR . '/home.php';
+            header('Location: /login');
         }
     }
 
     public function register()
     {
-        //TODO : create user an then log in
-        $user = User::findUserId($_POST['user_username']);
-        if ($user) {
-            include VIEW_DIR . '/register.php';
-            //TODO : exception username already in use
-        }
-
-        $passwordhashed =   HashedPassword::fromNonHashed($_POST['user_password'])->value();
-
-        $userid = User::CreateUser($_POST['user_username'], $passwordhashed);
-
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-        $_SESSION['user'] = $userid;
-
-        include VIEW_DIR . '/home.php';
+        if (isset)
     }
 }

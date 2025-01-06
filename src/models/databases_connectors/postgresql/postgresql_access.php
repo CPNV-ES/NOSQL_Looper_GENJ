@@ -189,9 +189,12 @@ class PostgresqlAccess implements DatabasesAccess
 		return $this->postgresql->select('SELECT username FROM users WHERE id = :id', [':id' => $id])[0]['username'];
 	}
 
-	public function findUser(string $username): mixed
+	public function findUserIdByUsername(string $username): int
 	{
-		return $this->postgresql->select('SELECT id FROM users WHERE username = :username', [':username' => $username])[0]['id'];
+		if (count($this->postgresql->select('SELECT id FROM users WHERE username = :username', [':username' => $username])) > 0) {
+			return $this->postgresql->select('SELECT id FROM users WHERE username = :username', [':username' => $username])[0]['id'];
+		}
+		return -1;
 	}
 
 	public function createUser(string $username, string $hashedPassword): int

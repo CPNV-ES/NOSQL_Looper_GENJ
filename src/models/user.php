@@ -58,13 +58,13 @@ class User
 	/**
 	 * Get the user ID based on the given username
 	 *
-	 * @return mixed ID of the user;
+	 * @return User The user;
 	 */
-	public static function findUserId($username): mixed
+	public static function byUsername($username): User
 	{
 		$database_access = (new DatabasesChoose())->getDatabase();
 
-		return $database_access->findUser($username);;
+		return new User($database_access->findUserIdByUsername($username));
 	}
 
 	/**
@@ -72,7 +72,7 @@ class User
 	 *
 	 * @return int ID of the user;
 	 */
-	public static function createUser($username, $password)
+	public static function create($username, $password)
 	{
 		$database_access = (new DatabasesChoose())->getDatabase();
 
@@ -80,16 +80,13 @@ class User
 	}
 
 	/**
-	 * Get the user's hashed password base on the given ID
+	 * Get the user's password base on the given ID
 	 *
-	 * @return string hashed password of the user;
+	 * @return HashedPassword password of the user;
 	 */
-	public static function getHashedPassword($id)
+	public function getPassword(): HashedPassword
 	{
-
-		$database_access = (new DatabasesChoose())->getDatabase();
-
-		return $database_access->getPassword($id);
+		return HashedPassword::fromHashed($this->database_access->getPassword($this->id));
 	}
 }
 
