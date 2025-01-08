@@ -89,6 +89,9 @@ class Navigation
 	 */
 	public function login()
 	{
+		if (isset($_SESSION['user'])) {
+			header('Location: /');
+		}
 		include VIEW_DIR . '/login.php';
 	}
 
@@ -99,6 +102,9 @@ class Navigation
 	 */
 	public function register()
 	{
+		if (isset($_SESSION['user'])) {
+			header('Location: /');
+		}
 		include VIEW_DIR . '/register.php';
 	}
 
