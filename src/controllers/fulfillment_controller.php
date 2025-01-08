@@ -18,6 +18,7 @@ class FulfillmentController
 	/**
 	 * Create a fulfillment
 	 * This method handles the creation of a fulfillment for a specific exercise, identified by `$exercise_id`.
+	 * @param User $user current authenticated user
 	 * @param  int $exercise_id The ID of the exercise for which a new fulfillment is being created.
 	 * @return void This function performs creation and redirects, but does not return a value.
 	 */
@@ -56,6 +57,7 @@ class FulfillmentController
 	 * This method handles the editing of an existing fulfillment, identified by `$fulfillment_id`,
 	 * for a specific exercise, identified by `$exercise_id`.
 	 *
+	 * @param User $user current authenticated user
 	 * @param int $exercise_id The ID of the exercise associated with the fulfillment.
 	 * @param int $fulfillment_id The ID of the fulfillment that is being edited.
 	 * @return void This function updates the fulfillment and redirects, without returning a value.

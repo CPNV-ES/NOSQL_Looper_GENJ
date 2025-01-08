@@ -19,6 +19,7 @@ class FieldController
 	 * This method creates a new field within an existing exercise, using the label and value kind
 	 * provided by the user in `$_POST['field']`.
 	 *
+	 * @param User $teacher user with teacher role
 	 * @param int $exercise_id The ID of the exercise for which the field is being created.
 	 * @return void
 	 */
@@ -43,6 +44,7 @@ class FieldController
 	/**
 	 * This method deletes a field identified by `$field_id` from an exercise identified by `$exercise_id`.
 	 *
+	 * @param User $teacher user with teacher role
 	 * @param  int $exercise_id The ID of the exercise from which the field is to be deleted.
 	 * @param  int $field_id The ID of the field that is to be deleted.
 	 * @return void
@@ -64,6 +66,7 @@ class FieldController
 	/**
 	 * This method allows the editing of an existing field for a given exercise.
 	 *
+	 * @param User $teacher user with teacher role
 	 * @param  int $exercise_id The ID of the exercise containing the field.
 	 * @param  int $field_id The ID of the field to be edited.
 	 * @return void

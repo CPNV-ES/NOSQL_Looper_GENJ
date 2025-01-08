@@ -14,6 +14,12 @@ include_once MODEL_DIR . '/user.php';
  */
 class UserController
 {
+	/**
+	 * This function is to delete an user
+	 *
+	 * @param User $dean current authenticated user with dean role 
+	 * @param int $user_id The user to delete
+	 */
 	public function deleteUser(User $dean, int $user_id)
 	{
 		$user = new User($user_id);
@@ -21,6 +27,12 @@ class UserController
 		header('Location: /users');
 	}
 
+	/**
+	 * This function is to edit an user role 
+	 *
+	 * @param User $dean current authenticated user with dean role 
+	 * @param int $user_id The user to edit
+	 */
 	public function editUser(User $dean, int $user_id)
 	{
 		$user = new User($user_id);

@@ -34,7 +34,7 @@ class Navigation
 
 	/**
 	 * Display the create an exercise page.
-	 *
+	 * @param User $teacher user with teacher role
 	 * @return void
 	 */
 	public function createAnExercises(User $teacher)
@@ -45,6 +45,7 @@ class Navigation
 	/**
 	 * Display the take an exercise page.
 	 *
+	 * @param User $user current authenticated user
 	 * @return void
 	 */
 	public function takeAnExercises(User $user)
@@ -56,6 +57,7 @@ class Navigation
 	/**
 	 * Display the manage exercises page.
 	 *
+	 * @param User $teacher user with teacher role
 	 * @return void
 	 */
 	public function manageExercises(User $teacher)
@@ -70,7 +72,8 @@ class Navigation
 	/**
 	 * Display the manage fields page for a specific exercise.
 	 *
-	 * @param  mixed $id The ID of the exercise.
+	 * @param User $teacher user with teacher role
+	 * @param  int $id The ID of the exercise.
 	 * @return void
 	 */
 	public function manageField(User $teacher, int $id)
@@ -115,14 +118,15 @@ class Navigation
 	/**
 	 * Display the edit field page.
 	 *
+	 * @param User $teacher user with teacher role
 	 * @param int $exercise_id The ID of the exercise.
-	 * @param int $id The ID of the field to edit.
+	 * @param int $field_id The ID of the field to edit.
 	 * @return void
 	 */
-	public function editAField(int $exercise_id, int $id)
+	public function editAField(User $teacher, int $exercise_id, int $field_id)
 	{
 		$exercise = new Exercise($exercise_id);
-		$field = new Field($id);
+		$field = new Field($field_id);
 
 		if (!$exercise->isFieldInExercise($field)) {
 			lost();
@@ -140,6 +144,7 @@ class Navigation
 	/**
 	 * Display the take page for answering an exercise.
 	 *
+	 * @param  User $user current authenticated user
 	 * @param  int $exercise_id The ID of the exercise.
 	 * @return void
 	 */
@@ -161,18 +166,20 @@ class Navigation
 	/**
 	 * Display the results of an exercise.
 	 *
-	 * @param $exercise_id The ID of the exercise.
+	 * @param User $teacher user with teacher role
+	 * @param int $exercise_id The ID of the exercise.
 	 * @return void
 	 */
-	public function showResults(User $teacher, int $id)
+	public function showResults(User $teacher, int $exercise_id)
 	{
-		$exercise = new Exercise($id);
+		$exercise = new Exercise($exercise_id);
 		include VIEW_DIR . '/show_exercise_results.php';
 	}
 
 	/**
 	 * Display the results of a specific field in an exercise.
 	 *
+	 * @param User $teacher user with teacher role
 	 * @param  int $exercise_id The ID of the exercise.
 	 * @param  int $field_id The ID of the field.
 	 * @return void
@@ -193,6 +200,7 @@ class Navigation
 	/**
 	 * Display the results of a fulfillment.
 	 *
+	 * @param User $teacher user with teacher role
 	 * @param  int $exercise_id The ID of the exercise.
 	 * @param  int $fulfillment_id The ID of the fulfillment.
 	 * @return void
@@ -214,6 +222,7 @@ class Navigation
 	/**
 	 * Display the edit fulfillment page.
 	 *
+	 * @param User $user current authenticated user
 	 * @param  int $exercise_id The ID of the exercise.
 	 * @param  int $fulfillment_id The ID of the fulfillment to be edited.
 	 * @return void
@@ -241,6 +250,7 @@ class Navigation
 	/**
 	 * Display the manage users page.
 	 *
+	 * @param User $dean current authenticated user with dean role
 	 * @return void
 	 */
 	public function manageUsers(User $dean)
@@ -252,6 +262,8 @@ class Navigation
 	/**
 	 * Display the manage single user page.
 	 *
+	 * @param User $dean current authenticated user with dean role
+	 * @param int $userId the user to manage
 	 * @return void
 	 */
 	public function manageSingleUser(User $dean, int $userId)
