@@ -83,4 +83,30 @@ class FulfillmentController
 
 		header('Location: /exercises/' . $exercise->getId() . '/fulfillments/' . $fulfillment->getId() . '/edit');
 	}
+
+	public function setAnswerCorrect(int $exercise_id, int $fulfillment_id)
+	{
+		if (!isset($_POST['fulfillment']['correction'])) {
+			badRequest();
+			return;
+		}
+
+		$exercise = new Exercise($exercise_id);
+
+		$fulfillment = new Fulfillment($fulfillment_id);
+
+		switch ($_POST['fulfillment']['correction']) {
+			case 'correct':
+				$fulfillment->setCorrection(Correct::Correct);
+				break;
+			case 'incorrect':
+				$fulfillment->setCorrection(Correct::Incorrect);
+				break;
+			default:
+				badRequest();
+				return;
+		}
+
+		header('Location: /exercises/' . $exercise_id . '/fulfillments/' . $fulfillment_id);
+	}
 }
