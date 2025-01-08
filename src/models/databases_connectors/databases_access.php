@@ -284,4 +284,6 @@ interface DatabasesAccess
 	 * @return string The password but hashed of the user
 	 */
 	public function getPassword(int $id): string;
+
+	public function isUserExistByUsername(string $username): bool;
 }
