@@ -35,7 +35,7 @@ class FieldController
 
 		$kind = $this->kindStringToKindEnum($_POST['field']['value_kind']);
 
-		$exercise->createField($_POST['field']['label'], $_POST['field']['label'], $kind);
+		$exercise->createField($_POST['field']['label'], $_POST['field']['answer'], $kind);
 
 		header('Location: /exercises/' . $exercise_id . '/fields');
 	}
