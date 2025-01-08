@@ -24,8 +24,11 @@ class Navigation
 	 *
 	 * @return void
 	 */
-	public function home(User $user)
+	public function home()
 	{
+		if (isset($_SESSION['user'])) {
+			$user = new User($_SESSION['user']);
+		}
 		include VIEW_DIR . '/home.php';
 	}
 
@@ -84,13 +87,39 @@ class Navigation
 	}
 
 	/**
-		 * Display the edit field page.
-		 *
-		 * @param int $exercise_id The ID of the exercise.
-		 * @param int $id The ID of the field to edit.
-		 * @return void
-		 */
-	public function editAField(User $teacher, int $exercise_id, int $id)
+	 * Display the login page .
+	 *
+	 * @return void
+	 */
+	public function login()
+	{
+		if (isset($_SESSION['user'])) {
+			header('Location: /');
+		}
+		include VIEW_DIR . '/login.php';
+	}
+
+	/**
+	 * Display the register page.
+	 *
+	 * @return void
+	 */
+	public function register()
+	{
+		if (isset($_SESSION['user'])) {
+			header('Location: /');
+		}
+		include VIEW_DIR . '/register.php';
+	}
+
+	/**
+	 * Display the edit field page.
+	 *
+	 * @param int $exercise_id The ID of the exercise.
+	 * @param int $id The ID of the field to edit.
+	 * @return void
+	 */
+	public function editAField(int $exercise_id, int $id)
 	{
 		$exercise = new Exercise($exercise_id);
 		$field = new Field($id);

@@ -49,10 +49,23 @@ class Router
 				'/users/:id:int/edit' => 'editUser(:authenticatedDean, :id:int)'
 			],
 			'controller_file_name' => 'user_controller.php'
+		],				
+		'AuthentificationController()' => [
+			'POST' => [
+				'/login' => 'login()',
+				'/register' => 'register()'
+
+			],
+			'GET' => [
+				'/logout' => 'logout()'
+			],
+			'controller_file_name' => 'authentification_controller.php'
 		],
 		'Navigation()' => [
 			'GET' => [
-				'/' => 'home(:authenticatedUser)',
+				'/' => 'home()',
+				'/login' => 'login()',
+				'/register' => 'register()',
 				'/exercises' => 'manageExercises(:authenticatedTeacher)',
 				'/exercises/answering' => 'takeAnExercises(:authenticatedUser)',
 				'/exercises/new' => 'createAnExercises(:authenticatedTeacher)',
@@ -64,7 +77,7 @@ class Router
 				'/exercises/:id:int/fulfillments/:idFulfillments:int' => 'showFulfillmentResults(:authenticatedTeacher, :id:int, :idFulfillments:int)',
 				'/exercises/:id:int/fulfillments/:idFulfillments:int/edit' => 'editFulfillment(:authenticatedUser, :id:int, :idFulfillments:int)',
 				'/users' => 'manageUsers(:authenticatedDean)',
-				'/users/:id:int' => 'manageSingleUser(:authenticatedDean, :id:int)',
+				'/users/:id:int' => 'manageSingleUser(:authenticatedDean, :id:int)'
 			],
 			'controller_file_name' => 'navigation.php'
 		]

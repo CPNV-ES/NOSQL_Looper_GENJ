@@ -122,6 +122,47 @@ class User
 	{
 		$this->database_access->deleteUser($this->id);
 	}
+
+	/**
+	 * Get the user ID based on the given username
+	 *
+	 * @param string $username username of the user
+	 * @return User The user;
+	 */
+	public static function byUsername(string $username): User
+	{
+		$database_access = (new DatabasesChoose())->getDatabase();
+
+		return new User($database_access->findUserIdByUsername($username));
+	}
+
+	/**
+	 * Create the user and return his ID
+	 *
+	 * @param string $username username of the user
+	 * @param HashedPassword $password hashed password of the user
+	 * @return User ID of the user;
+	 */
+	public static function create(string $username, HashedPassword $password)
+	{
+		$database_access = (new DatabasesChoose())->getDatabase();
+
+		if ($database_access->isUserExistByUsername($username)) {
+			throw new UserAlreadyExistException();
+		}
+
+		return new User($database_access->createUser($username, $password->value()));
+	}
+
+	/**
+	 * Get the user's password base on the given ID
+	 *
+	 * @return HashedPassword password of the user;
+	 */
+	public function getPassword(): HashedPassword
+	{
+		return HashedPassword::fromHashed($this->database_access->getPassword($this->id));
+	}
 }
 
 class UserNotFoundException extends LooperException
@@ -131,11 +172,18 @@ class UserNotFoundException extends LooperException
 		parent::__construct(404, 'User not found');
 	}
 }
-
 class RoleNotFoundException extends LooperException
 {
 	public function __construct()
 	{
 		parent::__construct(404, 'Role not found');
+	}
+}
+
+class UserAlreadyExistException extends LooperException
+{
+	public function __construct()
+	{
+		parent::__construct(409, 'User already exist');
 	}
 }

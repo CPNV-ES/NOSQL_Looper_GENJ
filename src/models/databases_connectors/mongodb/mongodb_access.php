@@ -244,4 +244,24 @@ class MongodbAccess implements DatabasesAccess
 	{
 		$this->db->update($this->users, ['id' => $id], ['$set' => ['role' => $role]]);
 	}
+
+	public function findUserIdByUsername(string $username): int {
+		$result = $this->db->find($this->users, ['username' => $username], ['projection' => ['id' => 1]]);
+		return count($result) > 0 ? $result[0]['id'] : -1;
+	}
+
+	public function createUser(string $username, string $hashedPassword): int {
+		$result = $this->db->insert($this->users, ['username' => $username, 'password' => $hashedPassword, 'role' => 0]);
+		return $result[0]['id'];
+	}
+
+	public function getPassword(int $id): string {
+		$result = $this->db->find($this->users, ['id' => $id], ['projection' => ['password' => 1]]);
+		return $result[0]['password'];
+	}
+
+	public function isUserExistByUsername(string $username): bool {
+		$result = $this->db->find($this->users, ['username' => $username], ['projection' => ['id' => 1]]);
+		return count($result) > 0;
+	}
 }
