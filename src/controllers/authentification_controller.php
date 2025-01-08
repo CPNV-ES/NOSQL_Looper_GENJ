@@ -37,6 +37,9 @@ class AuthentificationController
      */
     public function login()
     {
+        if (isset($_SESSION['user'])) {
+            header('Location: /');
+        }
         if (!isset($_POST['user_username'], $_POST['user_password'])) {
             badRequest();
         }
@@ -71,6 +74,9 @@ Team GENJ";
      */
     public function register()
     {
+        if (isset($_SESSION['user'])) {
+            header('Location: /');
+        }
         if (!isset($_POST['user_username'], $_POST['user_password'])) {
             badRequest();
         }
