@@ -39,7 +39,7 @@ class Router
 			],
 			'controller_file_name' => 'fulfillment_controller.php'
 		],
-		'UserController()' => [
+		'AuthentificationController()' => [
 			'POST' => [
 				'/login' => 'login()',
 				'/register' => 'register()',
@@ -48,7 +48,7 @@ class Router
 			'GET' => [
 				'/logout' => 'logout()',
 			],
-			'controller_file_name' => 'user_controller.php'
+			'controller_file_name' => 'authentification_controller.php'
 		],
 		'Navigation()' => [
 			'GET' => [
