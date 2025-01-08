@@ -38,6 +38,11 @@ ob_start();
             <label for="exercise_title">Password</label>
             <input type="text" name="user_password" id="user_password">
         </div>
+
+        <?php if (isset($error)): ?>
+            <span class="error">Username or/and password are incorrects</span>
+        <?php endif; ?>
+
         <div class="actions">
             <input type="submit" name="commit" value="Login">
         </div>

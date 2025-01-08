@@ -39,6 +39,10 @@ ob_start();
             <input type="text" name="user_password" id="user_password">
         </div>
 
+        <?php if (isset($error)): ?>
+            <span class="error"><?= $error->getErrorMessage() ?></span>
+        <?php endif; ?>
+
 
         <div class="actions">
             <input type="submit" name="commit" value="Login">
