@@ -102,8 +102,6 @@ class Navigation
 		include VIEW_DIR . '/register.php';
 	}
 
-
-
 	/**
 	 * Display the edit field page.
 	 *
