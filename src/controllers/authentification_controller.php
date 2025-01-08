@@ -1,9 +1,9 @@
 <?php
 
 /**
- * @author Ethann Schneider, Guillaume Aubert, Jomana Kaempf
- * @version 29.11.2024
- * @description This file contains the fulfillment controller, which handles fulfillment actions.
+ * @author Ethann Schneider, Geoffroy  Wildi, Jomana Kaempf, Nathan Chauveau
+ * @version 11.12.2024
+ * @description This is the controller of the login, logout and register 
  */
 
 include_once MODEL_DIR . '/exercise.php';
@@ -15,17 +15,26 @@ require_once MODEL_DIR . '/databases_connectors/databases_choose.php';
  * FulfillmentController
  * This controller class handles actions related to the creation and editing of fulfillments.
  */
-class UserController
+class AuthentificationController
 {
 
-    private DatabasesAccess $database_access;
-
-    public function lougout()
+    /**
+     * Logout the user and send back to the home
+     *
+     * @return void
+     */
+    public function logout()
     {
         session_destroy();
-        include VIEW_DIR . '/home.php';
+        header('Location: /login');
     }
 
+    /**
+     * Login the user and send back to the home
+     * If the username or the password is incorrect, an error will be display and the user will be send back to the login page
+     *
+     * @return void
+     */
     public function login()
     {
         if (!isset($_POST['user_username'], $_POST['user_password'])) {
@@ -54,6 +63,12 @@ Team GENJ";
         }
     }
 
+    /**
+     * Register the user and send back to the home
+     * If the username already exist, an error will be display and the user will be send back to the register page
+     *
+     * @return void
+     */
     public function register()
     {
         if (!isset($_POST['user_username'], $_POST['user_password'])) {
