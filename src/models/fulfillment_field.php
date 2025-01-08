@@ -56,6 +56,16 @@ class FulfillmentField extends Field
 	}
 
 	/**
+	 * Get the body of the fulfillment
+	 *
+	 * @return bool the answer correct of the fulfillment
+	 */
+	public function isAnswerCorrect()
+	{
+		return $this->database_access->isAnswerCorrect(parent::getId(), $this->fulfillment_id);
+	}
+
+	/**
 	 * Set the body of the fulfillment
 	 *
 	 * @param  string $body the body of the fulfillment
