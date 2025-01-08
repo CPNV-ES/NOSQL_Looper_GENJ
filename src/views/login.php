@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @author Ethann Schneider, Geoffroy  Wildi, Jomana Kaempf, Nathan Chauveau
- * @version 11.12.2024
+ * @author Ethann Schneider, Geoffroy Wildi, Jomana Kaempf, Nathan Chauveau
+ * @version 08.01.2025
  * @description Login view
  */
 $title = 'ExerciseLooper';
