@@ -1,3 +1,10 @@
+CREATE TABLE "users" (
+  "id" SERIAL PRIMARY KEY,
+  "username" text UNIQUE NOT NULL,
+  "password" text NOT NULL,
+  "role" integer NOT NULL DEFAULT 0 
+);
+
 CREATE TABLE "exercises" (
   "id" SERIAL PRIMARY KEY,
   "title" text NOT NULL,

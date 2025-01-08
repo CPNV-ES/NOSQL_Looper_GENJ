@@ -242,4 +242,54 @@ interface DatabasesAccess
 	 * @return int The ID of the exercise.
 	 */
 	public function getExerciseByFulfillmentId(int $fulfillment_id): int;
+
+	/**
+	 * Retrieves the user ID associated with a specific fulfillment ID.
+	 *
+	 * @param int $fulfillment_id The ID of the fulfillment.
+	 *
+	 * @return int The ID of the user.
+	 */
+	public function doesUserExist(int $id): bool;
+
+	/**
+	 * Retrieves the username of a specific user.
+	 *
+	 * @param int $id The ID of the user.
+	 * @return string The username of the user.
+	 */
+	public function getUserUsername(int $id): string;
+
+	/**
+	 * Retrieves the id of a specific user
+	 *
+	 * @param string $username The username of the user.
+	 * @return int The id of the user.
+	 */
+	public function findUserIdByUsername(string $username): int;
+
+	/**
+	 * Create a new user.
+	 *
+	 * @param string $username The username of the user.
+	 * @param string $hashedPassword The password but hashed of the user
+	 * @return int The ID of the user.
+	 */
+	public function createUser(string $username, string $hashedPassword): int;
+
+	/**
+	 * Retrieve the hashed password of a specific user.
+	 *
+	 * @param int $id The ID of the user.
+	 * @return string The password but hashed of the user
+	 */
+	public function getPassword(int $id): string;
+
+	/**
+	 * Check if user exists by username
+	 *
+	 * @param int $username username of the user
+	 * @return bool if the user already exist or not
+	 */
+	public function isUserExistByUsername(string $username): bool;
 }
