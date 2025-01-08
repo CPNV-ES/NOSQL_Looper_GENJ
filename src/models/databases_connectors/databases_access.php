@@ -284,4 +284,21 @@ interface DatabasesAccess
 	 * @return bool The username of the user.
 	 */
 	public function isAnswerCorrect(int $id, int $fulfillment_id): bool;
+
+	/**
+	 * Retrieves the fulfillment data ID of a specific fulfillment field.
+	 *
+	 * @param int $field_id The ID of the field.
+	 * @param int $fulfillment_id The ID of the fulfillment.
+	 * @return int The ID of the fulfillment field.
+	 */
+	public function getFulfillmentDataId(int $field_id, int $fulfillment_id): string;
+
+	/**
+	 * Sets the correction value of a specific Answer.
+	 *
+	 * @param int $fulfillment_data_id The ID of the Answer.
+	 * @param int $correct The correct to set.
+	 */
+	public function setAnswerCorrect(int $fulfillment_data_id, int $correct);
 }
