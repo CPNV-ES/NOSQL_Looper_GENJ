@@ -199,6 +199,11 @@ class PostgresqlAccess implements DatabasesAccess
 		return $this->postgresql->select('SELECT username FROM users WHERE id = :id', [':id' => $id])[0]['username'];
 	}
 
+	public function isAnswerCorrect(int $id, int $fulfillment_id): bool
+	{
+		return $this->postgresql->select('SELECT fulfillments_data.correct FROM fulfillments INNER JOIN fulfillments_data ON fulfillments.id = fulfillments_data.fulfillment_id WHERE fulfillments.id = :id AND fulfillments_data.field_id = :field_id', [':id' => $fulfillment_id, ':field_id' => $id])[0][0] == 1;
+	}
+
 	private function create_db_if_not_exist()
 	{
 		if (count($this->postgresql->select("SELECT 1 FROM information_schema.tables WHERE table_name = 'exercises'")) < 1) {

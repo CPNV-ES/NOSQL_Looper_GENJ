@@ -276,4 +276,12 @@ interface DatabasesAccess
 	 * @return string The username of the user.
 	 */
 	public function getUserUsername(int $id): string;
+
+	/**
+	 * Retrieves the username of a specific user.
+	 *
+	 * @param int $id The ID of the user.
+	 * @return bool The username of the user.
+	 */
+	public function isAnswerCorrect(int $id, int $fulfillment_id): bool;
 }
