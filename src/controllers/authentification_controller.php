@@ -3,7 +3,7 @@
 /**
  * @author Ethann Schneider, Geoffroy Wildi, Jomana Kaempf, Nathan Chauveau
  * @version 08.01.2025
- * @description This is the controller of the login, logout and register 
+ * @description This is the controller of the login, logout and register
  */
 
 include_once MODEL_DIR . '/exercise.php';
@@ -17,7 +17,6 @@ require_once MODEL_DIR . '/databases_connectors/databases_choose.php';
  */
 class AuthentificationController
 {
-
     /**
      * Logout the user and send back to the home
      *

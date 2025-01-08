@@ -70,7 +70,7 @@ class User
 
 	/**
 	 * Create the user and return his ID
-	 * 
+	 *
 	 * @param string $username username of the user
 	 * @param HashedPassword $password hashed password of the user
 	 * @return User ID of the user;
@@ -80,7 +80,6 @@ class User
 		$database_access = (new DatabasesChoose())->getDatabase();
 
 		if ($database_access->isUserExistByUsername($username)) {
-
 			throw new UserAlreadyExistException();
 		}
 
@@ -107,10 +106,8 @@ class UserNotFoundException extends LooperException
 }
 class UserAlreadyExistException extends LooperException
 {
-
 	public function __construct()
 	{
-
 		parent::__construct(409, 'User already exist');
 	}
 }
