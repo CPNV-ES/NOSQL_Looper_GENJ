@@ -69,14 +69,19 @@ class User
 
 	/**
 	 * Create the user and return his ID
-	 *
-	 * @return int ID of the user;
+	 * 
+	 * @return User ID of the user;
 	 */
-	public static function create($username, $password)
+	public static function create(string $username, HashedPassword $password)
 	{
 		$database_access = (new DatabasesChoose())->getDatabase();
 
-		return $database_access->createUser($username, $password);;
+		if ($database_access->isUserExistByUsername($username)) {
+
+			throw new UserAlreadyExistException();
+		}
+
+		return new User($database_access->createUser($username, $password->value()));
 	}
 
 	/**
@@ -95,5 +100,14 @@ class UserNotFoundException extends LooperException
 	public function __construct()
 	{
 		parent::__construct(404, 'User not found');
+	}
+}
+class UserAlreadyExistException extends LooperException
+{
+
+	public function __construct()
+	{
+
+		parent::__construct(409, 'User already exist');
 	}
 }
