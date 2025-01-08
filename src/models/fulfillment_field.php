@@ -46,6 +46,16 @@ class FulfillmentField extends Field
 	}
 
 	/**
+	 * Get the ID of the fulfillment data
+	 *
+	 * @return string the body of the fulfillment
+	 */
+	public function getDataId()
+	{
+		return $this->database_access->getFulfillmentDataId(parent::getId(), $this->fulfillment_id);
+	}
+
+	/**
 	 * Get the body of the fulfillment
 	 *
 	 * @return string the body of the fulfillment
