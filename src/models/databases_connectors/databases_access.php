@@ -285,5 +285,11 @@ interface DatabasesAccess
 	 */
 	public function getPassword(int $id): string;
 
+	/**
+	 * Check if user exists by username
+	 *
+	 * @param int $username username of the user
+	 * @return bool if the user already exist or not
+	 */
 	public function isUserExistByUsername(string $username): bool;
 }
