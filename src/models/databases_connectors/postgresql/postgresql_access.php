@@ -204,6 +204,17 @@ class PostgresqlAccess implements DatabasesAccess
 		return $this->postgresql->select('SELECT fulfillments_data.correct FROM fulfillments INNER JOIN fulfillments_data ON fulfillments.id = fulfillments_data.fulfillment_id WHERE fulfillments.id = :id AND fulfillments_data.field_id = :field_id', [':id' => $fulfillment_id, ':field_id' => $id])[0][0] == 1;
 	}
 
+	public function getFulfillmentDataId(int $field_id, int $fulfillment_id): string
+	{
+		return $this->postgresql->select('SELECT fulfillments_data.id FROM fulfillments INNER JOIN fulfillments_data ON fulfillments.id = fulfillments_data.fulfillment_id WHERE fulfillments.id = :id AND fulfillments_data.field_id = :field_id', [':id' => $fulfillment_id, ':field_id' => $field_id])[0][0];
+	}
+
+	public function setAnswerCorrect(int $fulfillments_data_id, int $correct): void
+	{
+		$this->postgresql->modify('UPDATE fulfillments_data SET correct = :correct WHERE id = :id', [':id' => $fulfillments_data_id, ':correct' => $correct]);
+		//$x = $this->postgresql->select('SELECT * FROM fulfillments_data WHERE id = :id', [':id' => $fulfillments_data_id]);
+	}
+
 	private function create_db_if_not_exist()
 	{
 		if (count($this->postgresql->select("SELECT 1 FROM information_schema.tables WHERE table_name = 'exercises'")) < 1) {
