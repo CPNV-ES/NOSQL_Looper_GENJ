@@ -31,7 +31,7 @@ ob_start();
 
 		<dd>
 			<form
-				action="/exercises/<?= $exercise->getId() ?>/fulfillments/<?= $fulfillment->getId() ?>/correction"
+				action="/exercises/<?= $exercise->getId() ?>/fulfillments/<?= $fulfillment->getId() ?>/correction/<?= $field->getDataId() ?>"
 				method="POST">
 				<div class="feur">
 					<input type="radio" id="correct" name="fulfillment[correction]" value="correct"

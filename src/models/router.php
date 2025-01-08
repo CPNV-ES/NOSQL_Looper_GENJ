@@ -36,7 +36,7 @@ class Router
 			'POST' => [
 				'/exercises/:id:int/fulfillments' => 'createFulfillment(:id:int)',
 				'/exercises/:id:int/fulfillments/:idFulfillment:int' => 'editFulfillment(:id:int, :idFulfillment:int)',
-				'/exercises/:id:int/fulfillments/:idFulfillment:int/correction' => 'setAnswerCorrect(:id:int, :idFulfillment:int)'
+				'/exercises/:id:int/fulfillments/:idFulfillment:int/correction/:idFulfillmentData:int' => 'setAnswerCorrect(:id:int, :idFulfillment:int, :idFulfillmentData:int)'
 			],
 			'controller_file_name' => 'fulfillment_controller.php'
 		],
