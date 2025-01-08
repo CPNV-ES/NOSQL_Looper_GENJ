@@ -58,9 +58,10 @@ class User
 	/**
 	 * Get the user ID based on the given username
 	 *
+	 * @param string $username username of the user
 	 * @return User The user;
 	 */
-	public static function byUsername($username): User
+	public static function byUsername(string $username): User
 	{
 		$database_access = (new DatabasesChoose())->getDatabase();
 
@@ -70,6 +71,8 @@ class User
 	/**
 	 * Create the user and return his ID
 	 * 
+	 * @param string $username username of the user
+	 * @param HashedPassword $password hashed password of the user
 	 * @return User ID of the user;
 	 */
 	public static function create(string $username, HashedPassword $password)
