@@ -86,4 +86,42 @@ class FulfillmentController
 
 		header('Location: /exercises/' . $exercise->getId() . '/fulfillments/' . $fulfillment->getId() . '/edit');
 	}
+
+    /**
+     * Set a answer value
+     * This method handles the editing of an existing fulfillment, identified by `$fulfillment_id`,
+     * for a specific exercise, identified by `$exercise_id`.
+     *
+     * @param User $user current authenticated user
+     * @param int $exercise_id The ID of the exercise associated with the fulfillment.
+     * @param int $fulfillment_id The ID of the fulfillment that is being edited.
+     * @return void This function updates the fulfillment and redirects, without returning a value.
+     */
+	public function setAnswerCorrection(User $teacher, int $exercise_id, int $fulfillment_id)
+	{
+		if (!isset($_POST['fulfillment']['field_id']) || !isset($_POST['fulfillment']['correction'])) {
+			badRequest();
+			return;
+		}
+
+		$exercise = new Exercise($exercise_id);
+
+		$fulfillment = new Fulfillment($fulfillment_id);
+
+        $fulfillment_data = new FulfillmentField($_POST['fulfillment']['field_id'], $fulfillment_id);
+
+		switch ($_POST['fulfillment']['correction']) {
+			case 'correct':
+                $fulfillment_data->setCorrection(Correct::Correct);
+				break;
+			case 'incorrect':
+                $fulfillment_data->setCorrection(Correct::Incorrect);
+				break;
+			default:
+				badRequest();
+				return;
+		}
+
+		header('Location: /exercises/' . $exercise_id . '/fulfillments/' . $fulfillment_id);
+	}
 }

@@ -80,7 +80,7 @@ class PostgresqlAccess implements DatabasesAccess
 
 	public function getFulfillmentFields(int $id): array
 	{
-		return $this->postgresql->select('SELECT fulfillments_data.field_id FROM fulfillments INNER JOIN fulfillments_data ON fulfillments.id = fulfillments_data.fulfillment_id WHERE fulfillments.id = :id ', [':id' => $id]);
+		return $this->postgresql->select('SELECT fulfillments_data.field_id FROM fulfillments INNER JOIN fulfillments_data ON fulfillments.id = fulfillments_data.fulfillment_id WHERE fulfillments.id = :id ORDER BY fulfillments_data.field_id', [':id' => $id]);
 	}
 
 	public function getFulfillmentBody(int $field_id, int $fulfillment_id): string
@@ -118,14 +118,19 @@ class PostgresqlAccess implements DatabasesAccess
 		return $this->postgresql->select('SELECT label FROM fields WHERE id = :id', [':id' => $id])[0]['label'];
 	}
 
+	public function getFieldAnswer(int $id): string
+	{
+		return $this->postgresql->select('SELECT answer FROM fields WHERE id = :id', [':id' => $id])[0]['answer'];
+	}
+
 	public function getFieldKind(int $id): int
 	{
 		return $this->postgresql->select('SELECT kind FROM fields WHERE id = :id', [':id' => $id])[0]['kind'];
 	}
 
-	public function createField(int $exercise_id, string $label, int $kind): int
+	public function createField(int $exercise_id, string $label, string $answer, int $kind): int
 	{
-		return (int)$this->postgresql->select('INSERT INTO fields (label, kind, exercise_id) VALUES (:label, :kind, :exercise_id) RETURNING id', [':label' => $label, ':kind' => $kind, ':exercise_id' => $exercise_id])[0][0];
+		return (int)$this->postgresql->select('INSERT INTO fields (label, answer, kind, exercise_id) VALUES (:label, :answer, :kind, :exercise_id) RETURNING id', [':label' => $label, ':answer' => $answer, ':kind' => $kind, ':exercise_id' => $exercise_id])[0][0];
 	}
 
 	public function deleteField(int $id): void
@@ -146,6 +151,11 @@ class PostgresqlAccess implements DatabasesAccess
 	public function setFieldLabel(int $id, string $label): void
 	{
 		$this->postgresql->modify('UPDATE fields SET label = :label WHERE id = :id', [':label' => $label, ':id' => $id]);
+	}
+
+	public function setFieldAnswer(int $id, string $answer): void
+	{
+		$this->postgresql->modify('UPDATE fields SET answer = :answer WHERE id = :id', [':answer' => $answer, ':id' => $id]);
 	}
 
 	public function setFieldKind(int $id, int $kind): void
@@ -179,6 +189,16 @@ class PostgresqlAccess implements DatabasesAccess
 		return $this->postgresql->select('SELECT exercise_id FROM fulfillments WHERE id = :fulfillment_id', ['fulfillment_id' => $fulfillment_id])[0][0];
 	}
 
+    public function getFulfillmentDataCorrection(int $field_id, int $fulfillment_id): string
+    {
+        return $this->postgresql->select('SELECT correction FROM fulfillments_data WHERE fulfillment_id = :fulfillment_id AND field_id = :field_id', [':fulfillment_id' => $fulfillment_id, ':field_id' => $field_id])[0][0];
+    }
+
+    public function setAnswerCorrection(int $field_id, int $fulfillment_id, int $correction): void
+    {
+        $this->postgresql->modify('UPDATE fulfillments_data SET correction = :correction WHERE fulfillment_id = :fulfillment_id AND field_id = :field_id', [':fulfillment_id' => $fulfillment_id, ':field_id' => $field_id, ':correction' => $correction]);
+    }
+
 	public function doesUserExist(int $id): bool
 	{
 		return count($this->postgresql->select('SELECT id FROM users WHERE id = :id', [':id' => $id])) > 0;
@@ -211,7 +231,7 @@ class PostgresqlAccess implements DatabasesAccess
 	{
 		$this->postgresql->modify('UPDATE users SET role = :role WHERE id = :id', [':role' => $role, ':id' => $id]);
 	}
-	
+
 	public function findUserIdByUsername(string $username): int
 	{
 		if (count($this->postgresql->select('SELECT id FROM users WHERE username = :username', [':username' => $username])) > 0) {

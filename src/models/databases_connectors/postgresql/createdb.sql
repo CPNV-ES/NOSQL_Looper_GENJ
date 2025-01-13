@@ -15,7 +15,8 @@ CREATE TABLE "fields" (
   "id" SERIAL PRIMARY KEY,
   "exercise_id" integer NOT NULL,
   "label" text NOT NULL,
-  "kind" integer NOT NULL
+  "kind" integer NOT NULL,
+  "answer" text NOT NULL
 );
 
 CREATE TABLE "fulfillments" (
@@ -28,7 +29,8 @@ CREATE TABLE "fulfillments_data" (
   "id" SERIAL PRIMARY KEY,
   "fulfillment_id" integer NOT NULL,
   "field_id" integer NOT NULL,
-  "body" text NOT NULL
+  "body" text NOT NULL,
+  "correction" integer NOT NULL DEFAULT 0
 );
 
 ALTER TABLE "fields" ADD FOREIGN KEY ("exercise_id") REFERENCES "exercises" ("id") ON DELETE CASCADE;

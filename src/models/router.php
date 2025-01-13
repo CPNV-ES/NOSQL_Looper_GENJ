@@ -37,7 +37,8 @@ class Router
 		'FulfillmentController()' => [
 			'POST' => [
 				'/exercises/:id:int/fulfillments' => 'createFulfillment(:authenticatedUser, :id:int)',
-				'/exercises/:id:int/fulfillments/:idFulfillment:int' => 'editFulfillment(:authenticatedUser, :id:int, :idFulfillment:int)'
+				'/exercises/:id:int/fulfillments/:idFulfillment:int' => 'editFulfillment(:authenticatedUser, :id:int, :idFulfillment:int)',
+                '/exercises/:id:int/fulfillments/:idFulfillment:int/correction' => 'setAnswerCorrection(:authenticatedTeacher, :id:int, :idFulfillment:int)'
 			],
 			'controller_file_name' => 'fulfillment_controller.php'
 		],
@@ -49,7 +50,7 @@ class Router
 				'/users/:id:int/edit' => 'editUser(:authenticatedDean, :id:int)'
 			],
 			'controller_file_name' => 'user_controller.php'
-		],				
+		],
 		'AuthentificationController()' => [
 			'POST' => [
 				'/login' => 'login()',

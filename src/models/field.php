@@ -66,6 +66,16 @@ class Field
 	}
 
 	/**
+	 * Get the label of the field
+	 *
+	 * @return string the answer of the field
+	 */
+	public function getAnswer(): string
+	{
+		return $this->database_access->getFieldAnswer($this->id);
+	}
+
+	/**
 	 * Get the kind of the field
 	 *
 	 * @return Kind the kind of the field
@@ -94,6 +104,20 @@ class Field
 			throw new ExerciseNotInBuildingStatus();
 		}
 		$this->database_access->setFieldLabel($this->id, $label);
+	}
+
+	/**
+	 * Set the answer of the field
+	 *
+	 * @param  string $answer the new answer of the field
+	 * @return void
+	 */
+	public function setAnswer(string $answer): void
+	{
+		if ($this->getExercise()->getStatus() != Status::Building) {
+			throw new ExerciseNotInBuildingStatus();
+		}
+		$this->database_access->setFieldAnswer($this->id, $answer);
 	}
 
 	/**
