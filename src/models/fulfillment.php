@@ -12,16 +12,6 @@ require_once MODEL_DIR . '/field.php';
 require_once MODEL_DIR . '/exercise.php';
 
 /**
- * The correct value of an fulfillment (Unverified, Correct, Incorrect)
- */
-enum Correct: int
-{
-	case Unverified = 0;
-	case Correct = 1;
-	case Incorrect = 2;
-}
-
-/**
  * This class is the fulfillment buiness logic of the application
  */
 class Fulfillment

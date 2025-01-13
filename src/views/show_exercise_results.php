@@ -36,11 +36,11 @@ ob_start();
 				</td>
 				<?php foreach ($exercise->getFields() as $i => $field):
 					$fulfillmentField = new FulfillmentField($field->getId(), $fulfillment->getId());
-					if ($fulfillmentField->getDataCorrection() == 0):?>
+					if ($fulfillmentField->getDataCorrection() == Correction::Unverified):?>
 				<td class="answer"><i class="fa-solid fa-question" style="color: #e0a458;"></i></td>
-				<?php elseif ($fulfillmentField->getDataCorrection() == 1):?>
+				<?php elseif ($fulfillmentField->getDataCorrection() == Correction::Correct):?>
 				<td class="answer"><i class="fa fa-check short"></i></td>
-				<?php elseif ($fulfillmentField->getDataCorrection() == 2): ?>
+				<?php elseif ($fulfillmentField->getDataCorrection() == Correction::Incorrect): ?>
 				<td class="answer"><i class="fa fa-times empty"></i></td>
 				<?php endif; ?>
 				<?php endforeach; ?>

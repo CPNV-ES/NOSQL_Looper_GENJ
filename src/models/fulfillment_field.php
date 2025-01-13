@@ -9,6 +9,16 @@
 require_once MODEL_DIR . '/field.php';
 
 /**
+ * The correction value of an fulfillment (Unverified, Correct, Incorrect)
+ */
+enum Correction: int
+{
+    case Unverified = 0;
+    case Correct = 1;
+    case Incorrect = 2;
+}
+
+/**
  * This class is the fulfillment field buiness logic of the application herited from a field
  */
 class FulfillmentField extends Field
@@ -58,11 +68,11 @@ class FulfillmentField extends Field
     /**
      * Get the correction value of the fulfillment data
      *
-     * @return int the correction value of the fulfillment data
+     * @return Correction the correction value of the fulfillment data
      */
     public function getDataCorrection()
     {
-        return $this->database_access->getFulfillmentDataCorrection(parent::getId(), $this->fulfillment_id);
+        return Correction::from($this->database_access->getFulfillmentDataCorrection(parent::getId(), $this->fulfillment_id));
     }
 
 	/**
