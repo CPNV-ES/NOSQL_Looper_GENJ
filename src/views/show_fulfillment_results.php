@@ -28,21 +28,20 @@ ob_start();
 				href="/exercises/<?= $exercise->getId() ?>/results/<?= $field->getId() ?>"><?= $field->getLabel() ?></a>
 		</dt>
 		<dd>Student answer: <?= $field->getBody() ?></dd>
-
 		<dd>
 			<form
 				action="/exercises/<?= $exercise->getId() ?>/fulfillments/<?= $fulfillment->getId() ?>/correction/<?= $field->getDataId() ?>"
 				method="POST">
 				<div class="feur">
 					<input type="radio" id="correct" name="fulfillment[correction]" value="correct"
-						onchange="this.form.submit()">
-					<label for="correct">Correct</label>
+						onchange="this.form.submit()" <?= ($field->getDataCorrection() == 1) ? "checked" : "" ?>>
+					<label>Correct</label>
 				</div>
 
 				<div class="feur">
 					<input type="radio" id="incorrect" name="fulfillment[correction]" value="incorrect"
-						onchange="this.form.submit()">
-					<label for="incorrect">Incorrect</label>
+						onchange="this.form.submit()" <?= ($field->getDataCorrection() == 2) ? "checked" : "" ?>>
+					<label>Incorrect</label>
 				</div>
 			</form>
 		</dd>
