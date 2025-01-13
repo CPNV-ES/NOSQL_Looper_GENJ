@@ -37,7 +37,6 @@ ob_start();
 						onchange="this.form.submit()" <?= ($field->getDataCorrection() == 1) ? "checked" : "" ?>>
 					<label>Correct</label>
 				</div>
-
 				<div class="feur">
 					<input type="radio" id="incorrect" name="fulfillment[correction]" value="incorrect"
 						onchange="this.form.submit()" <?= ($field->getDataCorrection() == 2) ? "checked" : "" ?>>
