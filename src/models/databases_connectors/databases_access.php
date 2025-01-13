@@ -298,8 +298,9 @@ interface DatabasesAccess
 	/**
 	 * Sets the correction value of a specific Answer.
 	 *
-	 * @param int $fulfillment_data_id The ID of the Answer.
+	 * @param int $field_id The ID of the Field.
+	 * @param int $fulfillment_id The ID of the Answer.
 	 * @param int $correction The Correction value to set.
 	 */
-	public function setAnswerCorrection(int $fulfillment_data_id, int $correction);
+	public function setAnswerCorrection(int $field_id, int $fulfillment_id, int $correction);
 }

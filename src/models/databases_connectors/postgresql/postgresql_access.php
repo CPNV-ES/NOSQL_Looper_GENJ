@@ -206,12 +206,12 @@ class PostgresqlAccess implements DatabasesAccess
 
     public function getFulfillmentDataCorrection(int $field_id, int $fulfillment_id): string
     {
-        return $this->postgresql->select('SELECT fulfillments_data.correction FROM fulfillments INNER JOIN fulfillments_data ON fulfillments.id = fulfillments_data.fulfillment_id WHERE fulfillments.id = :id AND fulfillments_data.field_id = :field_id', [':id' => $fulfillment_id, ':field_id' => $field_id])[0][0];
+        return $this->postgresql->select('SELECT correction FROM fulfillments_data WHERE fulfillment_id = :fulfillment_id AND field_id = :field_id', [':fulfillment_id' => $fulfillment_id, ':field_id' => $field_id])[0][0];
     }
 
-	public function setAnswerCorrection(int $fulfillments_data_id, int $correction): void
+	public function setAnswerCorrection(int $field_id, int $fulfillment_id, int $correction): void
 	{
-		$this->postgresql->modify('UPDATE fulfillments_data SET correction = :correction WHERE id = :id', [':id' => $fulfillments_data_id, ':correction' => $correction]);
+		$this->postgresql->modify('UPDATE fulfillments_data SET correction = :correction WHERE fulfillment_id = :fulfillment_id AND field_id = :field_id', [':fulfillment_id' => $fulfillment_id, ':field_id' => $field_id, ':correction' => $correction]);
 	}
 
 	private function create_db_if_not_exist()
