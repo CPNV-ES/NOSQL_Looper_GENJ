@@ -221,12 +221,6 @@ class MongodbAccess implements DatabasesAccess
 		return $result[0]['exercise_id'];
 	}
 
-    public function getFulfillmentDataId(int $field_id, int $fulfillment_id): string
-    {
-        $result = $this->db->find($this->fulfillments_data, ['fulfillment_id' => $fulfillment_id, 'field_id' => $field_id], ['projection' => ['id' => 1]]);
-        return $result[0]['id'];
-    }
-
     public function getFulfillmentDataCorrection(int $field_id, int $fulfillment_id): string
     {
         $result = $this->db->find($this->fulfillments_data, ['fulfillment_id' => $fulfillment_id, 'field_id' => $field_id], ['projection' => ['correction' => 1]]);

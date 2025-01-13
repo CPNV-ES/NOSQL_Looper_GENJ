@@ -262,15 +262,6 @@ interface DatabasesAccess
 	public function getExerciseByFulfillmentId(int $fulfillment_id): int;
 
     /**
-     * Retrieves the fulfillment data ID of a specific fulfillment field.
-     *
-     * @param int $field_id The ID of the field.
-     * @param int $fulfillment_id The ID of the fulfillment.
-     * @return int The ID of the fulfillment.
-     */
-    public function getFulfillmentDataId(int $field_id, int $fulfillment_id): string;
-
-    /**
      * Retrieves the correction value of a specific fulfillment field.
      *
      * @param int $field_id The ID of the field.
