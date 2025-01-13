@@ -30,7 +30,7 @@ ob_start();
 		<dd>Student answer: <?= $field->getBody() ?></dd>
 		<dd>
 			<form
-				action="/exercises/<?= $exercise->getId() ?>/fulfillments/<?= $fulfillment->getId() ?>/correction/<?= $field->getDataId() ?>"
+				action="/exercises/<?= $exercise->getId() ?>/fulfillments/<?= $fulfillment->getId() ?>/correction"
 				method="POST">
 				<div class="feur">
 					<input type="radio" id="correct" name="fulfillment[correction]" value="correct"
@@ -42,6 +42,7 @@ ob_start();
 						onchange="this.form.submit()" <?= ($field->getDataCorrection() == 2) ? "checked" : "" ?>>
 					<label>Incorrect</label>
 				</div>
+                <input hidden="" name="fulfillment[field_id]" value="<?= $field->getId() ?>">
 			</form>
 		</dd>
 
