@@ -48,12 +48,22 @@ class FulfillmentField extends Field
 	/**
 	 * Get the ID of the fulfillment data
 	 *
-	 * @return string the body of the fulfillment
+	 * @return int the id of the fulfillment data
 	 */
 	public function getDataId()
 	{
 		return $this->database_access->getFulfillmentDataId(parent::getId(), $this->fulfillment_id);
 	}
+
+    /**
+     * Get the correction value of the fulfillment data
+     *
+     * @return int the correction value of the fulfillment data
+     */
+    public function getDataCorrection()
+    {
+        return $this->database_access->getFulfillmentDataCorrection(parent::getId(), $this->fulfillment_id);
+    }
 
 	/**
 	 * Get the body of the fulfillment
@@ -63,16 +73,6 @@ class FulfillmentField extends Field
 	public function getBody()
 	{
 		return $this->database_access->getFulfillmentBody(parent::getId(), $this->fulfillment_id);
-	}
-
-	/**
-	 * Get the body of the fulfillment
-	 *
-	 * @return bool the answer correct of the fulfillment
-	 */
-	public function isAnswerCorrect()
-	{
-		return $this->database_access->isAnswerCorrect(parent::getId(), $this->fulfillment_id);
 	}
 
 	/**

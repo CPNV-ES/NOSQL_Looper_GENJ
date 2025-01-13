@@ -114,7 +114,7 @@ class Fulfillment
 
 	public function setCorrection(int $fulfillments_data_id, Correct $correction)
 	{
-		$this->database_access->setAnswerCorrect($fulfillments_data_id, $correction->value);
+		$this->database_access->setAnswerCorrection($fulfillments_data_id, $correction->value);
 	}
 }
 
