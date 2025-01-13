@@ -25,7 +25,7 @@ class FieldController
 	 */
 	public function createField(User $teacher, int $exercise_id)
 	{
-		if (!isset($_POST['field']['label'], $_POST['field']['value_kind'])) {
+		if (!isset($_POST['field']['label'], $_POST['field']['value_kind'], $_POST['field']['answer'])) {
 			badRequest();
 			return;
 		}
