@@ -6,6 +6,7 @@
  * @description  Database acces implementation if we need to change the database just implement this class that will return the result of for example sql request
  */
 define('ALL_EXERCISES', -1);
+define('ALL_USER', -1);
 
 /**
  * Interface DatabasesAccess
@@ -260,6 +261,33 @@ interface DatabasesAccess
 	 */
 	public function getExerciseByFulfillmentId(int $fulfillment_id): int;
 
+    /**
+     * Retrieves the fulfillment data ID of a specific fulfillment field.
+     *
+     * @param int $field_id The ID of the field.
+     * @param int $fulfillment_id The ID of the fulfillment.
+     * @return int The ID of the fulfillment.
+     */
+    public function getFulfillmentDataId(int $field_id, int $fulfillment_id): string;
+
+    /**
+     * Retrieves the correction value of a specific fulfillment field.
+     *
+     * @param int $field_id The ID of the field.
+     * @param int $fulfillment_id The ID of the fulfillment.
+     * @return int The correction value of the fulfillment.
+     */
+    public function getFulfillmentDataCorrection(int $field_id, int $fulfillment_id): string;
+
+    /**
+     * Sets the correction value of a specific Answer.
+     *
+     * @param int $field_id The ID of the Field.
+     * @param int $fulfillment_id The ID of the Answer.
+     * @param int $correction The Correction value to set.
+     */
+    public function setAnswerCorrection(int $field_id, int $fulfillment_id, int $correction);
+
 	/**
 	 * Retrieves the user ID associated with a specific fulfillment ID.
 	 *
@@ -278,29 +306,67 @@ interface DatabasesAccess
 	public function getUserUsername(int $id): string;
 
 	/**
-	 * Retrieves the fulfillment data ID of a specific fulfillment field.
+	 * Retrieves the role of a specific user.
 	 *
-	 * @param int $field_id The ID of the field.
-	 * @param int $fulfillment_id The ID of the fulfillment.
-	 * @return int The ID of the fulfillment.
+	 * @param int $id The ID of the user.
+	 * @return int The role of the user.
 	 */
-	public function getFulfillmentDataId(int $field_id, int $fulfillment_id): string;
+	public function getUserRole(int $id): int;
 
 	/**
-	 * Retrieves the correction value of a specific fulfillment field.
+	 * Retrieves all users.
 	 *
-	 * @param int $field_id The ID of the field.
-	 * @param int $fulfillment_id The ID of the fulfillment.
-	 * @return int The correction value of the fulfillment.
+	 * @param int $role The role to filter users by (default is ALL_USER).
+	 * @return array[array[string|int,int]] An array of users. Each user is represented by an array containing the user's ID.
 	 */
-	public function getFulfillmentDataCorrection(int $field_id, int $fulfillment_id): string;
+	public function getUsers(int $role = ALL_USER): array;
 
 	/**
-	 * Sets the correction value of a specific Answer.
+	 * Creates a new user with the given username and role.
 	 *
-	 * @param int $field_id The ID of the Field.
-	 * @param int $fulfillment_id The ID of the Answer.
-	 * @param int $correction The Correction value to set.
+	 * @param string $username The username of the user.
+	 * @param int $role The role of the user.
 	 */
-	public function setAnswerCorrection(int $field_id, int $fulfillment_id, int $correction);
+	public function deleteUser(int $userId): void;
+
+	/**
+	 * Sets the role of a specific user.
+	 *
+	 * @param int $id The ID of the user.
+	 * @param int $role The role to set.
+	 */
+	public function setUserRole(int $id, int $role): void;
+
+	/**
+ 	 * Retrieves the id of a specific user
+	 *
+	 * @param string $username The username of the user.
+	 * @return int The id of the user.
+	 */
+	public function findUserIdByUsername(string $username): int;
+
+	/**
+	 * Create a new user.
+	 *
+	 * @param string $username The username of the user.
+	 * @param string $hashedPassword The password but hashed of the user
+	 * @return int The ID of the user.
+	 */
+	public function createUser(string $username, string $hashedPassword): int;
+
+	/**
+	 * Retrieve the hashed password of a specific user.
+	 *
+	 * @param int $id The ID of the user.
+	 * @return string The password but hashed of the user
+	 */
+	public function getPassword(int $id): string;
+
+	/**
+	 * Check if user exists by username
+	 *
+	 * @param int $username username of the user
+	 * @return bool if the user already exist or not
+	 */
+	public function isUserExistByUsername(string $username): bool;
 }

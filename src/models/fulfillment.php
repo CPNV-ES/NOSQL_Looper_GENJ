@@ -96,7 +96,7 @@ class Fulfillment
 		$fulfillment = [];
 
 		foreach ($this->database_access->getFulfillmentFields($this->id) as $field) {
-			$fulfillment[] = new FulfillmentField($field[0], $this->id);
+			$fulfillment[] = new FulfillmentField($field['field_id'], $this->id);
 		}
 
 		return $fulfillment;

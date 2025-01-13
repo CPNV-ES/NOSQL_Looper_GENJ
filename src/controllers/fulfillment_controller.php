@@ -7,6 +7,7 @@
  */
 
 include_once MODEL_DIR . '/exercise.php';
+include_once MODEL_DIR . '/user.php';
 
 /**
  * FulfillmentController
@@ -17,10 +18,11 @@ class FulfillmentController
 	/**
 	 * Create a fulfillment
 	 * This method handles the creation of a fulfillment for a specific exercise, identified by `$exercise_id`.
+	 * @param User $user current authenticated user
 	 * @param  int $exercise_id The ID of the exercise for which a new fulfillment is being created.
 	 * @return void This function performs creation and redirects, but does not return a value.
 	 */
-	public function createFulfillment(int $exercise_id)
+	public function createFulfillment(User $user, int $exercise_id)
 	{
 		if (!isset($_POST['fulfillment']['answers_attributes'])) {
 			badRequest();
@@ -55,11 +57,12 @@ class FulfillmentController
 	 * This method handles the editing of an existing fulfillment, identified by `$fulfillment_id`,
 	 * for a specific exercise, identified by `$exercise_id`.
 	 *
+	 * @param User $user current authenticated user
 	 * @param int $exercise_id The ID of the exercise associated with the fulfillment.
 	 * @param int $fulfillment_id The ID of the fulfillment that is being edited.
 	 * @return void This function updates the fulfillment and redirects, without returning a value.
 	 */
-	public function editFulfillment(int $exercise_id, int $fulfillment_id)
+	public function editFulfillment(User $user, int $exercise_id, int $fulfillment_id)
 	{
 		if (!isset($_POST['fulfillment']['answers_attributes'])) {
 			badRequest();

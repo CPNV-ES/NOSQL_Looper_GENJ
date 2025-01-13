@@ -18,9 +18,10 @@ class ExerciseController
 	/**
 	 * This method creates a new exercise based on the title provided by the user via `$_POST['exercise_title']`.
 	 *
+	 * @param User $teacher user with teacher role
 	 * @return void
 	 */
-	public function createExercise()
+	public function createExercise(User $teacher)
 	{
 		if (!isset($_POST['exercise_title'])) {
 			badRequest();
@@ -36,9 +37,10 @@ class ExerciseController
 	 * is in the `Building` or `Closed` state.
 	 *
 	 * @param int $id The ID of the exercise to be deleted.
+	 * @param User $teacher user with teacher role
 	 * @return void
 	 */
-	public function deleteExercise(int $id)
+	public function deleteExercise(User $teacher, int $id)
 	{
 		$exercise = new Exercise($id);
 
@@ -52,9 +54,10 @@ class ExerciseController
 	 * This method changes the state of an exercise identified by `$id`.
 	 *
 	 * @param int $id The ID of the exercise whose state is to be changed.
+	 * @param User $teacher user with teacher role
 	 * @return void
 	 */
-	public function changeStateOfExercise(int $id)
+	public function changeStateOfExercise(User $teacher, int $id)
 	{
 		if (!isset($_GET['exercise']['status'])) {
 			badRequest();
