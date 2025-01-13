@@ -80,7 +80,7 @@ class PostgresqlAccess implements DatabasesAccess
 
 	public function getFulfillmentFields(int $id): array
 	{
-		return $this->postgresql->select('SELECT fulfillments_data.field_id FROM fulfillments INNER JOIN fulfillments_data ON fulfillments.id = fulfillments_data.fulfillment_id WHERE fulfillments.id = :id ', [':id' => $id]);
+		return $this->postgresql->select('SELECT fulfillments_data.field_id FROM fulfillments INNER JOIN fulfillments_data ON fulfillments.id = fulfillments_data.fulfillment_id WHERE fulfillments.id = :id ORDER BY fulfillments_data.field_id', [':id' => $id]);
 	}
 
 	public function getFulfillmentBody(int $field_id, int $fulfillment_id): string
@@ -199,20 +199,19 @@ class PostgresqlAccess implements DatabasesAccess
 		return $this->postgresql->select('SELECT username FROM users WHERE id = :id', [':id' => $id])[0]['username'];
 	}
 
-	public function isAnswerCorrect(int $id, int $fulfillment_id): bool
-	{
-		return $this->postgresql->select('SELECT fulfillments_data.correct FROM fulfillments INNER JOIN fulfillments_data ON fulfillments.id = fulfillments_data.fulfillment_id WHERE fulfillments.id = :id AND fulfillments_data.field_id = :field_id', [':id' => $fulfillment_id, ':field_id' => $id])[0][0] == 1;
-	}
-
 	public function getFulfillmentDataId(int $field_id, int $fulfillment_id): string
 	{
 		return $this->postgresql->select('SELECT fulfillments_data.id FROM fulfillments INNER JOIN fulfillments_data ON fulfillments.id = fulfillments_data.fulfillment_id WHERE fulfillments.id = :id AND fulfillments_data.field_id = :field_id', [':id' => $fulfillment_id, ':field_id' => $field_id])[0][0];
 	}
 
-	public function setAnswerCorrect(int $fulfillments_data_id, int $correct): void
+    public function getFulfillmentDataCorrection(int $field_id, int $fulfillment_id): string
+    {
+        return $this->postgresql->select('SELECT fulfillments_data.correction FROM fulfillments INNER JOIN fulfillments_data ON fulfillments.id = fulfillments_data.fulfillment_id WHERE fulfillments.id = :id AND fulfillments_data.field_id = :field_id', [':id' => $fulfillment_id, ':field_id' => $field_id])[0][0];
+    }
+
+	public function setAnswerCorrection(int $fulfillments_data_id, int $correction): void
 	{
-		$this->postgresql->modify('UPDATE fulfillments_data SET correct = :correct WHERE id = :id', [':id' => $fulfillments_data_id, ':correct' => $correct]);
-		//$x = $this->postgresql->select('SELECT * FROM fulfillments_data WHERE id = :id', [':id' => $fulfillments_data_id]);
+		$this->postgresql->modify('UPDATE fulfillments_data SET correction = :correction WHERE id = :id', [':id' => $fulfillments_data_id, ':correction' => $correction]);
 	}
 
 	private function create_db_if_not_exist()
