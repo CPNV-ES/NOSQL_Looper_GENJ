@@ -133,7 +133,7 @@ class MongodbAccess implements DatabasesAccess
 
 	public function createFulfillmentField(int $field_id, int $fulfillment_id, string $body): void
 	{
-		$result = $this->db->insert($this->fulfillments_data, ['field_id' => $field_id, 'fulfillment_id' => $fulfillment_id, 'body' => $body]);
+		$result = $this->db->insert($this->fulfillments_data, ['field_id' => $field_id, 'fulfillment_id' => $fulfillment_id, 'body' => $body, 'correction' => 0]);
 	}
 
 	public function getFieldLabel(int $id): string
@@ -144,7 +144,8 @@ class MongodbAccess implements DatabasesAccess
 
     public function getFieldAnswer(int $id): string
     {
-        return $this->postgresql->select('SELECT answer FROM fields WHERE id = :id', [':id' => $id])[0]['answer'];
+        $result = $this->db->find($this->fields, ['id' => $id], ['projection' => ['answer' => 1]]);
+        return $result[0]['answer'];
     }
 
 	public function getFieldKind(int $id): int
@@ -183,7 +184,7 @@ class MongodbAccess implements DatabasesAccess
 
     public function setFieldAnswer(int $id, string $answer): void
     {
-        $this->postgresql->modify('UPDATE fields SET answer = :answer WHERE id = :id', [':answer' => $answer, ':id' => $id]);
+        $this->db->update($this->fields, ['id' => $id], ['$set' => ['answer' => $answer]]);
     }
 
 	public function setFieldKind(int $id, int $kind): void
@@ -222,17 +223,19 @@ class MongodbAccess implements DatabasesAccess
 
     public function getFulfillmentDataId(int $field_id, int $fulfillment_id): string
     {
-        return $this->postgresql->select('SELECT fulfillments_data.id FROM fulfillments INNER JOIN fulfillments_data ON fulfillments.id = fulfillments_data.fulfillment_id WHERE fulfillments.id = :id AND fulfillments_data.field_id = :field_id', [':id' => $fulfillment_id, ':field_id' => $field_id])[0][0];
+        $result = $this->db->find($this->fulfillments_data, ['fulfillment_id' => $fulfillment_id, 'field_id' => $field_id], ['projection' => ['id' => 1]]);
+        return $result[0]['id'];
     }
 
     public function getFulfillmentDataCorrection(int $field_id, int $fulfillment_id): string
     {
-        return $this->postgresql->select('SELECT correction FROM fulfillments_data WHERE fulfillment_id = :fulfillment_id AND field_id = :field_id', [':fulfillment_id' => $fulfillment_id, ':field_id' => $field_id])[0][0];
+        $result = $this->db->find($this->fulfillments_data, ['fulfillment_id' => $fulfillment_id, 'field_id' => $field_id], ['projection' => ['correction' => 1]]);
+        return $result[0]['correction'];
     }
 
     public function setAnswerCorrection(int $field_id, int $fulfillment_id, int $correction): void
     {
-        $this->postgresql->modify('UPDATE fulfillments_data SET correction = :correction WHERE fulfillment_id = :fulfillment_id AND field_id = :field_id', [':fulfillment_id' => $fulfillment_id, ':field_id' => $field_id, ':correction' => $correction]);
+        $this->db->update($this->fulfillments_data, ['fulfillment_id' => $fulfillment_id, 'field_id' => $field_id], ['$set' => ['correction' => $correction]]);
     }
 
 	public function doesUserExist(int $id): bool
