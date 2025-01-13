@@ -34,12 +34,12 @@ ob_start();
 				method="POST">
 				<div class="feur">
 					<input type="radio" id="correct" name="fulfillment[correction]" value="correct"
-						onchange="this.form.submit()" <?= ($field->getDataCorrection() == 1) ? "checked" : "" ?>>
+						onchange="this.form.submit()" <?= ($field->getDataCorrection() == 1) ? 'checked' : '' ?>>
 					<label>Correct</label>
 				</div>
 				<div class="feur">
 					<input type="radio" id="incorrect" name="fulfillment[correction]" value="incorrect"
-						onchange="this.form.submit()" <?= ($field->getDataCorrection() == 2) ? "checked" : "" ?>>
+						onchange="this.form.submit()" <?= ($field->getDataCorrection() == 2) ? 'checked' : '' ?>>
 					<label>Incorrect</label>
 				</div>
                 <input hidden="" name="fulfillment[field_id]" value="<?= $field->getId() ?>">

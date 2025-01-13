@@ -286,14 +286,14 @@ interface DatabasesAccess
 	 */
 	public function getFulfillmentDataId(int $field_id, int $fulfillment_id): string;
 
-    /**
-     * Retrieves the correction value of a specific fulfillment field.
-     *
-     * @param int $field_id The ID of the field.
-     * @param int $fulfillment_id The ID of the fulfillment.
-     * @return int The correction value of the fulfillment.
-     */
-    public function getFulfillmentDataCorrection(int $field_id, int $fulfillment_id): string;
+	/**
+	 * Retrieves the correction value of a specific fulfillment field.
+	 *
+	 * @param int $field_id The ID of the field.
+	 * @param int $fulfillment_id The ID of the fulfillment.
+	 * @return int The correction value of the fulfillment.
+	 */
+	public function getFulfillmentDataCorrection(int $field_id, int $fulfillment_id): string;
 
 	/**
 	 * Sets the correction value of a specific Answer.
