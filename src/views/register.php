@@ -31,7 +31,7 @@ ob_start();
         </div>
         <div class="field">
             <label for="exercise_title">Password</label>
-            <input type="text" name="user_password" id="user_password">
+            <input type="password" name="user_password" id="user_password">
         </div>
 
         <?php if (isset($error)): ?>
