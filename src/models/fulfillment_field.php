@@ -55,15 +55,15 @@ class FulfillmentField extends Field
 		return $this->database_access->getFulfillmentDataId(parent::getId(), $this->fulfillment_id);
 	}
 
-    /**
-     * Get the correction value of the fulfillment data
-     *
-     * @return int the correction value of the fulfillment data
-     */
-    public function getDataCorrection()
-    {
-        return $this->database_access->getFulfillmentDataCorrection(parent::getId(), $this->fulfillment_id);
-    }
+	/**
+	 * Get the correction value of the fulfillment data
+	 *
+	 * @return int the correction value of the fulfillment data
+	 */
+	public function getDataCorrection()
+	{
+		return $this->database_access->getFulfillmentDataCorrection(parent::getId(), $this->fulfillment_id);
+	}
 
 	/**
 	 * Get the body of the fulfillment
