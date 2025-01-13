@@ -17,6 +17,12 @@ ob_start();
 	</section>
 </header>
 <main class="container">
+	<?php $limitDate = $exercise->getLimitDate(); ?>
+	<?php if (isset($limitDate)): ?>
+	<section class="limit-date">
+		<p>Results limited to submissions before: <?=$limitDate->format('Y-m-d H:i:s.u')?></p>
+	</section>
+	<?php endif; ?>
 	<table>
 		<thead>
 			<tr>
@@ -31,8 +37,7 @@ ob_start();
 		<tbody>
 			<?php foreach ($exercise->getFulfillments() as $fulfillment) : ?>
 			<tr>
-				<td><a
-						href="/exercises/<?=$exercise->getId()?>/fulfillments/<?=$fulfillment->getId()?>"><?=$fulfillment->getTimestamp()?></a>
+				<td><a href="/exercises/<?=$exercise->getId()?>/fulfillments/<?=$fulfillment->getId()?>"><?=$fulfillment->getTimestamp()->format('Y-m-d H:i:s.u')?></a>
 				</td>
 				<?php foreach ($exercise->getFields() as $i => $field):
 					$len = strlen($fulfillment->getFields()[$i]->getBody());

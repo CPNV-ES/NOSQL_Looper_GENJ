@@ -49,7 +49,7 @@ class Router
 				'/users/:id:int/edit' => 'editUser(:authenticatedDean, :id:int)'
 			],
 			'controller_file_name' => 'user_controller.php'
-		],				
+		],
 		'AuthentificationController()' => [
 			'POST' => [
 				'/login' => 'login()',
@@ -151,6 +151,8 @@ class Router
 					eval('$inst->' . $method . ';');
 				} catch (LooperException $e) {
 					error($e->getReturnCode(), $e->getErrorMessage());
+				} catch (DateMalformedStringException $e) {
+					error($e->getCode(), $e->getMessage());
 				}
 				return true;
 			}
