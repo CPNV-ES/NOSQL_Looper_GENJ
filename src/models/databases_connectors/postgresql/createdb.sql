@@ -30,7 +30,7 @@ CREATE TABLE "fulfillments_data" (
   "fulfillment_id" integer NOT NULL,
   "field_id" integer NOT NULL,
   "body" text NOT NULL,
-  "correct" integer NOT NULL DEFAULT 0
+  "correction" integer NOT NULL DEFAULT 0
 );
 
 ALTER TABLE "fields" ADD FOREIGN KEY ("exercise_id") REFERENCES "exercises" ("id") ON DELETE CASCADE;
