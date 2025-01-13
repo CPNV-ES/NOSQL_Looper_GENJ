@@ -20,6 +20,7 @@ class MongodbAccess implements DatabasesAccess
 	private $fields;
 	private $fulfillments;
 	private $fulfillments_data;
+	private $users;
 
 	/**
 	 * MongodbAccess constructor.
@@ -38,6 +39,7 @@ class MongodbAccess implements DatabasesAccess
 		$this->fields = $this->db->mongodb->fields;
 		$this->fulfillments = $this->db->mongodb->fulfillments;
 		$this->fulfillments_data = $this->db->mongodb->fulfillments_data;
+		$this->users = $this->db->mongodb->users;
 	}
 
 	public function doesExerciseExist(int $id): bool
@@ -67,7 +69,7 @@ class MongodbAccess implements DatabasesAccess
 	public function getExercises(int $status = ALL_EXERCISES): array
 	{
 		if ($status == ALL_EXERCISES) {
-			$result = $this->db->find($this->exercises, [], ['projection' => ['id' => $id]]);
+			$result = $this->db->find($this->exercises, [], ['projection' => ['id' => 1]]);
 		} else {
 			$result = $this->db->find($this->exercises, ['status' => $status], ['projection' => ['id' => 1]]);
 		}
@@ -114,7 +116,7 @@ class MongodbAccess implements DatabasesAccess
 
 	public function setFulfillmentBody(int $field_id, int $fulfillment_id, string $body): void
 	{
-		$result = $this->db->update($this->fulfillments_data, ['fulfillment_id' => $fulfillment_id, 'field_id' => $field_id], ['$set' => ['body' => $body]]);
+		$this->db->update($this->fulfillments_data, ['fulfillment_id' => $fulfillment_id, 'field_id' => $field_id], ['$set' => ['body' => $body]]);
 	}
 
 	public function createFulfillment(int $exercise_id): int
@@ -154,7 +156,7 @@ class MongodbAccess implements DatabasesAccess
 
 	public function deleteField(int $id): void
 	{
-		$result = $this->db->remove($this->fields, ['id' => $id]);
+		$this->db->remove($this->fields, ['id' => $id]);
 	}
 
 	public function isFieldInExercise(int $exercise_id, int $field_id): bool
@@ -171,17 +173,17 @@ class MongodbAccess implements DatabasesAccess
 
 	public function setFieldLabel(int $id, string $label): void
 	{
-		$result = $this->db->update($this->fields, ['id' => $id], ['$set' => ['label' => $label]]);
+		$this->db->update($this->fields, ['id' => $id], ['$set' => ['label' => $label]]);
 	}
 
 	public function setFieldKind(int $id, int $kind): void
 	{
-		$result = $this->db->update($this->fields, ['id' => $id], ['$set' => ['kind' => $kind]]);
+		$this->db->update($this->fields, ['id' => $id], ['$set' => ['kind' => $kind]]);
 	}
 
 	public function deleteExercise(int $id): void
 	{
-		$result = $this->db->remove($this->exercises, ['id' => $id]);
+		$this->db->remove($this->exercises, ['id' => $id]);
 	}
 
 	public function setExerciseStatus(int $id, int $status)
@@ -206,5 +208,60 @@ class MongodbAccess implements DatabasesAccess
 	{
 		$result = $this->db->find($this->fulfillments, ['id' => $fulfillment_id], ['projection' => ['exercise_id' => 1]]);
 		return $result[0]['exercise_id'];
+	}
+
+	public function doesUserExist(int $id): bool
+	{
+		$result = $this->db->find($this->users, ['id' => $id], ['projection' => ['id' => 1]]);
+		return count($result) > 0;
+	}
+
+	public function getUserUsername(int $id): string
+	{
+		$result = $this->db->find($this->users, ['id' => $id], ['projection' => ['username' => 1]]);
+		return $result[0]['username'];
+	}
+
+	public function getUserRole(int $id): int
+	{
+		$result = $this->db->find($this->users, ['id' => $id], ['projection' => ['role' => 1]]);
+		return $result[0]['role'];
+	}
+
+	public function getUsers(int $role = ALL_USER): array
+	{
+		return $role == ALL_USER ?
+				$this->db->find($this->users, [], ['projection' => ['id' => 1]]) :
+				$this->db->find($this->users, ['role' => $role], ['projection' => ['id' => 1]]);
+	}
+
+	public function deleteUser(int $userId): void
+	{
+		$this->db->remove($this->users, ['id' => $userId]);
+	}
+
+	public function setUserRole(int $id, int $role): void
+	{
+		$this->db->update($this->users, ['id' => $id], ['$set' => ['role' => $role]]);
+	}
+
+	public function findUserIdByUsername(string $username): int {
+		$result = $this->db->find($this->users, ['username' => $username], ['projection' => ['id' => 1]]);
+		return count($result) > 0 ? $result[0]['id'] : -1;
+	}
+
+	public function createUser(string $username, string $hashedPassword): int {
+		$result = $this->db->insert($this->users, ['username' => $username, 'password' => $hashedPassword, 'role' => 0]);
+		return $result[0]['id'];
+	}
+
+	public function getPassword(int $id): string {
+		$result = $this->db->find($this->users, ['id' => $id], ['projection' => ['password' => 1]]);
+		return $result[0]['password'];
+	}
+
+	public function isUserExistByUsername(string $username): bool {
+		$result = $this->db->find($this->users, ['username' => $username], ['projection' => ['id' => 1]]);
+		return count($result) > 0;
 	}
 }

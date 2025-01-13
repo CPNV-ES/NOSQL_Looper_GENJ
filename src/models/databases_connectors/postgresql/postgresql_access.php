@@ -189,6 +189,29 @@ class PostgresqlAccess implements DatabasesAccess
 		return $this->postgresql->select('SELECT username FROM users WHERE id = :id', [':id' => $id])[0]['username'];
 	}
 
+	public function getUserRole(int $id): int
+	{
+		return $this->postgresql->select('SELECT role FROM users WHERE id = :id', [':id' => $id])[0]['role'];
+	}
+
+	public function getUsers(int $role = ALL_USER): array
+	{
+		if ($role == ALL_USER) {
+			return $this->postgresql->select('SELECT id FROM users');
+		}
+		return $this->postgresql->select('SELECT id FROM users WHERE role = :role', [':role' => $role]);
+	}
+
+	public function deleteUser(int $userId): void
+	{
+		$this->postgresql->modify('DELETE FROM users WHERE id = :id', [':id' => $userId]);
+	}
+
+	public function setUserRole(int $id, int $role): void
+	{
+		$this->postgresql->modify('UPDATE users SET role = :role WHERE id = :id', [':role' => $role, ':id' => $id]);
+	}
+	
 	public function findUserIdByUsername(string $username): int
 	{
 		if (count($this->postgresql->select('SELECT id FROM users WHERE username = :username', [':username' => $username])) > 0) {

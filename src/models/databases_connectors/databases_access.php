@@ -6,6 +6,7 @@
  * @description  Database acces implementation if we need to change the database just implement this class that will return the result of for example sql request
  */
 define('ALL_EXERCISES', -1);
+define('ALL_USER', -1);
 
 /**
  * Interface DatabasesAccess
@@ -261,7 +262,39 @@ interface DatabasesAccess
 	public function getUserUsername(int $id): string;
 
 	/**
-	 * Retrieves the id of a specific user
+	 * Retrieves the role of a specific user.
+	 *
+	 * @param int $id The ID of the user.
+	 * @return int The role of the user.
+	 */
+	public function getUserRole(int $id): int;
+
+	/**
+	 * Retrieves all users.
+	 *
+	 * @param int $role The role to filter users by (default is ALL_USER).
+	 * @return array[array[string|int,int]] An array of users. Each user is represented by an array containing the user's ID.
+	 */
+	public function getUsers(int $role = ALL_USER): array;
+
+	/**
+	 * Creates a new user with the given username and role.
+	 *
+	 * @param string $username The username of the user.
+	 * @param int $role The role of the user.
+	 */
+	public function deleteUser(int $userId): void;
+
+	/**
+	 * Sets the role of a specific user.
+	 *
+	 * @param int $id The ID of the user.
+	 * @param int $role The role to set.
+	 */
+	public function setUserRole(int $id, int $role): void;
+
+	/**
+ 	 * Retrieves the id of a specific user
 	 *
 	 * @param string $username The username of the user.
 	 * @return int The id of the user.

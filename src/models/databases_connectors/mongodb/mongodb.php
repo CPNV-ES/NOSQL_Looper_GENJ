@@ -10,7 +10,7 @@ class MongoDB
 {
 	public $mongodb;
 	//Need sequences for auto increment
-	private array $collections = ['exercises', 'fields', 'fulfillments', 'fulfillments_data', 'sequences'];
+	private array $collections = ['exercises', 'fields', 'fulfillments', 'fulfillments_data', 'users', 'sequences'];
 
 	public function __construct($host, $port, $mongo_user, $mongo_password)
 	{
