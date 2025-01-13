@@ -111,11 +111,6 @@ class Fulfillment
 	{
 		return new Exercise($this->database_access->getExerciseByFulfillmentId($this->id));
 	}
-
-	public function setCorrection(int $fulfillments_data_id, Correct $correction)
-	{
-		$this->database_access->setAnswerCorrection($fulfillments_data_id, $correction->value);
-	}
 }
 
 /**

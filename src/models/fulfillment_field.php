@@ -56,6 +56,16 @@ class FulfillmentField extends Field
 	}
 
     /**
+     * set correction value of the answer
+     *
+     * @return void
+     */
+    public function setCorrection(Correct $correction)
+    {
+        $this->database_access->setAnswerCorrection(parent::getId(), $this->fulfillment_id, $correction->value);
+    }
+
+    /**
      * Get the correction value of the fulfillment data
      *
      * @return int the correction value of the fulfillment data
