@@ -34,7 +34,13 @@ ob_start();
 				?>
 			<tr>
 				<td><a href="/exercises/<?=$exercise->getId()?>/fulfillments/<?=$fulfillment->getId()?>"><?=$fulfillment->getTimestamp()?></a></td>
-				<td><?=$fulfillmentField->getBody()?></td>
+				<?php if ($fulfillmentField->getDataCorrection() == 0):?>
+                <td style="color:#e0a458;"><?=$fulfillmentField->getBody()?></td>
+                <?php elseif ($fulfillmentField->getDataCorrection() == 1):?>
+                <td style="color:#419d78;"><?=$fulfillmentField->getBody()?></td>
+                <?php elseif ($fulfillmentField->getDataCorrection() == 2):?>
+                <td style="color:#f45866;"><?=$fulfillmentField->getBody()?></td>
+                <?php endif; ?>
 			</tr>
 			<?php endforeach; ?>
 		</tbody>
