@@ -5,3 +5,4 @@ RUN pecl install xdebug-3.3.2
 RUN docker-php-ext-enable mongodb
 RUN docker-php-ext-enable xdebug
 RUN apt-get update && apt-get install -y libpq-dev && docker-php-ext-install pdo pdo_pgsql
+CMD ["sh", "-c", "php -t /var/www/src/controllers/ /var/www/src/controllers/scheduler.php & php-fpm"]
