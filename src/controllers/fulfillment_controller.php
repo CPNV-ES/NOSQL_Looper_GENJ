@@ -84,9 +84,9 @@ class FulfillmentController
 		header('Location: /exercises/' . $exercise->getId() . '/fulfillments/' . $fulfillment->getId() . '/edit');
 	}
 
-	public function setAnswerCorrect(int $exercise_id, int $fulfillment_id, int $fulfillments_data_id)
+	public function setAnswerCorrection(int $exercise_id, int $fulfillment_id)
 	{
-		if (!isset($_POST['fulfillment']['correction'])) {
+		if (!isset($_POST['fulfillment']['field_id']) || !isset($_POST['fulfillment']['correction'])) {
 			badRequest();
 			return;
 		}
@@ -95,12 +95,14 @@ class FulfillmentController
 
 		$fulfillment = new Fulfillment($fulfillment_id);
 
+        $fulfillment_data = new FulfillmentField($_POST['fulfillment']['field_id'], $fulfillment_id);
+
 		switch ($_POST['fulfillment']['correction']) {
 			case 'correct':
-				$fulfillment->setCorrection($fulfillments_data_id, Correct::Correct);
+                $fulfillment_data->setCorrection(Correct::Correct);
 				break;
 			case 'incorrect':
-				$fulfillment->setCorrection($fulfillments_data_id, Correct::Incorrect);
+                $fulfillment_data->setCorrection(Correct::Incorrect);
 				break;
 			default:
 				badRequest();
