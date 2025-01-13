@@ -48,10 +48,12 @@ class MongodbAccess implements DatabasesAccess
 		return count($result) > 0;
 	}
 
-	public function createExercise(string $title): int
+	public function createExercise(string $title, DateTime|null $limitDate): int
 	{
-		$result = $this->db->insert($this->exercises, ['title' => $title, 'status' => 0]);
-		return $result[0]['id'];
+		if ($limitDate == null) {
+			return $this->db->insert($this->exercises, ['title' => $title, 'status' => 0])[0]['id'];
+		}
+		return $this->db->insert($this->exercises, ['title' => $title, 'status' => 0, 'limit_date' => new MongoDB\BSON\UTCDateTime($limitDate)])[0]['id'];
 	}
 
 	public function getExerciseTitle(int $id): string
@@ -107,11 +109,10 @@ class MongodbAccess implements DatabasesAccess
 		return $result[0]['body'];
 	}
 
-	public function getFulfillmentTimestamp(int $id)
+	public function getFulfillmentTimestamp(int $id): DateTime
 	{
 		$result = $this->db->find($this->fulfillments, ['id' => $id], ['projection' => ['creation_date' => 1]]);
-		//Convert here since og db directly returned string
-		return $result[0]['creation_date']->toDateTime()->format('Y-m-d H:i:s.u');
+		return $result[0]['creation_date']->toDateTime();
 	}
 
 	public function setFulfillmentBody(int $field_id, int $fulfillment_id, string $body): void
@@ -245,23 +246,43 @@ class MongodbAccess implements DatabasesAccess
 		$this->db->update($this->users, ['id' => $id], ['$set' => ['role' => $role]]);
 	}
 
-	public function findUserIdByUsername(string $username): int {
+	public function findUserIdByUsername(string $username): int
+	{
 		$result = $this->db->find($this->users, ['username' => $username], ['projection' => ['id' => 1]]);
 		return count($result) > 0 ? $result[0]['id'] : -1;
 	}
 
-	public function createUser(string $username, string $hashedPassword): int {
+	public function createUser(string $username, string $hashedPassword): int
+	{
 		$result = $this->db->insert($this->users, ['username' => $username, 'password' => $hashedPassword, 'role' => 0]);
 		return $result[0]['id'];
 	}
 
-	public function getPassword(int $id): string {
+	public function getPassword(int $id): string
+	{
 		$result = $this->db->find($this->users, ['id' => $id], ['projection' => ['password' => 1]]);
 		return $result[0]['password'];
 	}
 
-	public function isUserExistByUsername(string $username): bool {
+	public function isUserExistByUsername(string $username): bool
+	{
 		$result = $this->db->find($this->users, ['username' => $username], ['projection' => ['id' => 1]]);
 		return count($result) > 0;
+	}
+
+	public function getExercisesByLimitDateAndIsAnswering(DateTime $date): array
+	{
+		$date_UTCDateTime = new MongoDB\BSON\UTCDateTime($date);
+		$result = $this->db->find($this->exercises, [
+			'limit_date' => ['$lte' => $date_UTCDateTime],
+			'status' => 1
+		], ['projection' => ['id' => 1]]);
+		return $result;
+	}
+
+	public function getExerciseLimitDate(int $exceriseId): DateTime|null
+	{
+		$result = $this->db->find($this->exercises, ['id' => $exceriseId], ['projection' => ['limit_date' => 1]]);
+		return isset($result[0]['limit_date']) ? $result[0]['limit_date']->toDateTime() : null;
 	}
 }
