@@ -31,10 +31,7 @@ Add a login, register and logout feature to the website. Create a form to login 
 Add a feature to manage the permission of the user. Create a class to manage the user. Create a form to change the permission of the user. Create a page to see the permission of the user.
 
 #### Assignee
-- @wildigg
 - @EthannSchneider
-- @NathanChauveau
-- @Joumoune
 
 ### Correcting the student's answer
 #### Quick description

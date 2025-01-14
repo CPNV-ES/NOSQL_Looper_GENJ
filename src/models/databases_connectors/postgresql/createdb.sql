@@ -1,14 +1,23 @@
+CREATE TABLE "users" (
+  "id" SERIAL PRIMARY KEY,
+  "username" text UNIQUE NOT NULL,
+  "password" text NOT NULL,
+  "role" integer NOT NULL DEFAULT 0 
+);
+
 CREATE TABLE "exercises" (
   "id" SERIAL PRIMARY KEY,
   "title" text NOT NULL,
-  "status" integer NOT NULL DEFAULT 0
+  "status" integer NOT NULL DEFAULT 0,
+  "limit_date" timestamp
 );
 
 CREATE TABLE "fields" (
   "id" SERIAL PRIMARY KEY,
   "exercise_id" integer NOT NULL,
   "label" text NOT NULL,
-  "kind" integer NOT NULL
+  "kind" integer NOT NULL,
+  "answer" text NOT NULL
 );
 
 CREATE TABLE "fulfillments" (
@@ -21,7 +30,8 @@ CREATE TABLE "fulfillments_data" (
   "id" SERIAL PRIMARY KEY,
   "fulfillment_id" integer NOT NULL,
   "field_id" integer NOT NULL,
-  "body" text NOT NULL
+  "body" text NOT NULL,
+  "correction" integer NOT NULL DEFAULT 0
 );
 
 ALTER TABLE "fields" ADD FOREIGN KEY ("exercise_id") REFERENCES "exercises" ("id") ON DELETE CASCADE;

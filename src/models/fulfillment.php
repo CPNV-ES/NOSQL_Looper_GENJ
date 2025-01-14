@@ -51,9 +51,9 @@ class Fulfillment
 	/**
 	 * get fulfillment creation date
 	 *
-	 * @return int the timestamp of the creation date
+	 * @return DateTime the timestamp of the creation date
 	 */
-	public function getTimestamp()
+	public function getTimestamp(): DateTime
 	{
 		return $this->database_access->getFulfillmentTimestamp($this->id);
 	}
@@ -86,7 +86,7 @@ class Fulfillment
 		$fulfillment = [];
 
 		foreach ($this->database_access->getFulfillmentFields($this->id) as $field) {
-			$fulfillment[] = new FulfillmentField($field[0], $this->id);
+			$fulfillment[] = new FulfillmentField($field['field_id'], $this->id);
 		}
 
 		return $fulfillment;

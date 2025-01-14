@@ -6,8 +6,8 @@
  * @description PostgresqlAccess class implementing DatabasesAccess
  */
 
-require MODEL_DIR . '/databases_connectors/databases_access.php';
-require MODEL_DIR . '/databases_connectors/postgresql/postgresql.php';
+require_once MODEL_DIR . '/databases_connectors/databases_access.php';
+require_once MODEL_DIR . '/databases_connectors/postgresql/postgresql.php';
 
 /**
  * Class PostgresqlAccess
@@ -38,9 +38,12 @@ class PostgresqlAccess implements DatabasesAccess
 		return count($this->postgresql->select('SELECT id FROM exercises WHERE id = :id', [':id' => $id])) > 0;
 	}
 
-	public function createExercise(string $title): int
+	public function createExercise(string $title, DateTime|null $limitDate): int
 	{
-		return (int)$this->postgresql->select('INSERT INTO exercises (title) VALUES (:title) RETURNING id', [':title' => $title])[0][0];
+		if ($limitDate == null) {
+			return (int)$this->postgresql->select('INSERT INTO exercises (title) VALUES (:title) RETURNING id', [':title' => $title])[0][0];
+		}
+		return (int)$this->postgresql->select('INSERT INTO exercises (title, limit_date) VALUES (:title, :limit_date) RETURNING id', [':title' => $title, ':limit_date' => $limitDate->format('Y-m-d H:i:s')])[0][0];
 	}
 
 	public function getExerciseTitle(int $id): string
@@ -80,7 +83,7 @@ class PostgresqlAccess implements DatabasesAccess
 
 	public function getFulfillmentFields(int $id): array
 	{
-		return $this->postgresql->select('SELECT fulfillments_data.field_id FROM fulfillments INNER JOIN fulfillments_data ON fulfillments.id = fulfillments_data.fulfillment_id WHERE fulfillments.id = :id ', [':id' => $id]);
+		return $this->postgresql->select('SELECT fulfillments_data.field_id FROM fulfillments INNER JOIN fulfillments_data ON fulfillments.id = fulfillments_data.fulfillment_id WHERE fulfillments.id = :id ORDER BY fulfillments_data.field_id', [':id' => $id]);
 	}
 
 	public function getFulfillmentBody(int $field_id, int $fulfillment_id): string
@@ -88,9 +91,10 @@ class PostgresqlAccess implements DatabasesAccess
 		return $this->postgresql->select('SELECT fulfillments_data.body FROM fulfillments INNER JOIN fulfillments_data ON fulfillments.id = fulfillments_data.fulfillment_id WHERE fulfillments.id = :id AND fulfillments_data.field_id = :field_id', [':id' => $fulfillment_id, ':field_id' => $field_id])[0][0];
 	}
 
-	public function getFulfillmentTimestamp(int $id)
+	public function getFulfillmentTimestamp(int $id): DateTime
 	{
-		return $this->postgresql->select('SELECT fulfillments.creation_date FROM fulfillments WHERE fulfillments.id = :id', [':id' => $id])[0][0];
+		$timestamp = $this->postgresql->select('SELECT fulfillments.creation_date FROM fulfillments WHERE fulfillments.id = :id', [':id' => $id])[0][0];
+		return new DateTime($timestamp);
 	}
 
 	public function setFulfillmentBody(int $field_id, int $fulfillment_id, string $body): void
@@ -118,14 +122,19 @@ class PostgresqlAccess implements DatabasesAccess
 		return $this->postgresql->select('SELECT label FROM fields WHERE id = :id', [':id' => $id])[0]['label'];
 	}
 
+	public function getFieldAnswer(int $id): string
+	{
+		return $this->postgresql->select('SELECT answer FROM fields WHERE id = :id', [':id' => $id])[0]['answer'];
+	}
+
 	public function getFieldKind(int $id): int
 	{
 		return $this->postgresql->select('SELECT kind FROM fields WHERE id = :id', [':id' => $id])[0]['kind'];
 	}
 
-	public function createField(int $exercise_id, string $label, int $kind): int
+	public function createField(int $exercise_id, string $label, string $answer, int $kind): int
 	{
-		return (int)$this->postgresql->select('INSERT INTO fields (label, kind, exercise_id) VALUES (:label, :kind, :exercise_id) RETURNING id', [':label' => $label, ':kind' => $kind, ':exercise_id' => $exercise_id])[0][0];
+		return (int)$this->postgresql->select('INSERT INTO fields (label, answer, kind, exercise_id) VALUES (:label, :answer, :kind, :exercise_id) RETURNING id', [':label' => $label, ':answer' => $answer, ':kind' => $kind, ':exercise_id' => $exercise_id])[0][0];
 	}
 
 	public function deleteField(int $id): void
@@ -146,6 +155,11 @@ class PostgresqlAccess implements DatabasesAccess
 	public function setFieldLabel(int $id, string $label): void
 	{
 		$this->postgresql->modify('UPDATE fields SET label = :label WHERE id = :id', [':label' => $label, ':id' => $id]);
+	}
+
+	public function setFieldAnswer(int $id, string $answer): void
+	{
+		$this->postgresql->modify('UPDATE fields SET answer = :answer WHERE id = :id', [':answer' => $answer, ':id' => $id]);
 	}
 
 	public function setFieldKind(int $id, int $kind): void
@@ -177,6 +191,94 @@ class PostgresqlAccess implements DatabasesAccess
 	public function getExerciseByFulfillmentId(int $fulfillment_id): int
 	{
 		return $this->postgresql->select('SELECT exercise_id FROM fulfillments WHERE id = :fulfillment_id', ['fulfillment_id' => $fulfillment_id])[0][0];
+	}
+
+    public function getFulfillmentDataCorrection(int $field_id, int $fulfillment_id): string
+    {
+        return $this->postgresql->select('SELECT correction FROM fulfillments_data WHERE fulfillment_id = :fulfillment_id AND field_id = :field_id', [':fulfillment_id' => $fulfillment_id, ':field_id' => $field_id])[0][0];
+    }
+
+    public function setAnswerCorrection(int $field_id, int $fulfillment_id, int $correction): void
+    {
+        $this->postgresql->modify('UPDATE fulfillments_data SET correction = :correction WHERE fulfillment_id = :fulfillment_id AND field_id = :field_id', [':fulfillment_id' => $fulfillment_id, ':field_id' => $field_id, ':correction' => $correction]);
+    }
+
+	public function doesUserExist(int $id): bool
+	{
+		return count($this->postgresql->select('SELECT id FROM users WHERE id = :id', [':id' => $id])) > 0;
+	}
+
+	public function getUserUsername(int $id): string
+	{
+		return $this->postgresql->select('SELECT username FROM users WHERE id = :id', [':id' => $id])[0]['username'];
+	}
+
+	public function getUserRole(int $id): int
+	{
+		return $this->postgresql->select('SELECT role FROM users WHERE id = :id', [':id' => $id])[0]['role'];
+	}
+
+	public function getUsers(int $role = ALL_USER): array
+	{
+		if ($role == ALL_USER) {
+			return $this->postgresql->select('SELECT id FROM users');
+		}
+		return $this->postgresql->select('SELECT id FROM users WHERE role = :role', [':role' => $role]);
+	}
+
+	public function deleteUser(int $userId): void
+	{
+		$this->postgresql->modify('DELETE FROM users WHERE id = :id', [':id' => $userId]);
+	}
+
+	public function setUserRole(int $id, int $role): void
+	{
+		$this->postgresql->modify('UPDATE users SET role = :role WHERE id = :id', [':role' => $role, ':id' => $id]);
+	}
+
+	public function findUserIdByUsername(string $username): int
+	{
+		if (count($this->postgresql->select('SELECT id FROM users WHERE username = :username', [':username' => $username])) > 0) {
+			return $this->postgresql->select('SELECT id FROM users WHERE username = :username', [':username' => $username])[0]['id'];
+		}
+		return -1;
+	}
+
+	public function createUser(string $username, string $hashedPassword): int
+	{
+		return (int)$this->postgresql->select('INSERT INTO users (username, password) VALUES (:username, :password) RETURNING id', [':username' => $username, ':password' => $hashedPassword])[0][0];
+	}
+
+	public function getPassword(int $id): string
+	{
+		return $this->postgresql->select('SELECT password FROM users WHERE id = :id', [':id' => $id])[0][0];
+	}
+
+	public function isUserExistByUsername(string $username): bool
+	{
+		if (count($this->postgresql->select('SELECT id FROM users WHERE username = :username', [':username' => $username])) > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	public function getExerciseLimitDate(int $exceriseId): DateTime|null
+	{
+		$result = $this->postgresql->select('SELECT limit_date FROM exercises WHERE id = :id', [':id' => $exceriseId]);
+		if (isset($result[0]['limit_date'])) {
+			return null;
+		}
+		return new DateTime($result[0]['limit_date']);
+	}
+
+	public function getExercisesByLimitDateAndIsAnswering(DateTime $date): array
+	{
+		return $this->postgresql->select(
+			'SELECT id FROM exercises WHERE limit_date <= :date AND status = 1',
+			[
+				':date' => $date->format('Y-m-d')
+			]
+		);
 	}
 
 	private function create_db_if_not_exist()

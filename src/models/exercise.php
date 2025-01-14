@@ -49,12 +49,26 @@ class Exercise
 	 * This is a static method to create an exercise
 	 *
 	 * @param  string $title the title of the exercise
+	 * @param  DateTime|null $limitDate the limit date of the exercise
 	 * @return self the created exercise
 	 */
-	public static function create(string $title): self
+	public static function create(string $title, DateTime|null $limitDate): self
 	{
 		$database_access = (new DatabasesChoose())->getDatabase();
-		return new self($database_access->createExercise($title));
+		return new self($database_access->createExercise($title, $limitDate));
+	}
+
+	public static function fromLimitDateAndIsAnswering(DateTime $date = new DateTime()): array
+	{
+		$database_access = (new DatabasesChoose())->getDatabase();
+		$exercises_data = $database_access->getExercisesByLimitDateAndIsAnswering($date);
+		$exercises = [];
+		foreach ($exercises_data as $exercise_data) {
+			$exercise = new self($exercise_data['id']);
+			$exercises[] = $exercise;
+		}
+
+		return $exercises;
 	}
 
 	/**
@@ -75,6 +89,16 @@ class Exercise
 	public function getTitle()
 	{
 		return $this->database_access->getExerciseTitle($this->id);
+	}
+
+	/**
+	 * Get the limit date of the exercise
+	 *
+	 * @return DateTime|null the limit date of the exercise
+	 */
+	public function getLimitDate(): ?DateTime
+	{
+		return $this->database_access->getExerciseLimitDate($this->id);
 	}
 
 	/**
@@ -99,12 +123,12 @@ class Exercise
 	 * @throws ExerciseNotInBuildingStatus if the exercise is not in building status
 	 * @return Field the created field
 	 */
-	public function createField(string $label, Kind $kind): Field
+	public function createField(string $label, string $answer, Kind $kind): Field
 	{
 		if ($this->getStatus() != Status::Building) {
 			throw new ExerciseNotInBuildingStatus();
 		}
-		return new Field($this->database_access->createField($this->id, $label, $kind->value));
+		return new Field($this->database_access->createField($this->id, $label, $answer, $kind->value));
 	}
 
 	/**

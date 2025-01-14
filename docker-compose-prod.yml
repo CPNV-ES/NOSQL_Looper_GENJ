@@ -30,6 +30,16 @@ services:
       - ./.pgdata:/var/lib/postgresql/data
     networks:
       - internal
+
+  mongodb:
+    build:
+      context: .
+      dockerfile: mongodb.Dockerfile
+    volumes:
+      - ./.mongo_data:/data/db
+    networks:
+      - internal
+
 networks:
   internal:
     driver: bridge

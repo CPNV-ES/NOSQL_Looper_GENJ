@@ -13,7 +13,8 @@ ob_start();
 <header class="heading results">
 	<section class="container">
 		<a href="/"><img src="/assets/img/logo.png"></a>
-		<span class="exercise-label">Exercise: <a href="/exercises/<?=$exercise->getId()?>/results"><?=$exercise->getTitle()?></a></span>
+		<span class="exercise-label">Exercise: <a
+				href="/exercises/<?=$exercise->getId()?>/results"><?=$exercise->getTitle()?></a></span>
 	</section>
 </header>
 
@@ -33,8 +34,14 @@ ob_start();
 				$fulfillmentField = new FulfillmentField($field->getId(), $fulfillment->getId());
 				?>
 			<tr>
-				<td><a href="/exercises/<?=$exercise->getId()?>/fulfillments/<?=$fulfillment->getId()?>"><?=$fulfillment->getTimestamp()?></a></td>
-				<td><?=$fulfillmentField->getBody()?></td>
+				<td><a href="/exercises/<?=$exercise->getId()?>/fulfillments/<?=$fulfillment->getId()?>"><?=$fulfillment->getTimestamp()->format('Y-m-d H:i:s.u'); ?></a></td>
+				<?php if ($fulfillmentField->getDataCorrection() == Correction::Unverified):?>
+                <td style="color:#e0a458;"><?=$fulfillmentField->getBody()?></td>
+                <?php elseif ($fulfillmentField->getDataCorrection() == Correction::Correct):?>
+                <td style="color:#419d78;"><?=$fulfillmentField->getBody()?></td>
+                <?php elseif ($fulfillmentField->getDataCorrection() == Correction::Incorrect):?>
+                <td style="color:#f45866;"><?=$fulfillmentField->getBody()?></td>
+                <?php endif; ?>
 			</tr>
 			<?php endforeach; ?>
 		</tbody>
