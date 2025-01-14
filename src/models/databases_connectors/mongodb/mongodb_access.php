@@ -134,7 +134,7 @@ class MongodbAccess implements DatabasesAccess
 
 	public function createFulfillmentField(int $field_id, int $fulfillment_id, string $body): void
 	{
-		$result = $this->db->insert($this->fulfillments_data, ['field_id' => $field_id, 'fulfillment_id' => $fulfillment_id, 'body' => $body]);
+		$result = $this->db->insert($this->fulfillments_data, ['field_id' => $field_id, 'fulfillment_id' => $fulfillment_id, 'body' => $body, 'correction' => 0]);
 	}
 
 	public function getFieldLabel(int $id): string
@@ -143,15 +143,21 @@ class MongodbAccess implements DatabasesAccess
 		return $result[0]['label'];
 	}
 
+    public function getFieldAnswer(int $id): string
+    {
+        $result = $this->db->find($this->fields, ['id' => $id], ['projection' => ['answer' => 1]]);
+        return $result[0]['answer'];
+    }
+
 	public function getFieldKind(int $id): int
 	{
 		$result = $this->db->find($this->fields, ['id' => $id], ['projection' => ['kind' => 1]]);
 		return $result[0]['kind'];
 	}
 
-	public function createField(int $exercise_id, string $label, int $kind): int
+	public function createField(int $exercise_id, string $label, string $answer, int $kind): int
 	{
-		$result = $this->db->insert($this->fields, ['label' => $label, 'kind' => $kind, 'exercise_id' => $exercise_id]);
+		$result = $this->db->insert($this->fields, ['label' => $label, 'answer' => $answer, 'kind' => $kind, 'exercise_id' => $exercise_id]);
 		return $result[0]['id'];
 	}
 
@@ -176,6 +182,11 @@ class MongodbAccess implements DatabasesAccess
 	{
 		$this->db->update($this->fields, ['id' => $id], ['$set' => ['label' => $label]]);
 	}
+
+    public function setFieldAnswer(int $id, string $answer): void
+    {
+        $this->db->update($this->fields, ['id' => $id], ['$set' => ['answer' => $answer]]);
+    }
 
 	public function setFieldKind(int $id, int $kind): void
 	{
@@ -210,6 +221,17 @@ class MongodbAccess implements DatabasesAccess
 		$result = $this->db->find($this->fulfillments, ['id' => $fulfillment_id], ['projection' => ['exercise_id' => 1]]);
 		return $result[0]['exercise_id'];
 	}
+
+    public function getFulfillmentDataCorrection(int $field_id, int $fulfillment_id): string
+    {
+        $result = $this->db->find($this->fulfillments_data, ['fulfillment_id' => $fulfillment_id, 'field_id' => $field_id], ['projection' => ['correction' => 1]]);
+        return $result[0]['correction'];
+    }
+
+    public function setAnswerCorrection(int $field_id, int $fulfillment_id, int $correction): void
+    {
+        $this->db->update($this->fulfillments_data, ['fulfillment_id' => $fulfillment_id, 'field_id' => $field_id], ['$set' => ['correction' => $correction]]);
+    }
 
 	public function doesUserExist(int $id): bool
 	{

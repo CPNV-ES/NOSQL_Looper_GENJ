@@ -25,7 +25,7 @@ class FieldController
 	 */
 	public function createField(User $teacher, int $exercise_id)
 	{
-		if (!isset($_POST['field']['label'], $_POST['field']['value_kind'])) {
+		if (!isset($_POST['field']['label'], $_POST['field']['value_kind'], $_POST['field']['answer'])) {
 			badRequest();
 			return;
 		}
@@ -36,7 +36,7 @@ class FieldController
 
 		$kind = $this->kindStringToKindEnum($_POST['field']['value_kind']);
 
-		$exercise->createField($_POST['field']['label'], $kind);
+		$exercise->createField($_POST['field']['label'], $_POST['field']['answer'], $kind);
 
 		header('Location: /exercises/' . $exercise_id . '/fields');
 	}
@@ -83,6 +83,10 @@ class FieldController
 
 		if (isset($_POST['field']['label'])) {
 			$field->setLabel($_POST['field']['label']);
+		}
+
+		if (isset($_POST['field']['answer'])) {
+			$field->setAnswer($_POST['field']['answer']);
 		}
 
 		if (isset($_POST['field']['value_kind'])) {

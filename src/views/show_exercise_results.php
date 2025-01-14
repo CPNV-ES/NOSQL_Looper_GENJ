@@ -40,13 +40,13 @@ ob_start();
 				<td><a href="/exercises/<?=$exercise->getId()?>/fulfillments/<?=$fulfillment->getId()?>"><?=$fulfillment->getTimestamp()->format('Y-m-d H:i:s.u')?></a>
 				</td>
 				<?php foreach ($exercise->getFields() as $i => $field):
-					$len = strlen($fulfillment->getFields()[$i]->getBody());
-					if ($len == 0):?>
-				<td class="answer"><i class="fa fa-times empty"></i></td>
-				<?php elseif ($len > 10):?>
-				<td class="answer"><i class="fa fa-check-double filled"></i></td>
-				<?php else: ?>
+					$fulfillmentField = new FulfillmentField($field->getId(), $fulfillment->getId());
+					if ($fulfillmentField->getDataCorrection() == Correction::Unverified):?>
+				<td class="answer"><i class="fa-solid fa-question" style="color: #e0a458;"></i></td>
+				<?php elseif ($fulfillmentField->getDataCorrection() == Correction::Correct):?>
 				<td class="answer"><i class="fa fa-check short"></i></td>
+				<?php elseif ($fulfillmentField->getDataCorrection() == Correction::Incorrect): ?>
+				<td class="answer"><i class="fa fa-times empty"></i></td>
 				<?php endif; ?>
 				<?php endforeach; ?>
 			</tr>
