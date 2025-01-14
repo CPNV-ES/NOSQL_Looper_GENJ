@@ -28,7 +28,17 @@ class ExerciseController
 			return;
 		}
 
-		$exercise = Exercise::create($_POST['exercise_title']);
+		$limitDate = null;
+		if (isset($_POST['limit_date']) && !empty($_POST['limit_date'])) {
+			try {
+				$limitDate = new DateTime($_POST['limit_date']);
+			} catch (DateMalformedStringException $e) {
+				header('Location: /exercises/new');
+				return;
+			}
+		}
+
+		$exercise = Exercise::create($_POST['exercise_title'], $limitDate);
 		header('Location: /exercises/' . $exercise->getId() . '/fields');
 	}
 

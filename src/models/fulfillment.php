@@ -51,9 +51,9 @@ class Fulfillment
 	/**
 	 * get fulfillment creation date
 	 *
-	 * @return int the timestamp of the creation date
+	 * @return DateTime the timestamp of the creation date
 	 */
-	public function getTimestamp()
+	public function getTimestamp(): DateTime
 	{
 		return $this->database_access->getFulfillmentTimestamp($this->id);
 	}

@@ -8,7 +8,8 @@ CREATE TABLE "users" (
 CREATE TABLE "exercises" (
   "id" SERIAL PRIMARY KEY,
   "title" text NOT NULL,
-  "status" integer NOT NULL DEFAULT 0
+  "status" integer NOT NULL DEFAULT 0,
+  "limit_date" timestamp
 );
 
 CREATE TABLE "fields" (

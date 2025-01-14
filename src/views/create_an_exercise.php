@@ -24,6 +24,11 @@ ob_start();
       <input type="text" name="exercise_title" id="exercise_title">
     </div>
 
+    <div class="field">
+      <label for="limit_date">Limit date</label>
+      <input type="date" name="limit_date" id="limit_date">
+    </div>
+
     <div class="actions">
       <input type="submit" name="commit" value="Create Exercise">
     </div>

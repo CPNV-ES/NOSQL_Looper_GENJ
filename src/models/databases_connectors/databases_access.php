@@ -27,9 +27,10 @@ interface DatabasesAccess
 	 * Creates a new exercise with the given title.
 	 *
 	 * @param string $title The title of the exercise.
+	 * @param DateTime|null $limitDate The limit date of the exercise.
 	 * @return int The ID of the newly created exercise.
 	 */
-	public function createExercise(string $title): int;
+	public function createExercise(string $title, DateTime $limitDate): int;
 
 	/**
 	 * Retrieves the title of an exercise by its ID.
@@ -92,9 +93,9 @@ interface DatabasesAccess
 	 * Retrieves the timestamp of a specific fulfillment.
 	 *
 	 * @param int $id The ID of the fulfillment.
-	 * @return mixed The timestamp of the fulfillment.
+	 * @return DateTime The timestamp of the fulfillment.
 	 */
-	public function getFulfillmentTimestamp(int $id);
+	public function getFulfillmentTimestamp(int $id): DateTime;
 
 	/**
 	 * Sets the body content of a specific fulfillment field.
@@ -329,7 +330,7 @@ interface DatabasesAccess
 	public function setUserRole(int $id, int $role): void;
 
 	/**
- 	 * Retrieves the id of a specific user
+	 * Retrieves the id of a specific user
 	 *
 	 * @param string $username The username of the user.
 	 * @return int The id of the user.
@@ -360,4 +361,20 @@ interface DatabasesAccess
 	 * @return bool if the user already exist or not
 	 */
 	public function isUserExistByUsername(string $username): bool;
+
+	/**
+	 * Retrieves a list of exercises created before a specific date.
+	 *
+	 * @param int $exceriseId The ID of the exercise.
+	 * @return DateTime|null An array of exercises.
+	 */
+	public function getExerciseLimitDate(int $exceriseId): DateTime|null;
+
+	/**
+	 * Retrieves a list of exercises created between two specific dates and is in answering mode.
+	 *
+	 * @param DateTime $date The date to filter exercises by.
+	 * @return array An array of exercises.
+	 */
+	public function getExercisesByLimitDateAndIsAnswering(DateTime $date): array;
 }

@@ -38,9 +38,12 @@ class PostgresqlAccess implements DatabasesAccess
 		return count($this->postgresql->select('SELECT id FROM exercises WHERE id = :id', [':id' => $id])) > 0;
 	}
 
-	public function createExercise(string $title): int
+	public function createExercise(string $title, DateTime|null $limitDate): int
 	{
-		return (int)$this->postgresql->select('INSERT INTO exercises (title) VALUES (:title) RETURNING id', [':title' => $title])[0][0];
+		if ($limitDate == null) {
+			return (int)$this->postgresql->select('INSERT INTO exercises (title) VALUES (:title) RETURNING id', [':title' => $title])[0][0];
+		}
+		return (int)$this->postgresql->select('INSERT INTO exercises (title, limit_date) VALUES (:title, :limit_date) RETURNING id', [':title' => $title, ':limit_date' => $limitDate->format('Y-m-d H:i:s')])[0][0];
 	}
 
 	public function getExerciseTitle(int $id): string
@@ -88,9 +91,10 @@ class PostgresqlAccess implements DatabasesAccess
 		return $this->postgresql->select('SELECT fulfillments_data.body FROM fulfillments INNER JOIN fulfillments_data ON fulfillments.id = fulfillments_data.fulfillment_id WHERE fulfillments.id = :id AND fulfillments_data.field_id = :field_id', [':id' => $fulfillment_id, ':field_id' => $field_id])[0][0];
 	}
 
-	public function getFulfillmentTimestamp(int $id)
+	public function getFulfillmentTimestamp(int $id): DateTime
 	{
-		return $this->postgresql->select('SELECT fulfillments.creation_date FROM fulfillments WHERE fulfillments.id = :id', [':id' => $id])[0][0];
+		$timestamp = $this->postgresql->select('SELECT fulfillments.creation_date FROM fulfillments WHERE fulfillments.id = :id', [':id' => $id])[0][0];
+		return new DateTime($timestamp);
 	}
 
 	public function setFulfillmentBody(int $field_id, int $fulfillment_id, string $body): void
@@ -256,6 +260,25 @@ class PostgresqlAccess implements DatabasesAccess
 			return true;
 		}
 		return false;
+	}
+
+	public function getExerciseLimitDate(int $exceriseId): DateTime|null
+	{
+		$result = $this->postgresql->select('SELECT limit_date FROM exercises WHERE id = :id', [':id' => $exceriseId]);
+		if (isset($result[0]['limit_date'])) {
+			return null;
+		}
+		return new DateTime($result[0]['limit_date']);
+	}
+
+	public function getExercisesByLimitDateAndIsAnswering(DateTime $date): array
+	{
+		return $this->postgresql->select(
+			'SELECT id FROM exercises WHERE limit_date <= :date AND status = 1',
+			[
+				':date' => $date->format('Y-m-d')
+			]
+		);
 	}
 
 	private function create_db_if_not_exist()

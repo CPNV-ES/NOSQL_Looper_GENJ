@@ -13,9 +13,9 @@ require_once MODEL_DIR . '/field.php';
  */
 enum Correction: int
 {
-    case Unverified = 0;
-    case Correct = 1;
-    case Incorrect = 2;
+	case Unverified = 0;
+	case Correct = 1;
+	case Incorrect = 2;
 }
 
 /**
@@ -55,25 +55,25 @@ class FulfillmentField extends Field
 		return $this->fulfillment_id;
 	}
 
-    /**
-     * Set correction value of the answer
-     *
-     * @return void
-     */
-    public function setCorrection(Correct $correction)
-    {
-        $this->database_access->setAnswerCorrection(parent::getId(), $this->fulfillment_id, $correction->value);
-    }
+	/**
+	 * Set correction value of the answer
+	 *
+	 * @return void
+	 */
+	public function setCorrection(Correction $correction)
+	{
+		$this->database_access->setAnswerCorrection(parent::getId(), $this->fulfillment_id, $correction->value);
+	}
 
-    /**
-     * Get the correction value of the fulfillment data
-     *
-     * @return Correction the correction value of the fulfillment data
-     */
-    public function getDataCorrection()
-    {
-        return Correction::from($this->database_access->getFulfillmentDataCorrection(parent::getId(), $this->fulfillment_id));
-    }
+	/**
+	 * Get the correction value of the fulfillment data
+	 *
+	 * @return Correction the correction value of the fulfillment data
+	 */
+	public function getDataCorrection()
+	{
+		return Correction::from($this->database_access->getFulfillmentDataCorrection(parent::getId(), $this->fulfillment_id));
+	}
 
 	/**
 	 * Get the body of the fulfillment

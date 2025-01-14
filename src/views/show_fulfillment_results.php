@@ -21,7 +21,7 @@ ob_start();
 </header>
 
 <main class="container">
-	<h1><?=$fulfillment->getTimestamp()?></h1>
+	<h1><?=$fulfillment->getTimestamp()->format('Y-m-d H:i:s.u')?></h1>
 	<dl class="answer">
 		<?php foreach ($fulfillment->getFields() as $i => $field): ?>
 		<dt><a

@@ -152,6 +152,8 @@ class Router
 					eval('$inst->' . $method . ';');
 				} catch (LooperException $e) {
 					error($e->getReturnCode(), $e->getErrorMessage());
+				} catch (DateMalformedStringException $e) {
+					error($e->getCode(), $e->getMessage());
 				}
 				return true;
 			}
